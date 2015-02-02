@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
+using System.Collections.ObjectModel;
 
 namespace CrimesAndIncidents
 {
@@ -23,6 +24,7 @@ namespace CrimesAndIncidents
     public partial class MainWindow : Window
     {
         SqliteWorker sqlWorker;
+        ObservableCollection<Crime> crimes = new ObservableCollection<Crime>();
         DataTable data;
 
         public MainWindow()
@@ -32,13 +34,18 @@ namespace CrimesAndIncidents
             try
             {
                 sqlWorker = new SqliteWorker("CrimesAndIncidents");
-                data = sqlWorker.selectData("SELECT name, number FROM MilitaryUnit");
-                crimesDataGrid.ItemsSource = data.DefaultView;
+                crimes = DataWorker.getCrimes(sqlWorker.selectData("SELECT "+
+                    "C.story, C.dateCommit, C.dateInstitution, C.dateRegistration, R.shortName, A.shortName, Cl.point, Cl.part, Cl.number,Cl.description,  C.dateVerdict, C.verdict" +
+                    " FROM Crime C INNER JOIN Portaking P ON C.idCrime = P.idCrime" +
+                    " INNER JOIN Accomplice A ON P.idAccomplice = A.idAccomplice" +
+                    " INNER JOIN Rank R ON A.idRank = R.idRank" +
+                    " INNER JOIN Clause Cl ON C.idClause = Cl.idClause"));
+                crimesDataGrid.ItemsSource = crimes;
                 crimesDataGrid.CanUserAddRows = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Во время закгрузки приложения возникли неполадки:\n" + ex.Message);
+                MessageBox.Show("Во время загрузки приложения возникли неполадки:\n" + ex.Message);
             }
         }
 
@@ -46,6 +53,11 @@ namespace CrimesAndIncidents
         {
             //запрос на сохранение изменений (если вносились)
             this.Close();
+        }
+
+        private void crimesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

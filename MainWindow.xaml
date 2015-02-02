@@ -181,8 +181,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-       
+        
+        
+        <!-- datagid textblock -->
+        <DataTemplate x:Key="temp1">
+            <TextBlock Text="{Binding Item1}" TextWrapping="Wrap" />
+        </DataTemplate>
+        
     </Window.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -204,7 +209,33 @@
         <Button Content="Преступления и происшествия" Margin="10,60,0,0" Height="25" VerticalAlignment="Top" />
         <Button Content="Отчеты" Margin="10,90,0,0" VerticalAlignment="Top" />
         <StatusBar Grid.Row="1" Grid.ColumnSpan="2"/>
-        <DataGrid Name="crimesDataGrid" Grid.Column="1" Margin="0,0,0,0" />
+        <DataGrid Name="crimesDataGrid" Grid.Column="1" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150">
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBox Text="{Binding Story}" TextWrapping="Wrap" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Story}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>                
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}" />
+                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}"/>
+                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"/>
+                <DataGridTextColumn Header="в/зв" Binding="{Binding Path=Rank}"/>
+                <DataGridTextColumn Header="ФИО" Binding="{Binding Path=Accomplice}"/>
+                <DataGridTextColumn Header="УК" Binding="{Binding Path=Clause}"/>
+                <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"/>
+                <DataGridTextColumn Header="Решение суда" Binding="{Binding Path=Verdict}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

@@ -53,7 +53,8 @@ namespace CrimesAndIncidents
                 if (schema != null)
                     for (int i = 0; i < schema.Rows.Count; i++)
                     {
-                        table.Columns.Add(getRusName(schema.Rows[0]["BaseTableName"].ToString(), schema.Rows[i][0].ToString())); 
+                        table.Columns.Add();
+                        //table.Columns.Add(getRusName(schema.Rows[i]["BaseTableName"].ToString(), schema.Rows[i][0].ToString())); 
                         //table.Columns.Add(schema.Rows[i]["BaseTableName"].ToString()+" "+ schema.Rows[i][0].ToString());
                     }
 
