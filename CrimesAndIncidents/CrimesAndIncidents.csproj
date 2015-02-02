@@ -58,7 +58,15 @@
     </ApplicationDefinition>
     <Compile Include="DataWorker.cs" />
     <Compile Include="Crimes.cs" />
+    <Compile Include="DBList.cs" />
+    <Compile Include="EditDBList.xaml.cs">
+      <DependentUpon>EditDBList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="sqliteWorker.cs" />
+    <Page Include="EditDBList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

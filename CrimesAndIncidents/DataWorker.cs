@@ -40,9 +40,29 @@ namespace CrimesAndIncidents
                     throw new Exception("Некорректные данны в БД:\n" + ex.Message);
                 }
             }
-
-
             return crimes;
+        }
+
+        static public ObservableCollection<KeyValue> getList(DataTable table)
+        {
+            ObservableCollection<KeyValue> list = new ObservableCollection<KeyValue>();
+
+            if (table.Rows.Count > 0 && table.Columns.Count == 2)
+            {
+                try
+                {
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        KeyValue k = new KeyValue(Int32.Parse(table.Rows[i][0].ToString()), table.Rows[i][1].ToString());
+                        list.Add(k);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Некорректные данны в БД:\n" + ex.Message);
+                }
+            }
+            return list;
         }
     }
 }
