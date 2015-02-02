@@ -20,17 +20,31 @@ namespace CrimesAndIncidents
     public partial class EditDBList : Window
     {
         public DBList dblist;
-
-        public EditDBList(string rusName, DBList list)
+        private SqliteWorker sqlWorker;
+        public EditDBList(string rusName, DBList list, SqliteWorker _sqlWorker)
         {
             InitializeComponent();
+            
+            sqlWorker = _sqlWorker;
+            dblist = list;
 
             dataGrid.Columns[0].Header = rusName;
             dataGrid.AutoGenerateColumns = false;
-
-            dblist = list;
-
             dataGrid.ItemsSource = dblist.values;
+        }
+
+        private void btnAddItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            string newItem = InputBox.input("Введите " + dataGrid.Columns[0].Header);
+            if (newItem != "")
+            {
+                //добавить в БД
+                if (sqlWorker.addInDBList(dblist.TableName, dblist.newId(), newItem))
+                {
+                    //если успешное добавление в БД
+                    dblist.values.Add(new KeyValue(dblist.newId(), newItem));
+                }
+            }
         }
     }
 }

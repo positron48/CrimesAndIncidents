@@ -62,8 +62,15 @@
     <Compile Include="EditDBList.xaml.cs">
       <DependentUpon>EditDBList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InputBox.xaml.cs">
+      <DependentUpon>InputBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="sqliteWorker.cs" />
     <Page Include="EditDBList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InputBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
