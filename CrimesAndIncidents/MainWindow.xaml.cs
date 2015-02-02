@@ -97,8 +97,9 @@ namespace CrimesAndIncidents
             DBList dblist = new DBList(tableName, DataWorker.getList(sqlWorker.selectData("SELECT * FROM " + tableName)));
             statusBar.Text = dblist.values.Count + " строки" + (dblist.values.Count>0?"; {" + dblist.values[0].Key + ", " + dblist.values[0].Value + "}":"");
 
-            EditDBList wnd = new EditDBList(rusName, dblist);
+            EditDBList wnd = new EditDBList(rusName, dblist, sqlWorker);
             wnd.ShowDialog();
         }
+
     }
 }

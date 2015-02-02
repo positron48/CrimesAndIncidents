@@ -8,7 +8,7 @@ using System.Data;
 
 namespace CrimesAndIncidents
 {
-    class SqliteWorker
+    public class SqliteWorker
     {
         SQLiteConnection dbConnection;
 
@@ -87,6 +87,20 @@ namespace CrimesAndIncidents
             else
                 rusName = table + " " + engName;
             return rusName;
+        }
+
+        public bool addInDBList(string tableName, int p, string newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO " + tableName + " VALUES(" + p + ", '" + newItem + "');");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
     }
 }

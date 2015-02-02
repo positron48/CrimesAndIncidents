@@ -19,6 +19,15 @@ namespace CrimesAndIncidents
             values = t;
             
         }
+
+        public int newId()
+        {
+            int i=0;
+            foreach(KeyValue k in values)
+                if(k.Key > i)
+                    i = k.Key;
+            return i + 1;
+        }
     }
 
     public class KeyValue

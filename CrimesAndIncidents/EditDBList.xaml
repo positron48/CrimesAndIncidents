@@ -26,7 +26,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Добавить" Margin="5,5,5,5" VerticalAlignment="Top" />
+        <Button Name="btnAddItem" Content="Добавить" Margin="5,5,5,5" VerticalAlignment="Top" Click="btnAddItem_Click_1"/>
         <Button Content="Удалить" Margin="0,5,5,5" Grid.Column="1" VerticalAlignment="Top"/>
         <Button Content="Ok" Margin="0,5,5,5" VerticalAlignment="Bottom" Grid.Column="1"/>
         <Button Content="Отмена" Margin="5,5,5,5" VerticalAlignment="Bottom"/>
