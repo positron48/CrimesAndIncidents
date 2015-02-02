@@ -25,7 +25,6 @@ namespace CrimesAndIncidents
     {
         SqliteWorker sqlWorker;
         ObservableCollection<Crime> crimes = new ObservableCollection<Crime>();
-        DataTable data;
 
         public MainWindow()
         {
@@ -58,6 +57,48 @@ namespace CrimesAndIncidents
         private void crimesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void btnAddCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            String rusName = (sender as MenuItem).Header.ToString();
+            String tableName;
+            switch (rusName)
+            {
+                case "Должность":
+                    tableName = "Post";
+                    break;
+                case "Образование":
+                    tableName = "Education";
+                    break;
+                case "Категория":
+                    tableName = "Category";
+                    break;
+                case "Кем призван":
+                    tableName = "Draft";
+                    break;
+                case "Кем возбуждено УД":
+                    tableName = "Organ";
+                    break;
+                case "Семейное положение":
+                    tableName = "FamilyStatus";
+                    break;
+                default:
+                    tableName = rusName;
+                    break;
+            }
+
+
+            DBList dblist = new DBList(tableName, DataWorker.getList(sqlWorker.selectData("SELECT * FROM " + tableName)));
+            statusBar.Text = dblist.values.Count + " строки" + (dblist.values.Count>0?"; {" + dblist.values[0].Key + ", " + dblist.values[0].Value + "}":"");
+
+            EditDBList wnd = new EditDBList(rusName, dblist);
+            wnd.ShowDialog();
         }
     }
 }

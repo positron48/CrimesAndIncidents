@@ -191,25 +191,38 @@
     </Window.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="14*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
        
         
-        <Menu  Height="20" Margin="10,10,50,0" VerticalAlignment="Top" Background="White" >
-            <MenuItem Width="140" Header="Меню">
+        <Menu  Margin="0,0,0,0" VerticalAlignment="Top" Background="White" >
+            <MenuItem Header="Меню">
                 <MenuItem Header="О программе"/>
                 <MenuItem Header="Выход" Click="MenuExit_Click_1"/>
-            </MenuItem>        
+            </MenuItem>
+            <MenuItem Header="Списки">
+                <MenuItem Header="Звание" />
+                <MenuItem Header="Должность"  Click="MenuItem_Click_1"/>
+                <MenuItem Header="Образование"  Click="MenuItem_Click_1"/>
+                <MenuItem Header="Статья УК РФ" />
+                <MenuItem Header="Категория"  Click="MenuItem_Click_1"/>
+                <MenuItem Header="Кем призван"  Click="MenuItem_Click_1"/>
+                <MenuItem Header="Кем возбуждено УД"  Click="MenuItem_Click_1"/>
+                <MenuItem Header="Семейное положение"  Click="MenuItem_Click_1"/>
+            </MenuItem>
         </Menu>
-        <Button Content="Преступления и происшествия" Margin="10,60,0,0" Height="25" VerticalAlignment="Top" />
-        <Button Content="Отчеты" Margin="10,90,0,0" VerticalAlignment="Top" />
-        <StatusBar Grid.Row="1" Grid.ColumnSpan="2"/>
-        <DataGrid Name="crimesDataGrid" Grid.Column="1" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" >
+       
+        <ToolBar Margin="0,0,0,0" Grid.Row="1"  >
+            <Button Name="btnAddCrimeOrIncidents" Content="+" Width="25" Height="25" ToolTip="Добавить" Click="btnAddCrimeOrIncidents_Click_1"/>
+        </ToolBar>
+
+        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Row="2" >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150">
                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -231,12 +244,31 @@
                 <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"/>
                 <DataGridTextColumn Header="в/зв" Binding="{Binding Path=Rank}"/>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding Path=Accomplice}"/>
-                <DataGridTextColumn Header="УК" Binding="{Binding Path=Clause}"/>
+
+                <DataGridTemplateColumn Header="УК" Width="75">
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                    <TextBox Text="{Binding Clause}" TextWrapping="Wrap" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                        <TextBlock Text="{Binding Clause}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            
                 <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"/>
                 <DataGridTextColumn Header="Решение суда" Binding="{Binding Path=Verdict}"/>
             </DataGrid.Columns>
         </DataGrid>
+       
 
-
+        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+            <TextBlock Name="statusBar" />
+        </StatusBar>
     </Grid>
 </Window>
