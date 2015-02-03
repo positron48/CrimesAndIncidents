@@ -7,7 +7,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2" CellEditEnding="dataGrid_CellEditEnding" BeginningEdit="dataGrid_BeginningEdit" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
+        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellEditingTemplate>

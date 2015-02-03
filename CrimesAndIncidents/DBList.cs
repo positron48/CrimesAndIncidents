@@ -17,8 +17,8 @@ namespace CrimesAndIncidents
         {
             TableName = tableName;
             values = t;
-            
         }
+
 
         public int newId()
         {
@@ -29,7 +29,7 @@ namespace CrimesAndIncidents
             return i + 1;
         }
 
-        internal void deleteById(int p)
+        public void deleteById(int p)
         {
             for (int i = 0; i < values.Count; i++)
                 if (values[i].Key == p)
@@ -39,8 +39,27 @@ namespace CrimesAndIncidents
 
     public class KeyValue
     {
+        public bool isChanged = false;
         public int Key { get; set; }
-        public string Value { get; set; }
+        private string _value="";
+
+        public string Value 
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                if (value != "" && _value != value)
+                {
+                    if(_value!="")
+                        isChanged = true;
+                    _value = value;
+                }
+            } 
+        }
+
         public KeyValue(int k, string v)
         {
             Key = k;

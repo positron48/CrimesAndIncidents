@@ -115,5 +115,18 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        public bool updateElement(string tableName, int id, string description)
+        {
+            try
+            {
+                executeQuery("UPDATE " + tableName + " SET description = '" + description + "' WHERE id" + tableName + " = " + id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
