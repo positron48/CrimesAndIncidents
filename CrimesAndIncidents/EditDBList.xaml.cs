@@ -21,7 +21,6 @@ namespace CrimesAndIncidents
     {
         public DBList dblist;
         private SqliteWorker sqlWorker;
-        private string startValue;
 
         public EditDBList(string rusName, DBList list, SqliteWorker _sqlWorker)
         {
@@ -54,6 +53,17 @@ namespace CrimesAndIncidents
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            dataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            dataGrid.CancelEdit();
+            dataGrid.Items.Refresh();
+            for (int i = 0; i < dblist.values.Count; i++)
+            {
+                if (dblist.values[i].isChanged)
+                {
+                    if(!sqlWorker.updateElement(dblist.TableName, dblist.values[i].Key, dblist.values[i].Value))
+                        MessageBox.Show("Ошибка при обновлении элементов");
+                }
+            }
             this.Close();
         }
 
@@ -70,23 +80,6 @@ namespace CrimesAndIncidents
 
         }
 
-        private void dataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            //
-            //{ }
-            //else
-                
-        }
 
-        private void dataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            startValue = (dataGrid.SelectedItem as KeyValue).Value;
-        }
-
-        private void dataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            if (startValue != dataGrid.SelectedCells[0].ToString())
-                MessageBox.Show((dataGrid.SelectedItem as KeyValue).Value);
-        }
     }
 }
