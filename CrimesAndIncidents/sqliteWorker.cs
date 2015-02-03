@@ -17,7 +17,7 @@ namespace CrimesAndIncidents
             if(dbFilePath!="")
                 try
                 {
-                    dbConnection = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3;");
+                    dbConnection = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3;foreign keys=true;");
                     dbConnection.Open();
                 }
                 catch (Exception ex)
