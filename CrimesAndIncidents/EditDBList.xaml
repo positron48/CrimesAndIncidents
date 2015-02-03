@@ -7,7 +7,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2">
+        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2" CellEditEnding="dataGrid_CellEditEnding" BeginningEdit="dataGrid_BeginningEdit" SelectedCellsChanged="dataGrid_SelectedCellsChanged">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -27,9 +27,8 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="btnAddItem" Content="Добавить" Margin="5,5,5,5" VerticalAlignment="Top" Click="btnAddItem_Click_1"/>
-        <Button Content="Удалить" Margin="0,5,5,5" Grid.Column="1" VerticalAlignment="Top"/>
-        <Button Content="Ok" Margin="0,5,5,5" VerticalAlignment="Bottom" Grid.Column="1"/>
-        <Button Content="Отмена" Margin="5,5,5,5" VerticalAlignment="Bottom"/>
-
+        <Button Name ="btnDelete" Content="Удалить" Margin="0,5,5,5" Grid.Column="1" VerticalAlignment="Top" Click="btnDelete_Click"/>
+        <Button Name ="btnOk" Content="Ok" Margin="5,5,5,5" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Click="btnOk_Click"/>
+        
     </Grid>
 </Window>

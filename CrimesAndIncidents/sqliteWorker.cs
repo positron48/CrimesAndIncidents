@@ -102,5 +102,18 @@ namespace CrimesAndIncidents
             }
             
         }
+
+        public bool deleteItemById(string tableName, int id)
+        {
+            try
+            {
+                executeQuery("DELETE FROM " + tableName + " WHERE id" + tableName + " = " + id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

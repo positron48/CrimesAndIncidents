@@ -28,6 +28,13 @@ namespace CrimesAndIncidents
                     i = k.Key;
             return i + 1;
         }
+
+        internal void deleteById(int p)
+        {
+            for (int i = 0; i < values.Count; i++)
+                if (values[i].Key == p)
+                    values.RemoveAt(i);
+        }
     }
 
     public class KeyValue
