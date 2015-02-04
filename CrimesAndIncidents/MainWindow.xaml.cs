@@ -95,10 +95,18 @@ namespace CrimesAndIncidents
 
 
             DBList dblist = new DBList(tableName, DataWorker.getList(sqlWorker.selectData("SELECT * FROM " + tableName)));
-            statusBar.Text = dblist.values.Count + " строки" + (dblist.values.Count>0?"; {" + dblist.values[0].Key + ", " + dblist.values[0].Value + "}":"");
+            //statusBar.Text = dblist.values.Count + " строки" + (dblist.values.Count>0?"; {" + dblist.values[0].Key + ", " + dblist.values[0].Value + "}":"");
 
             EditDBList wnd = new EditDBList(rusName, dblist, sqlWorker);
             wnd.ShowDialog();
+        }
+
+        private void editClause_Click_2(object sender, RoutedEventArgs e)
+        {
+            ClauseList cl = new ClauseList(DataWorker.getClauseList(sqlWorker.selectData("SELECT * FROM Clause")));
+
+            EditClauseList wndC = new EditClauseList(cl, sqlWorker);
+            wndC.ShowDialog();
         }
 
     }

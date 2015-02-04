@@ -56,9 +56,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddClause.xaml.cs">
+      <DependentUpon>AddClause.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Clause.cs" />
     <Compile Include="DataWorker.cs" />
     <Compile Include="Crimes.cs" />
     <Compile Include="DBList.cs" />
+    <Compile Include="EditClauseList.xaml.cs">
+      <DependentUpon>EditClauseList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditDBList.xaml.cs">
       <DependentUpon>EditDBList.xaml</DependentUpon>
     </Compile>
@@ -66,6 +73,14 @@
       <DependentUpon>InputBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="sqliteWorker.cs" />
+    <Page Include="AddClause.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditClauseList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditDBList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

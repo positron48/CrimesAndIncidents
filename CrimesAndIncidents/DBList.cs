@@ -19,7 +19,6 @@ namespace CrimesAndIncidents
             values = t;
         }
 
-
         public int newId()
         {
             int i=0;

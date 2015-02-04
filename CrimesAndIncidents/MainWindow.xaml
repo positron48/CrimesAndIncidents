@@ -210,7 +210,7 @@
                 <MenuItem Header="Звание" />
                 <MenuItem Header="Должность"  Click="MenuItem_Click_1"/>
                 <MenuItem Header="Образование"  Click="MenuItem_Click_1"/>
-                <MenuItem Header="Статья УК РФ" />
+                <MenuItem Header="Статья УК РФ" Click="editClause_Click_2" />
                 <MenuItem Header="Категория"  Click="MenuItem_Click_1"/>
                 <MenuItem Header="Кем призван"  Click="MenuItem_Click_1"/>
                 <MenuItem Header="Кем возбуждено УД"  Click="MenuItem_Click_1"/>

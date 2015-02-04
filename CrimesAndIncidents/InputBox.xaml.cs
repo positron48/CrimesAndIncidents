@@ -24,6 +24,7 @@ namespace CrimesAndIncidents
         {
             InitializeComponent();
             this.ResizeMode = ResizeMode.CanMinimize;
+            txtBox.Focus();
         }
 
         public static string input(string header)

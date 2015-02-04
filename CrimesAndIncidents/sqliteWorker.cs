@@ -14,7 +14,7 @@ namespace CrimesAndIncidents
 
         public SqliteWorker(string dbFilePath)
         {
-            if(dbFilePath!="")
+            if (dbFilePath != "")
                 try
                 {
                     dbConnection = new SQLiteConnection("Data Source=" + dbFilePath + ";Version=3;foreign keys=true;");
@@ -100,7 +100,7 @@ namespace CrimesAndIncidents
             {
                 return false;
             }
-            
+
         }
 
         public bool deleteItemById(string tableName, int id)
@@ -121,6 +121,42 @@ namespace CrimesAndIncidents
             try
             {
                 executeQuery("UPDATE " + tableName + " SET description = '" + description + "' WHERE id" + tableName + " = " + id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal bool addClause(int id, Clause newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO Clause VALUES(" + 
+                    id + ",'" + 
+                    newItem.Point + "','" + 
+                    newItem.Part + "','" + 
+                    newItem.Number + "','" + 
+                    newItem.Description + "');");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal bool updateClause(Clause clause)
+        {
+            try
+            {
+                executeQuery("UPDATE Clause SET point = '" + clause.Point +
+                    "', part = '" + clause.Part +
+                    "', number = '" + clause.Number +
+                    "', description = '" + clause.Description +
+                    "' WHERE idClause = " + clause.Id + ";");
                 return true;
             }
             catch
