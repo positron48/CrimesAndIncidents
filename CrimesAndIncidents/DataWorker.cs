@@ -64,5 +64,32 @@ namespace CrimesAndIncidents
             }
             return list;
         }
+
+        static public ObservableCollection<Clause> getClauseList(DataTable table)
+        {
+            ObservableCollection<Clause> list = new ObservableCollection<Clause>();
+
+            if (table.Rows.Count > 0 && table.Columns.Count == 5)
+            {
+                try
+                {
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        Clause c = new Clause(
+                            Int32.Parse(table.Rows[i][0].ToString()), 
+                            table.Rows[i][1].ToString(), 
+                            table.Rows[i][2].ToString(), 
+                            table.Rows[i][3].ToString(), 
+                            table.Rows[i][4].ToString());
+                        list.Add(c);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Некорректные данны в БД:\n" + ex.Message);
+                }
+            }
+            return list;
+        }
     }
 }
