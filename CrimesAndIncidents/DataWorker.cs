@@ -59,7 +59,7 @@ namespace CrimesAndIncidents
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Некорректные данны в БД:\n" + ex.Message);
+                    throw new Exception("Некорректные данные в БД:\n" + ex.Message);
                 }
             }
             return list;
@@ -86,7 +86,33 @@ namespace CrimesAndIncidents
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Некорректные данны в БД:\n" + ex.Message);
+                    throw new Exception("Некорректные данные в БД:\n" + ex.Message);
+                }
+            }
+            return list;
+        }
+
+        public static ObservableCollection<Rank> getRankList(DataTable table)
+        {
+            ObservableCollection<Rank> list = new ObservableCollection<Rank>();
+
+            if (table.Rows.Count > 0 && table.Columns.Count == 4)
+            {
+                try
+                {
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        Rank r = new Rank(
+                            Int32.Parse(table.Rows[i][0].ToString()),
+                            table.Rows[i][1].ToString(),
+                            table.Rows[i][2].ToString(),
+                            table.Rows[i][3].ToString());
+                        list.Add(r);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Некорректные данные в БД:\n" + ex.Message);
                 }
             }
             return list;

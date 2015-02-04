@@ -41,6 +41,7 @@ namespace CrimesAndIncidents
                     " INNER JOIN Clause Cl ON C.idClause = Cl.idClause"));
                 crimesDataGrid.ItemsSource = crimes;
                 crimesDataGrid.CanUserAddRows = false;
+                crimesDataGrid.IsReadOnly = true;
             }
             catch (Exception ex)
             {
@@ -107,6 +108,14 @@ namespace CrimesAndIncidents
 
             EditClauseList wndC = new EditClauseList(cl, sqlWorker);
             wndC.ShowDialog();
+        }
+
+        private void editRank_Click(object sender, RoutedEventArgs e)
+        {
+            RankList rl = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank")));
+
+            EditRank wndR = new EditRank(rl, sqlWorker);
+            wndR.ShowDialog();
         }
 
     }

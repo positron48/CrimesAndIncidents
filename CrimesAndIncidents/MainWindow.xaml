@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Преступления и происшествия" Height="480" Width="720">
+        Title="Преступления и происшествия" Height="500" Width="900">
     <Window.Resources>
        
         <!-- Fill Brushes -->
@@ -207,7 +207,7 @@
                 <MenuItem Header="Выход" Click="MenuExit_Click_1"/>
             </MenuItem>
             <MenuItem Header="Списки">
-                <MenuItem Header="Звание" />
+                <MenuItem Header="Звание" Click="editRank_Click"/>
                 <MenuItem Header="Должность"  Click="MenuItem_Click_1"/>
                 <MenuItem Header="Образование"  Click="MenuItem_Click_1"/>
                 <MenuItem Header="Статья УК РФ" Click="editClause_Click_2" />
