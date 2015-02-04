@@ -164,5 +164,39 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool addRank(int id, Rank newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO Rank VALUES(" +
+                    id + ",'" +
+                    newItem.FullName + "','" +
+                    newItem.ShortName + "','" +
+                    newItem.Priority + "');");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal bool updateRank(Rank rank)
+        {
+            try
+            {
+                executeQuery("UPDATE Rank SET fullName = '" + rank.FullName +
+                    "', shortName = '" + rank.ShortName +
+                    "', priority = '" + rank.Priority +
+                    "' WHERE idRank = " + rank.Id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
