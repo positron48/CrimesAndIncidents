@@ -118,5 +118,10 @@ namespace CrimesAndIncidents
             wndR.ShowDialog();
         }
 
+        private void editStructureUnit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
