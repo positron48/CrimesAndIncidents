@@ -120,7 +120,9 @@ namespace CrimesAndIncidents
 
         private void editStructureUnit_Click(object sender, RoutedEventArgs e)
         {
-
+            MilitaryUnitList mList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
+            EditStructure wE = new EditStructure(sqlWorker, mList);
+            wE.ShowDialog();
         }
 
     }
