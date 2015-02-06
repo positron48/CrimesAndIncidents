@@ -198,5 +198,32 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool addSubUnit(int id, SubUnit newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO SubUnit VALUES(" +
+                    id + ",'" +
+                    newItem.Name + "','" +
+                    newItem.ShortName + "'," +
+                    (newItem.Quantity == 0 ? "NULL" : newItem.Quantity.ToString()) + "," +
+                    (newItem.IdFKSubUnit == -1 ? "NULL" : newItem.IdFKSubUnit.ToString()) + "," +
+                    (newItem.IdMilitaryUnit == -1 ? "NULL" : newItem.IdMilitaryUnit.ToString()) + ");");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public int getNewId(string tableName)
+        {
+            DataTable t = selectData("SELECT MAX(id" + tableName + ") FROM "+ tableName );
+
+            return Int16.Parse(t.Rows[0][0].ToString()) + 1;
+        }
     }
 }

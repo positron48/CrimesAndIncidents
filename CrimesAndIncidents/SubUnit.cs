@@ -11,18 +11,15 @@ namespace CrimesAndIncidents
     {
         public ObservableCollection<SubUnit> values;
 
+        //пустой список
+        public SubUnitList()
+        {
+            values = new ObservableCollection<SubUnit>();
+        }
+
         public SubUnitList(ObservableCollection<SubUnit> _list)
         {
             values = _list;
-        }
-
-        public int newId()
-        {
-            int i = 0;
-            foreach (SubUnit s in values)
-                if (s.Id > i)
-                    i = s.Id;
-            return i + 1;
         }
 
         public void deleteById(int id)

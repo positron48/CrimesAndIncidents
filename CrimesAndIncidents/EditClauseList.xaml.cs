@@ -38,9 +38,10 @@ namespace CrimesAndIncidents
             if (newItem != null)
             {
                 //добавить в БД
-                if (sqlWorker.addClause(list.newId(), newItem))
+                int id = sqlWorker.getNewId("Clause");
+                if (sqlWorker.addClause(id, newItem))
                 {
-                    newItem.Id = list.newId();
+                    newItem.Id = id;
                     //если успешное добавление в БД
                     list.values.Add(newItem);
                 }

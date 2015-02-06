@@ -16,15 +16,6 @@ namespace CrimesAndIncidents
             values = _list;
         }
 
-        public int newId()
-        {
-            int i = 0;
-            foreach (MilitaryUnit m in values)
-                if (m.Id > i)
-                    i = m.Id;
-            return i + 1;
-        }
-
         public void deleteById(int id)
         {
             for (int i = 0; i < values.Count; i++)
