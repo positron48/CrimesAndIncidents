@@ -12,7 +12,7 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         
-        <ListBox Name="lbMilitaryUnit" Margin="5,60,5,35" Grid.ColumnSpan="2" SelectionChanged="lbMilitaryUnit_SelectionChanged"/>
+        <ListBox Name="lbMilitaryUnit" Margin="5,60,5,35" Grid.ColumnSpan="2" SelectionChanged="lbMilitaryUnit_SelectionChanged" MouseDoubleClick="lbMilitaryUnit_MouseDoubleClick"/>
         <ListBox Name="lbBattalion" Margin="5,60,5,35" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Name}" SelectionChanged="lbBattalion_SelectionChanged" MouseDoubleClick="lbBattalion_MouseDoubleClick"/>
         <ListBox Name="lbSubUnit" Margin="5,60,5,35" Grid.Column="4" Grid.ColumnSpan="2" ItemsSource="{Binding Name}" MouseDoubleClick="lbSubUnit_MouseDoubleClick"/>
         
@@ -20,7 +20,7 @@
         <Label Content="Батальон" Margin="10,5,10,10" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="2"/>
         <Label Content="Подразделение" Margin="10,5,10,10" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="4"/>
 
-        <Button Name="btnAddMilitaryUnit" Content="Добавить" Margin="5,30,5,5" VerticalAlignment="Top" Height="25"/>
+        <Button Name="btnAddMilitaryUnit" Content="Добавить" Margin="5,30,5,5" VerticalAlignment="Top" Height="25" Click="btnAddMilitaryUnit_Click"/>
         <Button Name="btnDeleteMilitaryUnit" Content="Удалить" Margin="5,30,5,5" VerticalAlignment="Top" Height="25" Grid.Column="1" Click="btnDeleteMilitaryUnit_Click"/>
         <Button Name="btnAddBattalion" Content="Добавить" Margin="5,30,5,5" VerticalAlignment="Top" Height="25"  Grid.Column="2" Click="btnAddBattalion_Click"/>
         <Button Name="btnDeleteBattalion" Content="Удалить" Margin="5,30,5,5" VerticalAlignment="Top" Height="25" Grid.Column="3" Click="btnDeleteBattalion_Click"/>
