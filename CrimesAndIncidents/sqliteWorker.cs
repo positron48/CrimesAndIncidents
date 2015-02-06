@@ -241,5 +241,45 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool addMilitaryUnit(int id, MilitaryUnit newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO MilitaryUnit VALUES(" +
+                    id + ",'" +
+                    newItem.FullName + "','" +
+                    newItem.Name + "','" +
+                    newItem.ShortName + "','" +
+                    newItem.Number + "'," +
+                    (newItem.Quantity == 0 ? "NULL" : newItem.Quantity.ToString()) + "," +
+                    "1);");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal bool updateMilitaryUnit(MilitaryUnit m)
+        {
+            try
+            {
+                executeQuery("UPDATE MilitaryUnit SET "+
+                    "fullName = " + (m.FullName == "" ? "NULL" : "'" + m.FullName + "'") +
+                    ", name = '" + m.Name +
+                    "', shortName = '" + m.ShortName +
+                    "', number = '" + m.Number +
+                    "', quantity = " + (m.Quantity == 0 ? "NULL" : m.Quantity.ToString()) +
+                    " WHERE idMilitaryUnit = " + m.Id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

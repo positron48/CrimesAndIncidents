@@ -16,11 +16,23 @@ namespace CrimesAndIncidents
             values = _list;
         }
 
+        public MilitaryUnitList()
+        {
+            values = new ObservableCollection<MilitaryUnit>();
+        }
+
         public void deleteById(int id)
         {
             for (int i = 0; i < values.Count; i++)
                 if (values[i].Id == id)
                     values.RemoveAt(i);
+        }
+
+        internal void update(MilitaryUnit s)
+        {
+            for (int i = 0; i < values.Count; i++)
+                if (values[i].Id == s.Id)
+                    values[i] = s;
         }
     }
 

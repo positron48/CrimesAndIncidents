@@ -185,5 +185,37 @@ namespace CrimesAndIncidents
                 }
             }
         }
+
+        private void btnAddMilitaryUnit_Click(object sender, RoutedEventArgs e)
+        {
+            MilitaryUnit m = addMilitaryUnit.getNewMilitaryUnit();
+            if (m != null)
+            {
+                if (mList == null)
+                    mList = new MilitaryUnitList();
+
+                int id = sqlWorker.getNewId("MilitaryUnit");
+                m.Id = id;
+                if (sqlWorker.addMilitaryUnit(id, m))
+                    mList.values.Add(m);
+                else
+                    MessageBox.Show("Ошибка при добавлении элемента");
+            }
+        }
+
+        private void lbMilitaryUnit_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MilitaryUnit m = addMilitaryUnit.getEditedMilitaryUnit(lbMilitaryUnit.SelectedItem as MilitaryUnit);
+                if (m != null)
+                {
+                    if (sqlWorker.updateMilitaryUnit(m))
+                    {
+                        mList.update(m);
+                        lbMilitaryUnit.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Ошибка при изменении элемента");
+                }
+        }
     }
 }
