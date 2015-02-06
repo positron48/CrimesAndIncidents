@@ -35,20 +35,22 @@ namespace CrimesAndIncidents
 
     public class SubUnit
     {
-        public SubUnit(int id, string name, string shortName, int quantity, int idBattalion)
+        public SubUnit(int id, string name, string shortName, int quantity, int idFKSubUnit, int idMilitaryUnit)
         {
             Id = id;
             Name = name;
             ShortName = shortName;
             Quantity = quantity;
-            IdBattalion = idBattalion;
+            IdFKSubUnit = idFKSubUnit;
+            IdMilitaryUnit = idMilitaryUnit;
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
         public int Quantity { get; set; }
-        public int IdBattalion { get; set; }
+        public int IdFKSubUnit { get; set; }
+        public int IdMilitaryUnit { get; set; }
 
         public override string ToString() { return ShortName; }
     }
