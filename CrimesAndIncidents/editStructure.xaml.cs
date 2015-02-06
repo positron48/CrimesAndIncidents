@@ -107,5 +107,47 @@ namespace CrimesAndIncidents
                 }
             }
         }
+
+        private void btnAddSubUnit_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbBattalion.SelectedItem != null)
+            {
+                int idFKSubUnit = (lbBattalion.SelectedItem as SubUnit).Id;
+                SubUnit s = addSubUnit.getNewSubUnit(-1, idFKSubUnit);
+                if (s != null)
+                {
+                    if (sList == null)
+                        sList = new SubUnitList();
+
+                    int id = sqlWorker.getNewId("SubUnit");
+                    s.Id = id;
+                    if (sqlWorker.addSubUnit(id, s))
+                        sList.values.Add(s);
+                    else
+                        MessageBox.Show("Ошибка при добавлении элемента");
+                }
+            }
+        }
+
+        private void btnAddBattalion_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbMilitaryUnit.SelectedItem != null)
+            {
+                int idMilitaryUnit = (lbMilitaryUnit.SelectedItem as MilitaryUnit).Id;
+                SubUnit s = addSubUnit.getNewSubUnit(idMilitaryUnit, -1);
+                if (s != null)
+                {
+                    if (bList == null)
+                        bList = new SubUnitList();
+
+                    int id = sqlWorker.getNewId("SubUnit");
+                    s.Id = id;
+                    if (sqlWorker.addSubUnit(id, s))
+                        bList.values.Add(s);
+                    else
+                        MessageBox.Show("Ошибка при добавлении элемента");
+                }
+            }
+        }
     }
 }

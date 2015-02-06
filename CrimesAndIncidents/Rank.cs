@@ -15,16 +15,7 @@ namespace CrimesAndIncidents
         {
             values = _list;
         }
-
-        public int newId()
-        {
-            int i = 0;
-            foreach (Rank r in values)
-                if (r.Id > i)
-                    i = r.Id;
-            return i + 1;
-        }
-
+        
         public void deleteById(int id)
         {
             for (int i = 0; i < values.Count; i++)
