@@ -125,5 +125,10 @@ namespace CrimesAndIncidents
             wE.ShowDialog();
         }
 
+        private void menuAccomplice_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
     }
 }
