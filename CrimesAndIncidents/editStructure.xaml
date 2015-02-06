@@ -12,9 +12,9 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         
-        <ListBox Name="lbMilitaryUnit" Margin="5,60,5,35" Grid.ColumnSpan="2" SelectionChanged="lbMilitaryUnit_SelectionChanged" />
-        <ListBox Name="lbBattalion" Margin="5,60,5,35" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Name}" SelectionChanged="lbBattalion_SelectionChanged"/>
-        <ListBox Name="lbSubUnit" Margin="5,60,5,35" Grid.Column="4" Grid.ColumnSpan="2" ItemsSource="{Binding Name}"/>
+        <ListBox Name="lbMilitaryUnit" Margin="5,60,5,35" Grid.ColumnSpan="2" SelectionChanged="lbMilitaryUnit_SelectionChanged"/>
+        <ListBox Name="lbBattalion" Margin="5,60,5,35" Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Name}" SelectionChanged="lbBattalion_SelectionChanged" MouseDoubleClick="lbBattalion_MouseDoubleClick"/>
+        <ListBox Name="lbSubUnit" Margin="5,60,5,35" Grid.Column="4" Grid.ColumnSpan="2" ItemsSource="{Binding Name}" MouseDoubleClick="lbSubUnit_MouseDoubleClick"/>
         
         <Label Content="Воинская часть" Margin="10,5,10,10" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label Content="Батальон" Margin="10,5,10,10" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Column="2"/>

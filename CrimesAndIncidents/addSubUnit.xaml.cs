@@ -41,6 +41,9 @@ namespace CrimesAndIncidents
             txName.Focus();
 
             subUnit = s;
+            txName.Text = s.Name;
+            txShortName.Text = s.ShortName;
+            txQuantity.Text = s.Quantity.ToString();
         }
         
         private void btnOk_Click(object sender, RoutedEventArgs e)

@@ -225,5 +225,21 @@ namespace CrimesAndIncidents
 
             return Int16.Parse(t.Rows[0][0].ToString()) + 1;
         }
+
+        internal bool updateSubUnit(SubUnit s)
+        {
+            try
+            {
+                executeQuery("UPDATE SubUnit SET name = '" + s.Name +
+                    "', shortName = '" + s.ShortName +
+                    "', quantity = " + (s.Quantity==0?"NULL":s.Quantity.ToString()) +
+                    " WHERE idSubUnit = " + s.Id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
