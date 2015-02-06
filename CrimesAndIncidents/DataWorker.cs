@@ -161,9 +161,9 @@ namespace CrimesAndIncidents
                             Int32.Parse(table.Rows[i][0].ToString()),
                             table.Rows[i][1].ToString(),
                             table.Rows[i][2].ToString(),
-                            Int32.Parse(table.Rows[i][3].ToString() == "" ? "1" : table.Rows[i][3].ToString()),
-                            Int32.Parse(table.Rows[i][3].ToString() == "" ? "1" : table.Rows[i][4].ToString()),
-                        Int32.Parse(table.Rows[i][3].ToString() == "" ? "1" : table.Rows[i][5].ToString()));
+                            table.Rows[i][3].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][3].ToString()),
+                            Int32.Parse(table.Rows[i][3].ToString() == "" ? "0" : table.Rows[i][4].ToString()),
+                        Int32.Parse(table.Rows[i][3].ToString() == "" ? "0" : table.Rows[i][5].ToString()));
                         list.Add(r);
                     }
                 }

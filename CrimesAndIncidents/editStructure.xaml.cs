@@ -149,5 +149,41 @@ namespace CrimesAndIncidents
                 }
             }
         }
+        
+        private void lbSubUnit_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbSubUnit.SelectedItem != null)
+            {
+                SubUnit s = addSubUnit.getEditedSubUnit(lbSubUnit.SelectedItem as SubUnit);
+                if (s != null)
+                {
+                    if (sqlWorker.updateSubUnit(s))
+                    {
+                        sList.update(s);
+                        lbSubUnit.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Ошибка при изменении элемента");
+                }
+            }
+        }
+
+        private void lbBattalion_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbMilitaryUnit.SelectedItem != null)
+            {
+                SubUnit s = addSubUnit.getEditedSubUnit(lbBattalion.SelectedItem as SubUnit);
+                if (s != null)
+                {
+                    if (sqlWorker.updateSubUnit(s))
+                    {
+                        bList.update(s);
+                        lbBattalion.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Ошибка при изменении элемента");
+                }
+            }
+        }
     }
 }
