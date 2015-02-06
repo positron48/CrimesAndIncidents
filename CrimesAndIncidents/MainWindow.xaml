@@ -37,6 +37,7 @@
                 <MenuItem Header="Семейное положение"  Click="MenuItem_Click_1"/>
             </MenuItem>
             <MenuItem Header="Структура подразделений" Click="editStructureUnit_Click"/>
+            <MenuItem Header="Участики" Click="menuAccomplice_Click" />
         </Menu>
        
         <ToolBar Margin="0,0,0,0" Grid.Row="1"  >
