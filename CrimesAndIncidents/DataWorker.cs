@@ -174,5 +174,46 @@ namespace CrimesAndIncidents
             }
             return list;
         }
+
+        internal static ObservableCollection<Accomplice> getAccompliceList(DataTable table)
+        {
+            ObservableCollection<Accomplice> list = new ObservableCollection<Accomplice>();
+
+            if (table.Rows.Count > 0 && table.Columns.Count == 20)
+            {
+                try
+                {
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        Accomplice a = new Accomplice(
+                            table.Rows[i][4].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][4].ToString()),
+                            table.Rows[i][5].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][5].ToString()),
+                            table.Rows[i][6].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][6].ToString()),
+                            table.Rows[i][7].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][7].ToString()),
+                            table.Rows[i][8].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][8].ToString()),
+                            table.Rows[i][9].ToString(),
+                            table.Rows[i][10].ToString(),
+                            Boolean.Parse(table.Rows[i][11].ToString()),
+                            Boolean.Parse(table.Rows[i][12].ToString()),
+                            table.Rows[i][13].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][13].ToString()),
+                            table.Rows[i][14].ToString(),
+                            table.Rows[i][15].ToString(),
+                            table.Rows[i][16].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][16].ToString()),
+                            Boolean.Parse(table.Rows[i][17].ToString()),
+                            table.Rows[i][18].ToString(),
+                            table.Rows[i][19].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][19].ToString()),
+                            table.Rows[i][0].ToString(),
+                            table.Rows[i][1].ToString() + " " + table.Rows[i][2].ToString(),
+                            table.Rows[i][3].ToString());
+                        list.Add(a);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Некорректные данные в БД:\n" + ex.Message);
+                }
+            }
+            return list;
+        }
     }
 }

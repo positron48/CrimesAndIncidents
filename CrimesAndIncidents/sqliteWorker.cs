@@ -281,5 +281,36 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool addAccomplice(int id, Accomplice newItem)
+        {
+            try
+            {
+                executeQuery("INSERT INTO Accomplice VALUES(" +
+                    id + "," +
+                    (newItem.IdPost == 0 ? "NULL" : newItem.IdPost.ToString()) + "," +
+                    newItem.IdRank + "," +
+                    newItem.IdSubUnit + "," +
+                    (newItem.IdDraft == 0 ? "NULL" : newItem.IdDraft.ToString()) + "," +
+                    (newItem.FullName == "" ? "NULL" : "'" + newItem.FullName + "'") + ",'" +
+                    newItem.ShortName + "','" +
+                    newItem.IsContrakt + "','" +
+                    newItem.IsMedic + "'," +
+                    (newItem.NumberContrakt == 0 ? "NULL" : newItem.NumberContrakt.ToString()) + "," +
+                    (newItem.DateOfFirstContrakt == "" ? "NULL" : "'" + newItem.DateOfFirstContrakt + "'") + "," +
+                    (newItem.DateOfLastContrakt == "" ? "NULL" : "'" + newItem.DateOfLastContrakt + "'") + "," +
+                    (newItem.IdEducation == 0 ? "NULL" : newItem.IdEducation.ToString()) + ",'" +
+                    newItem.Sex + "'," +
+                    (newItem.DateOfBirth == "" ? "NULL" : "'" + newItem.DateOfBirth + "'") + "," +
+                    (newItem.IdFamilyStatus == 0 ? "NULL" : newItem.IdFamilyStatus.ToString()) +
+                    ");");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
