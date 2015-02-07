@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CrimesAndIncidents.сущности_БД
+namespace CrimesAndIncidents
 {
-    class AccompliceList
+    public class AccompliceList
     {
         public ObservableCollection<Accomplice> values;
 
@@ -36,7 +36,7 @@ namespace CrimesAndIncidents.сущности_БД
         }
     }
 
-    class Accomplice
+    public class Accomplice
     {
         public int Id { get; set; }
         public int IdPost { get; set; }
@@ -54,6 +54,10 @@ namespace CrimesAndIncidents.сущности_БД
         public bool Sex { get; set; }
         public string DateOfBirth { get; set; }
         public int IdFamilyStatus { get; set; }
+
+        public string Rank { get; set; }
+        public string SubUnit { get; set; }
+        public string MilitaryUnit { get; set; }
 
         public Accomplice(
             int id,
@@ -89,6 +93,49 @@ namespace CrimesAndIncidents.сущности_БД
             Sex = sex;
             DateOfBirth = dateOfBirth;
             IdFamilyStatus = idFamilyStatus;
-        }        
+        }
+
+        public Accomplice(
+            int id,
+            int idPost,
+            int idRank,
+            int idSubUnit,
+            int idDraft,
+            string fullName,
+            string shortName,
+            bool isContrakt,
+            bool isMedic,
+            int numberContrakt,
+            string dateOfFirstContrakt,
+            string dateOfLastContrakt,
+            int idEducation,
+            bool sex,
+            string dateOfBirth,
+            int idFamilyStatus,
+            string rank,
+            string subUnit,
+            string militaryUnit)
+        {
+            Id = id;
+            IdPost = idPost;
+            IdRank = idRank;
+            IdSubUnit = idSubUnit;
+            IdDraft = idDraft;
+            FullName = fullName;
+            ShortName = shortName;
+            IsContrakt = isContrakt;
+            IsMedic = isMedic;
+            NumberContrakt = numberContrakt;
+            DateOfFirstContrakt = dateOfFirstContrakt;
+            DateOfLastContrakt = dateOfLastContrakt;
+            IdEducation = idEducation;
+            Sex = sex;
+            DateOfBirth = dateOfBirth;
+            IdFamilyStatus = idFamilyStatus;
+
+            Rank = rank;
+            SubUnit = subUnit;
+            MilitaryUnit = militaryUnit;
+        }
     }
 }

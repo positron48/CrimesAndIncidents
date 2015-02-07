@@ -94,7 +94,6 @@ namespace CrimesAndIncidents
                     break;
             }
 
-
             DBList dblist = new DBList(tableName, DataWorker.getList(sqlWorker.selectData("SELECT * FROM " + tableName)));
             //statusBar.Text = dblist.values.Count + " строки" + (dblist.values.Count>0?"; {" + dblist.values[0].Key + ", " + dblist.values[0].Value + "}":"");
 
@@ -127,7 +126,16 @@ namespace CrimesAndIncidents
 
         private void menuAccomplice_Click(object sender, RoutedEventArgs e)
         {
-            
+            AccompliceList al = new AccompliceList(
+                DataWorker.getAccompliceList(
+                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.* FROM Accomplice A " +
+                        "INNER JOIN SubUnit S ON S.idSubUnit = A.idSubUnit " +
+                        "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
+                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit ")));
+
+            Accomplices wndR = new Accomplices(al, sqlWorker);
+            wndR.ShowDialog();
         }
 
     }
