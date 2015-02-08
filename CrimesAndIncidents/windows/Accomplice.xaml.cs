@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ namespace CrimesAndIncidents
         SqliteWorker sqlWorker;
         Accomplice a;
 
+        int idA = 0;
+
         public AddAccomplice(SqliteWorker _sqlWorker)
         {
             InitializeComponent();
@@ -60,6 +63,97 @@ namespace CrimesAndIncidents
             this.Height -= 150;
         }
 
+        public AddAccomplice(Accomplice accomplice, SqliteWorker _sqlWorker)
+        {
+            InitializeComponent();
+            this.ResizeMode = ResizeMode.CanMinimize;
+
+            sqlWorker = _sqlWorker;
+
+            postList = new DBList("Post", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Post")));
+            draftList = new DBList("Draft", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Draft")));
+            educationList = new DBList("Education", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Education")));
+            familyStatusList = new DBList("FamilyStatus", DataWorker.getList(sqlWorker.selectData("SELECT * FROM FamilyStatus")));
+
+            rankList = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank")));
+            militaryList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
+
+            cbPost.ItemsSource = postList.values;
+            cbDraft.ItemsSource = draftList.values;
+            cbEducation.ItemsSource = educationList.values;
+            cbFamilyStatus.ItemsSource = familyStatusList.values;
+
+            cbRank.ItemsSource = rankList.values;
+            cbMilitaryUnit.ItemsSource = militaryList.values;
+
+            rowSubUnit.Height = new GridLength(0);
+            rowContrakt.Height = new GridLength(0);
+            this.Height -= 150;
+
+            txFullName.Text = accomplice.FullName;
+            txName.Text = accomplice.ShortName;
+            txNumberContrakt.Text = (accomplice.NumberContrakt == 0 ? "" : accomplice.NumberContrakt.ToString());
+            txDateOfBirthday.Text = accomplice.DateOfBirth;
+            txDateFirstContrakt.Text = accomplice.DateOfFirstContrakt;
+            txDateLastContrakt.Text = accomplice.DateOfLastContrakt;
+
+            chkbContrakt.IsChecked = accomplice.IsContrakt;
+            chkbMedic.IsChecked = accomplice.IsMedic;
+
+            rSex.IsChecked = accomplice.Sex;
+
+            for (int i = 0; i < cbPost.Items.Count; i++)
+                if ((cbPost.Items[i] as KeyValue).Key == accomplice.IdPost)
+                    cbPost.SelectedIndex = i;
+
+            for (int i = 0; i < cbDraft.Items.Count; i++)
+                if ((cbDraft.Items[i] as KeyValue).Key == accomplice.IdDraft)
+                    cbDraft.SelectedIndex = i;
+
+            for (int i = 0; i < cbEducation.Items.Count; i++)
+                if ((cbEducation.Items[i] as KeyValue).Key == accomplice.IdEducation)
+                    cbEducation.SelectedIndex = i;
+
+            for (int i = 0; i < cbFamilyStatus.Items.Count; i++)
+                if ((cbFamilyStatus.Items[i] as KeyValue).Key == accomplice.IdFamilyStatus)
+                    cbFamilyStatus.SelectedIndex = i;
+
+            for (int i = 0; i < cbRank.Items.Count; i++)
+                if ((cbRank.Items[i] as Rank).Id == accomplice.IdRank)
+                    cbRank.SelectedIndex = i;
+
+            //получение id воинской части и выбор этой части в комбобоксе
+            DataTable dt = sqlWorker.selectData("SELECT M.idMilitaryUnit FROM SubUnit S " +
+                "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
+                "LEFT JOIN MilitaryUnit M ON S.idMilitaryUnit = M.idMilitaryUnit OR SF.idMilitaryUnit = M.idMilitaryUnit " +
+                "WHERE S.idSubUnit = " + accomplice.IdSubUnit);
+            int idT = Int32.Parse(dt.Rows[0][0].ToString());
+            for (int i = 0; i < cbMilitaryUnit.Items.Count; i++)
+                if ((cbMilitaryUnit.Items[i] as MilitaryUnit).Id == idT)
+                    cbMilitaryUnit.SelectedIndex = i;
+
+            dt = sqlWorker.selectData("SELECT SF.idSubUnit FROM SubUnit S " +
+                "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
+                "WHERE S.idSubUnit = " + accomplice.IdSubUnit);
+            if (dt.Rows[0][0].ToString() != "")
+            {
+                //есть промежуточное подразделение (батальон)
+                idT = Int32.Parse(dt.Rows[0][0].ToString());
+                for (int i = 0; i < cbBattalion.Items.Count; i++)
+                    if ((cbBattalion.Items[i] as SubUnit).Id == idT)
+                        cbBattalion.SelectedIndex = i;
+            }
+            else
+            {
+                //подразделение непосредственного подчинения воинской части
+                for (int i = 0; i < cbBattalion.Items.Count; i++)
+                    if ((cbBattalion.Items[i] as SubUnit).Id == accomplice.IdSubUnit)
+                        cbBattalion.SelectedIndex = i;
+            }
+
+            idA = accomplice.Id;
+        }
+
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             if (txName.Text != "" &&
@@ -67,7 +161,7 @@ namespace CrimesAndIncidents
                 cbPost.SelectedItem != null &&
                 cbBattalion.SelectedItem != null)
             {
-                a = new Accomplice(0,
+                a = new Accomplice(idA,
                     (cbPost.SelectedItem as KeyValue).Key,
                     (cbRank.SelectedItem as Rank).Id,
                     cbSubUnit.SelectedItem != null ? (cbSubUnit.SelectedItem as SubUnit).Id : (cbBattalion.SelectedItem as SubUnit).Id,
@@ -83,9 +177,9 @@ namespace CrimesAndIncidents
                     rSex.IsChecked == true,
                     txDateOfBirthday.Text,
                     (cbFamilyStatus.SelectedItem != null) ? (cbFamilyStatus.SelectedItem as KeyValue).Key : 0,
-                    (cbRank.SelectedItem as Rank).FullName,
-                    cbSubUnit.SelectedItem != null ? (cbSubUnit.SelectedItem as SubUnit).Name : (cbBattalion.SelectedItem as SubUnit).Name,
-                    (cbMilitaryUnit.SelectedItem as MilitaryUnit).Name);
+                    (cbRank.SelectedItem as Rank).ShortName,
+                    cbSubUnit.SelectedItem != null ? (cbSubUnit.SelectedItem as SubUnit).ShortName + " " + (cbBattalion.SelectedItem as SubUnit).ShortName : (cbBattalion.SelectedItem as SubUnit).ShortName,
+                    (cbMilitaryUnit.SelectedItem as MilitaryUnit).ShortName);
 
                 this.Close();
             }
@@ -154,6 +248,13 @@ namespace CrimesAndIncidents
         {
             rowContrakt.Height = new GridLength(0);
             this.Height -= 120;
+        }
+
+        internal static Accomplice getEditedAccomplice(Accomplice accomplice, SqliteWorker _sqlWorker)
+        {
+            AddAccomplice wndA = new AddAccomplice(accomplice, _sqlWorker);
+            wndA.ShowDialog();
+            return wndA.a;
         }
     }
 }

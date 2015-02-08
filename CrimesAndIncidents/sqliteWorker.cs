@@ -293,18 +293,47 @@ namespace CrimesAndIncidents
                     newItem.IdSubUnit + "," +
                     (newItem.IdDraft == 0 ? "NULL" : newItem.IdDraft.ToString()) + "," +
                     (newItem.FullName == "" ? "NULL" : "'" + newItem.FullName + "'") + ",'" +
-                    newItem.ShortName + "','" +
-                    newItem.IsContrakt + "','" +
-                    newItem.IsMedic + "'," +
+                    newItem.ShortName + "'," +
+                    (newItem.IsContrakt == false ? 0 : 1) + "," +
+                    (newItem.IsMedic == false ? 0 : 1) + "," +
                     (newItem.NumberContrakt == 0 ? "NULL" : newItem.NumberContrakt.ToString()) + "," +
                     (newItem.DateOfFirstContrakt == "" ? "NULL" : "'" + newItem.DateOfFirstContrakt + "'") + "," +
                     (newItem.DateOfLastContrakt == "" ? "NULL" : "'" + newItem.DateOfLastContrakt + "'") + "," +
-                    (newItem.IdEducation == 0 ? "NULL" : newItem.IdEducation.ToString()) + ",'" +
-                    newItem.Sex + "'," +
+                    (newItem.IdEducation == 0 ? "NULL" : newItem.IdEducation.ToString()) + "," +
+                    (newItem.Sex == false ? 0 : 1) + "," +
                     (newItem.DateOfBirth == "" ? "NULL" : "'" + newItem.DateOfBirth + "'") + "," +
                     (newItem.IdFamilyStatus == 0 ? "NULL" : newItem.IdFamilyStatus.ToString()) +
                     ");");
 
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal bool updateAccomplice(Accomplice newItem)
+        {
+            try
+            {
+                executeQuery("UPDATE Accomplice SET " +
+                    "idPost = " + (newItem.IdPost == 0 ? "NULL" : newItem.IdPost.ToString()) + "," +
+                    "idRank = " + newItem.IdRank + "," +
+                    "idSubUnit = " + newItem.IdSubUnit + "," +
+                    "idDraft = " + (newItem.IdDraft == 0 ? "NULL" : newItem.IdDraft.ToString()) + "," +
+                    "fullName = " + (newItem.FullName == "" ? "NULL" : "'" + newItem.FullName + "'") + "," +
+                    "shortName = '" + newItem.ShortName + "'," +
+                    "isContrakt = " + (newItem.IsContrakt == false ? 0 : 1) + "," +
+                    "isMedic = " + (newItem.IsMedic == false ? 0 : 1) + "," +
+                    "numberContrakt = " + (newItem.NumberContrakt == 0 ? "NULL" : newItem.NumberContrakt.ToString()) + "," +
+                    "dateFirstContrakt = " + (newItem.DateOfFirstContrakt == "" ? "NULL" : "'" + newItem.DateOfFirstContrakt + "'") + "," +
+                    "dateLastContrakt= " + (newItem.DateOfLastContrakt == "" ? "NULL" : "'" + newItem.DateOfLastContrakt + "'") + "," +
+                    "idEducation = " + (newItem.IdEducation == 0 ? "NULL" : newItem.IdEducation.ToString()) + "," +
+                    "sex = " + (newItem.Sex == false ? 0 : 1) + "," +
+                    "dateOfBirth = " + (newItem.DateOfBirth == "" ? "NULL" : "'" + newItem.DateOfBirth + "'") + "," +
+                    "idFamilyStatus = " + (newItem.IdFamilyStatus == 0 ? "NULL" : newItem.IdFamilyStatus.ToString()) +
+                    " WHERE idAccomplice = " + newItem.Id + ";");
                 return true;
             }
             catch
