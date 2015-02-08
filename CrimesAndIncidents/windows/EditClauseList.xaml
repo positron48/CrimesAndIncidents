@@ -7,7 +7,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2">
+        <DataGrid Name="dataGrid" Margin="5,30,5,30"  Grid.ColumnSpan="2" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Пункт" Binding="{Binding Path=Point}"/>
                 <DataGridTextColumn Header="Часть" Binding="{Binding Path=Part}"/>

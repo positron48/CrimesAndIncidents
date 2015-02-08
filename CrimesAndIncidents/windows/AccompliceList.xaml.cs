@@ -68,7 +68,20 @@ namespace CrimesAndIncidents
 
         private void dataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            if (dataGrid.SelectedItem != null)
+            {
+                Accomplice s = AddAccomplice.getEditedAccomplice(dataGrid.SelectedItem as Accomplice, sqlWorker);
+                if (s != null)
+                {
+                    if (sqlWorker.updateAccomplice(s))
+                    {
+                        al.update(s);
+                        dataGrid.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Ошибка при изменении элемента");
+                }
+            }
         }
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
