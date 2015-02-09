@@ -26,6 +26,7 @@
                 <MenuItem Header="О программе"/>
                 <MenuItem Header="Выход" Click="MenuExit_Click_1"/>
             </MenuItem>
+            <MenuItem Header="Участики" Click="menuAccomplice_Click" />
             <MenuItem Header="Списки">
                 <MenuItem Header="Звание" Click="editRank_Click"/>
                 <MenuItem Header="Должность"  Click="MenuItem_Click_1"/>
@@ -37,7 +38,6 @@
                 <MenuItem Header="Семейное положение"  Click="MenuItem_Click_1"/>
             </MenuItem>
             <MenuItem Header="Структура подразделений" Click="editStructureUnit_Click"/>
-            <MenuItem Header="Участики" Click="menuAccomplice_Click" />
         </Menu>
        
         <ToolBar Margin="0,0,0,0" Grid.Row="1"  >

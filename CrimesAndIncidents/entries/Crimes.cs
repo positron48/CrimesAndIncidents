@@ -26,14 +26,23 @@ namespace CrimesAndIncidents
             Verdict = verdict;
         }
 
-        public string Story { get; set; }
-        public string DateCommit { get; set; }
-        public string DateInstitution { get; set; }
+        //в бд
+        public int Id { get; set; }
+        public int IdOrgan { get; set; }
+        public int IdClause { get; set; }
+        public int IdMilitaryUnit { get; set; }
         public string DateRegistration { get; set; }
+        public string DateInstitution { get; set; }
+        public string DateCommit { get; set; }
+        public string Story { get; set; }
+        public string Damage { get; set; }
+        public string DateVerdict { get; set; }
+        public string Verdict { get; set; }
+        public string NumberCase { get; set; }
+        
+        //для отображения в списке
         public string Rank { get; set; }
         public string Accomplice { get; set; }
         public string Clause { get; set; }
-        public string DateVerdict { get; set; }
-        public string Verdict { get; set; }
     }
 }

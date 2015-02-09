@@ -101,6 +101,7 @@ namespace CrimesAndIncidents
             chkbMedic.IsChecked = accomplice.IsMedic;
 
             rSex.IsChecked = accomplice.Sex;
+            fSex.IsChecked = !accomplice.Sex;
 
             for (int i = 0; i < cbPost.Items.Count; i++)
                 if ((cbPost.Items[i] as KeyValue).Key == accomplice.IdPost)

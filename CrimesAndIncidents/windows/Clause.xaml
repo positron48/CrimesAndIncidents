@@ -13,10 +13,12 @@
         <Label Content="статья" Margin="10,70,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
         <Label Content="описание" Margin="10,40,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
 
-        <TextBox Name="txPoint" Margin="10,130,10,0" VerticalAlignment="Top" Grid.Column="2"/>
-        <TextBox Name="txPart" Margin="10,100,10,0" VerticalAlignment="Top" Grid.Column="2"/>
-        <TextBox Name="txNumber" Margin="10,70,10,0" VerticalAlignment="Top" Grid.Column="2"/>
         <TextBox Name="txDescription" Margin="10,40,10,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <TextBox Name="txNumber" Margin="10,70,10,0" VerticalAlignment="Top" Grid.Column="2"/>
+        <TextBox Name="txPart" Margin="10,100,10,0" VerticalAlignment="Top" Grid.Column="2"/>        
+        <TextBox Name="txPoint" Margin="10,130,10,0" VerticalAlignment="Top" Grid.Column="2"/>
+        
+        
 
         <Button Content="Ok" Margin="10,10,10,10" Name="btnAddClause" Grid.Column="2" VerticalAlignment="Bottom" Click="btnAddClause_Click" />
 

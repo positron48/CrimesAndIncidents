@@ -25,7 +25,7 @@ namespace CrimesAndIncidents
         {
             InitializeComponent();
             this.ResizeMode = ResizeMode.CanMinimize;
-            txPoint.Focus();
+            txDescription.Focus(); 
         }
 
         public static Clause getClause()
