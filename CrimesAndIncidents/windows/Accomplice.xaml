@@ -1,10 +1,10 @@
 ﻿<Window x:Class="CrimesAndIncidents.AddAccomplice"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Участник" Height="610" Width="396.923">
+        Title="Участник" Height="570" Width="396.923">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="230"/>
+            <RowDefinition Height="190"/>
             <RowDefinition Name="rowSubUnit" Height="30"/>
             <RowDefinition Height="160"/>
             <RowDefinition Name="rowContrakt" Height="120"/>
@@ -14,14 +14,12 @@
             <ColumnDefinition Width="145"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-
-        <Label Content="Заполните поля:" HorizontalAlignment="Center" Margin="126,10,116,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Label Content="ФИО полностью:" Margin="10,50,0,0" VerticalAlignment="Top" />
-        <Label Content="ФИО кратко:" Margin="10,80,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="Воинское звание:" Margin="10,110,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="Должность:" Margin="10,140,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="Воинская часть:" Margin="10,170,0,0" VerticalAlignment="Top" FontWeight="Bold" />
-        <Label Content="Подразделение:" Margin="10,200,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="ФИО полностью:" Margin="10,10,0,0" VerticalAlignment="Top" />
+        <Label Content="ФИО кратко:" Margin="10,40,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Воинское звание:" Margin="10,70,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Должность:" Margin="10,100,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Воинская часть:" Margin="10,130,0,0" VerticalAlignment="Top" FontWeight="Bold" />
+        <Label Content="Подразделение:" Margin="10,160,0,0" VerticalAlignment="Top" FontWeight="Bold" />
         
         <Label Content="Образование:" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="2" />
         <Label Content="Семейное положение:" Margin="10,30,0,0" VerticalAlignment="Top" Grid.Row="2" />
@@ -36,12 +34,12 @@
         <Label Content="Дата последнего:" Margin="10,60,0,0" VerticalAlignment="Top" Grid.Row="3" />
         <Label Content="Кем призван:" Margin="10,90,0,0" VerticalAlignment="Top" Grid.Row="3" />
 
-        <TextBox Name="txFullName" Grid.Column="1" VerticalAlignment="Top" Margin="5,52,10,0" />
-        <TextBox Name="txName" Grid.Column="1" VerticalAlignment="Top" Margin="5,82,10,0" />
-        <ComboBox Name="cbRank" Grid.Column="1" Margin="5,110,10,0" VerticalAlignment="Top" ItemsSource="{Binding}" DisplayMemberPath="FullName"/>
-        <ComboBox Name="cbPost" Grid.Column="1" Margin="5,140,10,0" VerticalAlignment="Top"  ItemsSource="{Binding}" DisplayMemberPath="Value"/>
-        <ComboBox Name="cbMilitaryUnit" Grid.Column="1" Margin="5,170,10,0" VerticalAlignment="Top"  ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="cbMilitaryUnit_SelectionChanged"/>
-        <ComboBox Name="cbBattalion" Grid.Column="1" Margin="5,200,10,0" VerticalAlignment="Top" ItemsSource="{Binding}" DisplayMemberPath="Name" IsEnabled="False" SelectionChanged="cbBattalion_SelectionChanged" />
+        <TextBox Name="txFullName" Grid.Column="1" VerticalAlignment="Top" Margin="5,12,10,0" />
+        <TextBox Name="txName" Grid.Column="1" VerticalAlignment="Top" Margin="5,42,10,0" />
+        <ComboBox Name="cbRank" Grid.Column="1" Margin="5,72,10,0" VerticalAlignment="Top" ItemsSource="{Binding}" DisplayMemberPath="FullName"/>
+        <ComboBox Name="cbPost" Grid.Column="1" Margin="5,102,10,0" VerticalAlignment="Top"  ItemsSource="{Binding}" DisplayMemberPath="Value"/>
+        <ComboBox Name="cbMilitaryUnit" Grid.Column="1" Margin="5,132,10,0" VerticalAlignment="Top"  ItemsSource="{Binding}" DisplayMemberPath="Name" SelectionChanged="cbMilitaryUnit_SelectionChanged"/>
+        <ComboBox Name="cbBattalion" Grid.Column="1" Margin="5,162,10,0" VerticalAlignment="Top" ItemsSource="{Binding}" DisplayMemberPath="Name" IsEnabled="False" SelectionChanged="cbBattalion_SelectionChanged" />
 
         <ComboBox Name="cbSubUnit" Grid.Column="1" Margin="5,0,10,0" VerticalAlignment="Top" Grid.Row="1" ItemsSource="{Binding}" DisplayMemberPath="Name" IsEnabled="False"/>
 
@@ -49,7 +47,7 @@
         <ComboBox Name="cbFamilyStatus" Grid.Column="1" Margin="5,30,10,0" VerticalAlignment="Top" Grid.Row="2" ItemsSource="{Binding}" DisplayMemberPath="Value"/>
         <TextBox Name="txDateOfBirthday" Grid.Column="1" VerticalAlignment="Top" Margin="5,64,10,0" Grid.Row="2" />
         <RadioButton GroupName="rbSex" Name="rSex" IsChecked="True" Content="Мужской" Grid.Column="1" HorizontalAlignment="Left" Margin="10,95,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <RadioButton GroupName="rbSex" Content="Женский" Grid.Column="1" HorizontalAlignment="Left" Margin="127,95,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <RadioButton GroupName="rbSex" Name="fSex" Content="Женский" Grid.Column="1" HorizontalAlignment="Left" Margin="127,95,0,0" Grid.Row="2" VerticalAlignment="Top"/>
         
         <TextBox Name="txNumberContrakt" Grid.Column="1" VerticalAlignment="Top" Margin="5,0,10,0" Grid.Row="3" />
         <TextBox Name="txDateFirstContrakt" Grid.Column="1" VerticalAlignment="Top" Margin="5,34,10,0" Grid.Row="3" />

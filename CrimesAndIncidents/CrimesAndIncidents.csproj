@@ -56,36 +56,96 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddClause.xaml.cs">
-      <DependentUpon>AddClause.xaml</DependentUpon>
+    <Compile Include="windows\AddCrime.xaml.cs">
+      <DependentUpon>AddCrime.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Clause.cs" />
+    <Compile Include="windows\Accomplice.xaml.cs">
+      <DependentUpon>Accomplice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\AccompliceList.xaml.cs">
+      <DependentUpon>AccompliceList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\Clause.xaml.cs">
+      <DependentUpon>Clause.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\MilitaryUnit.xaml.cs">
+      <DependentUpon>MilitaryUnit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\Rank.xaml.cs">
+      <DependentUpon>Rank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\SubUnit.xaml.cs">
+      <DependentUpon>SubUnit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="entries\Accomplice.cs" />
+    <Compile Include="entries\Clause.cs" />
     <Compile Include="DataWorker.cs" />
-    <Compile Include="Crimes.cs" />
-    <Compile Include="DBList.cs" />
-    <Compile Include="EditClauseList.xaml.cs">
+    <Compile Include="entries\Crimes.cs" />
+    <Compile Include="entries\DBList.cs" />
+    <Compile Include="windows\EditClauseList.xaml.cs">
       <DependentUpon>EditClauseList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditDBList.xaml.cs">
+    <Compile Include="windows\EditDBList.xaml.cs">
       <DependentUpon>EditDBList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InputBox.xaml.cs">
+    <Compile Include="windows\EditRank.xaml.cs">
+      <DependentUpon>EditRank.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\EditStructure.xaml.cs">
+      <DependentUpon>EditStructure.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windows\InputBox.xaml.cs">
       <DependentUpon>InputBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="entries\MilitaryUnitList.cs" />
+    <Compile Include="entries\Rank.cs" />
     <Compile Include="sqliteWorker.cs" />
-    <Page Include="AddClause.xaml">
+    <Compile Include="entries\SubUnit.cs" />
+    <Page Include="windows\AddCrime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditClauseList.xaml">
+    <Page Include="windows\Accomplice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditDBList.xaml">
+    <Page Include="windows\AccompliceList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InputBox.xaml">
+    <Page Include="windows\Clause.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\MilitaryUnit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\Rank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\SubUnit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\EditClauseList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\EditDBList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\EditRank.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\EditStructure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windows\InputBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
