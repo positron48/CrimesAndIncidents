@@ -59,6 +59,11 @@ namespace CrimesAndIncidents
         public string SubUnit { get; set; }
         public string MilitaryUnit { get; set; }
 
+        public override string ToString()
+        {
+            return Rank + " " + ShortName + " (" + SubUnit + " " + MilitaryUnit + ")";
+        }
+
         public Accomplice(
             int id,
             int idPost,

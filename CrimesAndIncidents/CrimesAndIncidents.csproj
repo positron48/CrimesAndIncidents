@@ -37,7 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\..\..\..\..\Program Files\System.Data.SQLite\2012\bin\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\System.Data.SQLite\2012\bin\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="windows\selectAccomplice.xaml.cs">
+      <DependentUpon>selectAccomplice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\AddCrime.xaml.cs">
       <DependentUpon>AddCrime.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
     <Compile Include="entries\Rank.cs" />
     <Compile Include="sqliteWorker.cs" />
     <Compile Include="entries\SubUnit.cs" />
+    <Page Include="windows\selectAccomplice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="windows\AddCrime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +187,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

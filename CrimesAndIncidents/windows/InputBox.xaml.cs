@@ -19,7 +19,7 @@ namespace CrimesAndIncidents
     /// </summary>
     public partial class InputBox : Window
     {
-        public string value;
+        public string value="";
         public InputBox()
         {
             InitializeComponent();
