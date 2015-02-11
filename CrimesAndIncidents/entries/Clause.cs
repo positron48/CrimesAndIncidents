@@ -29,6 +29,18 @@ namespace CrimesAndIncidents
         public bool isChanged = false;
 
         public int Id { get; set; }
+
+        public string UnitedDescription
+        {
+            get
+            {
+                return (point == "" || point == null ? "" : "п.'" + point + "' ") +
+                    (part == "" || part == null ? "" : "ч." + part + " ") +
+                    (number == "" || number == null ? "" : "ст." + number + " ") +
+                    (description == "" || description == null ? "" : " (" + description + ")");
+            }
+        }
+        
         public string Point
         { 
             get { return point; }
@@ -42,6 +54,7 @@ namespace CrimesAndIncidents
                 }
             }  
         }
+        
         public string Part 
         { 
             get { return part; }
@@ -55,6 +68,7 @@ namespace CrimesAndIncidents
                 }
             } 
         }
+        
         public string Number
         { 
             get { return number; }
@@ -68,6 +82,7 @@ namespace CrimesAndIncidents
                 }
             } 
         }
+        
         public string Description 
         { 
             get { return description; }

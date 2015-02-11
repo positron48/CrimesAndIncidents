@@ -62,7 +62,7 @@ namespace CrimesAndIncidents
 
         private void btnAddCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
         {
-
+            Crime c = AddCrime.gtNewCrime(sqlWorker);
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)

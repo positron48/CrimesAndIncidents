@@ -42,6 +42,8 @@ namespace CrimesAndIncidents
         public int Key { get; set; }
         private string _value="";
 
+        public bool IsCheked { get; set; }
+
         public string Value 
         {
             get
