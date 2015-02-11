@@ -100,5 +100,94 @@ namespace CrimesAndIncidents
             accompliceList = SelectAccomplice.getList(sqlWorker, accompliceList);
             lbAccomplice.ItemsSource = accompliceList.values;
         }
+
+        private void btnOk_Click(object sender, RoutedEventArgs e)
+        {
+            if (rbCrime.IsChecked == true &&
+                cbClause.SelectedItem != null &&
+                txStory.Text != "" &&
+                txDateRegistration.Text != "")
+            {
+                //заполнен минимум для преступления
+                string accomplices = "";
+                for (int i = 0; i < accompliceList.values.Count; i++)
+                    accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+
+                c = new Crime(
+                    cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
+                    cbClause.SelectedItem==null?0:(cbClause.SelectedItem as Clause).Id,
+                    cbMilitaryUnit.SelectedItem == null ? 0 : (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id,
+                    txDateRegistration.Text,
+                    txDateInstitution.Text,
+                    txDateCommit.Text,
+                    txStory.Text,
+                    txDamage.Text,
+                    txDateVerdict.Text,
+                    txVerdict.Text,
+                    txnumberCase.Text,
+                    accomplices,
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString());
+            }
+            else if (rbCrime.IsChecked == false &&
+                txStory.Text != "" &&
+                txDateRegistration.Text != "")
+            {
+                //введен минимум для происшествия
+                string accomplices = "";
+                for (int i = 0; i < accompliceList.values.Count; i++)
+                    accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+
+                c = new Crime(
+                    cbOrgan.SelectedItem == null ? 0 : (cbOrgan.SelectedItem as KeyValue).Key,
+                    cbClause.SelectedItem == null ? 0 : (cbClause.SelectedItem as Clause).Id,
+                    cbMilitaryUnit.SelectedItem == null ? 0 : (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id,
+                    txDateRegistration.Text,
+                    txDateInstitution.Text,
+                    txDateCommit.Text,
+                    txStory.Text,
+                    txDamage.Text,
+                    txDateVerdict.Text,
+                    txVerdict.Text,
+                    txnumberCase.Text,
+                    accomplices,
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString());
+            }
+            else
+            {
+                MessageBox.Show("Не все обязательные поля заполнены!");
+                return;
+            }
+            //похоже единственный случай когда изменения в бд нужно производить не из главного окна
+            //т.к. нужно вносить изменения в 2 дополнительные таблицы - Portaking и InCategory
+            int newId = sqlWorker.getNewId("Crime");
+            c.Id = newId;
+
+            if (sqlWorker.addCrime(c, accompliceList, categoryList))
+                this.Close();
+            else
+                MessageBox.Show("Ошибка при добавлении преступления в базу данных");
+        }
+
+        private void rbCrime_Checked(object sender, RoutedEventArgs e)
+        {
+            if (rowClause.Height.Value == 0)
+            {
+                rowClause.Height = new GridLength(90);
+                rowDateInstitution.Height = new GridLength(30);
+                rowVerdict.Height = new GridLength(60);
+                Height += 180;
+            }
+        }
+
+        private void rbIncident_Checked(object sender, RoutedEventArgs e)
+        {
+            if (rowClause.Height.Value == 90)
+            {
+                rowClause.Height = new GridLength(0);
+                rowDateInstitution.Height = new GridLength(0);
+                rowVerdict.Height = new GridLength(0);
+                Height -= 180;
+            }
+        }
     }
 }
