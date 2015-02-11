@@ -135,9 +135,9 @@ namespace CrimesAndIncidents
             {
                 executeQuery("INSERT INTO Clause VALUES(" + 
                     id + ",'" + 
-                    newItem.Point + "','" + 
-                    newItem.Part + "','" + 
-                    newItem.Number + "','" + 
+                    (newItem.Point == "" || newItem.Point == "0"? "NULL" : "'"+ newItem.Point + "',") +
+                    (newItem.Part == "" || newItem.Part == "0" ? "NULL" : "'" + newItem.Part + "',") +
+                    (newItem.Number == "" || newItem.Number == "0" ? "NULL" : "'" + newItem.Number + "','") + 
                     newItem.Description + "');");
 
                 return true;
@@ -337,6 +337,44 @@ namespace CrimesAndIncidents
                 return true;
             }
             catch
+            {
+                return false;
+            }
+        }
+
+        internal bool addCrime(Crime newItem, AccompliceList accompliceList, DBList categoryList)
+        {
+            try
+            {
+                executeQuery("INSERT INTO Crime VALUES(" +
+                    newItem.Id + "," +
+                    (newItem.IdOrgan == 0 ? "NULL" : newItem.IdOrgan.ToString()) + "," +
+                    (newItem.IdClause == 0 ? "NULL" : newItem.IdClause.ToString()) + "," +
+                    (newItem.IdMilitaryUnit == 0 ? "NULL" : newItem.IdMilitaryUnit.ToString()) + "," +
+                    (newItem.DateRegistration == "" ? "NULL" : "'" + newItem.DateRegistration + "'") + "," +
+                    (newItem.DateInstitution == "" ? "NULL" : "'" + newItem.DateInstitution + "'") + "," +
+                    (newItem.DateCommit == "" ? "NULL" : "'" + newItem.DateCommit + "'") + "," +
+                    (newItem.Story == "" ? "NULL" : "'" + newItem.Story + "'") + "," +
+                    (newItem.Damage == "" ? "NULL" : "'" + newItem.Damage + "'") + "," +
+                    (newItem.DateVerdict == "" ? "NULL" : "'" + newItem.DateVerdict + "'") + "," +
+                    (newItem.Verdict == "" ? "NULL" : "'" + newItem.Verdict + "'") + "," +
+                    (newItem.NumberCase == "" ? "NULL" : "'" + newItem.NumberCase + "'") + 
+                    ");");
+
+                for (int i = 0; i < accompliceList.values.Count; i++)
+                    executeQuery("INSERT INTO Portaking VALUES(" +
+                        accompliceList.values[i].Id + "," +
+                        newItem.Id + ");");
+
+                for (int i = 0; i < categoryList.values.Count; i++)
+                    if(categoryList.values[i].IsCheked)
+                        executeQuery("INSERT INTO InCategory VALUES(" +
+                            categoryList.values[i].Key + "," +
+                            newItem.Id + ");");
+
+                return true;
+            }
+            catch(Exception ex)
             {
                 return false;
             }

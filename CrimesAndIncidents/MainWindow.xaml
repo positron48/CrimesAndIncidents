@@ -64,18 +64,16 @@
                 <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}" />
                 <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}"/>
                 <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"/>
-                <DataGridTextColumn Header="в/зв" Binding="{Binding Path=Rank}"/>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding Path=Accomplice}"/>
+                <DataGridTemplateColumn Header="Участники" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Accomplice}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            
 
                 <DataGridTemplateColumn Header="УК" Width="75">
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                    <TextBox Text="{Binding Clause}" TextWrapping="Wrap" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Clause}" TextWrapping="Wrap" TextAlignment="Center"/>

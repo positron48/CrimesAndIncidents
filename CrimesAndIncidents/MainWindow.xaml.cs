@@ -63,6 +63,8 @@ namespace CrimesAndIncidents
         private void btnAddCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
         {
             Crime c = AddCrime.gtNewCrime(sqlWorker);
+            if(c!=null)
+                crimes.Add(c);
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)

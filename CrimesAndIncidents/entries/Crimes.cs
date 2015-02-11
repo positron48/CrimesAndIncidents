@@ -8,15 +8,23 @@ namespace CrimesAndIncidents
 {
     class Crime
     {
-        public Crime(string story, string dateCommit, string dateInstitution, string dateRegistration,
-            string rank, string accomplice, string point, string part, string clause, string description, 
-            string dateVerdict, string verdict)
+        //конструктор для показа в списке
+        public Crime(string story, 
+            string dateCommit, 
+            string dateInstitution, 
+            string dateRegistration,
+            string accomplice, 
+            string point, 
+            string part, 
+            string clause, 
+            string description, 
+            string dateVerdict, 
+            string verdict)
         {
             Story = story;
             DateCommit = dateCommit;
             DateInstitution = dateInstitution;
             DateRegistration = dateRegistration;
-            Rank = rank;
             Accomplice = accomplice;
             Clause = (point == "" ? "" : "п.'" + point + "' ") +
                 (part == "" ? "" : "ч." + part + " ") +
@@ -24,6 +32,37 @@ namespace CrimesAndIncidents
                 (description == "" ? "" : " (" + description + ")");
             DateVerdict = dateVerdict;
             Verdict = verdict;
+        }
+
+        public Crime(
+            int idOrgan,
+            int idClause,
+            int idMilitaryUnit,
+            string dateRegistration,
+            string dateInstitution,
+            string dateCommit,
+            string story,
+            string damage,
+            string dateVerdict,
+            string verdict,
+            string numberCase,
+            string accomplice,
+            string clause)
+        {
+            IdOrgan = idOrgan;
+            IdClause = idClause;
+            IdMilitaryUnit = idMilitaryUnit;
+            DateRegistration = dateRegistration;
+            DateInstitution = dateInstitution;
+            DateCommit = dateCommit;
+            Story = story;
+            Damage = damage;
+            DateVerdict = dateVerdict;
+            Verdict = verdict;
+            NumberCase = numberCase;
+            
+            Accomplice = accomplice;
+            Clause = clause;
         }
 
         //в бд
@@ -41,7 +80,6 @@ namespace CrimesAndIncidents
         public string NumberCase { get; set; }
         
         //для отображения в списке
-        public string Rank { get; set; }
         public string Accomplice { get; set; }
         public string Clause { get; set; }
     }

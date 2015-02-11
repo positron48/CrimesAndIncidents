@@ -30,15 +30,12 @@ namespace CrimesAndIncidents
 
         public int Id { get; set; }
 
-        public string UnitedDescription
+        public override string ToString()
         {
-            get
-            {
-                return (point == "" || point == null ? "" : "п.'" + point + "' ") +
+            return (point == "" || point == null ? "" : "п.'" + point + "' ") +
                     (part == "" || part == null ? "" : "ч." + part + " ") +
                     (number == "" || number == null ? "" : "ст." + number + " ") +
                     (description == "" || description == null ? "" : " (" + description + ")");
-            }
         }
         
         public string Point
