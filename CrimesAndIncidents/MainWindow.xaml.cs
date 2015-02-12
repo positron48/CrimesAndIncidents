@@ -140,5 +140,16 @@ namespace CrimesAndIncidents
             wndR.ShowDialog();
         }
 
+        private void btnDeleteCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (crimesDataGrid.SelectedItem != null && MessageBox.Show("Вы действительно хотите удалить выбранное преступление?","Подтвердите удаление",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (sqlWorker.deleteCrime((crimesDataGrid.SelectedItem as Crime).Id))
+                    for (int i = 0; i < crimes.Count; i++)
+                        if (crimes[i].Id == (crimesDataGrid.SelectedItem as Crime).Id)
+                            crimes.RemoveAt(i);
+            }
+        }
+
     }
 }

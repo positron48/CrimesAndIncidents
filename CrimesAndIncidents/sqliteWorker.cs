@@ -379,5 +379,20 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool deleteCrime(int id)
+        {
+            try
+            {
+                executeQuery("DELETE FROM Portaking WHERE idCrime = " + id + ";");
+                executeQuery("DELETE FROM InCategory WHERE idCrime = " + id + ";");
+                executeQuery("DELETE FROM Crime WHERE idCrime = " + id + ";");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

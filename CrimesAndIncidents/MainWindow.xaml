@@ -39,9 +39,10 @@
             </MenuItem>
             <MenuItem Header="Структура подразделений" Click="editStructureUnit_Click"/>
         </Menu>
-       
+
         <ToolBar Margin="0,0,0,0" Grid.Row="1"  >
-            <Button Name="btnAddCrimeOrIncidents" Content="+" Width="25" Height="25" ToolTip="Добавить" Click="btnAddCrimeOrIncidents_Click_1"/>
+            <Button Name="btnAddCrimeOrIncidents" Margin="5,0,5,0" Content="Добавить" Height="25" ToolTip="Добавить" Click="btnAddCrimeOrIncidents_Click_1"/>
+            <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
         </ToolBar>
 
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Row="2" >
