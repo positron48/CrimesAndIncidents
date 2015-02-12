@@ -111,8 +111,9 @@ namespace CrimesAndIncidents
             {
                 //заполнен минимум для преступления
                 string accomplices = "";
-                for (int i = 0; i < accompliceList.values.Count; i++)
-                    accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+                if (accompliceList != null)
+                    for (int i = 0; i < accompliceList.values.Count; i++)
+                        accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
 
                 c = new Crime(
                     cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
