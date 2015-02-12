@@ -105,6 +105,7 @@ namespace CrimesAndIncidents
         {
             if (rbCrime.IsChecked == true &&
                 cbClause.SelectedItem != null &&
+                cbMilitaryUnit.SelectedItem != null &&
                 txStory.Text != "" &&
                 txDateRegistration.Text != "")
             {
@@ -129,6 +130,7 @@ namespace CrimesAndIncidents
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString());
             }
             else if (rbCrime.IsChecked == false &&
+                cbMilitaryUnit.SelectedItem != null &&
                 txStory.Text != "" &&
                 txDateRegistration.Text != "")
             {
