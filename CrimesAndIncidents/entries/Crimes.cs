@@ -6,34 +6,8 @@ using System.Threading.Tasks;
 
 namespace CrimesAndIncidents
 {
-    class Crime
+    public class Crime
     {
-        //конструктор для показа в списке
-        public Crime(string story, 
-            string dateCommit, 
-            string dateInstitution, 
-            string dateRegistration,
-            string accomplice, 
-            string point, 
-            string part, 
-            string clause, 
-            string description, 
-            string dateVerdict, 
-            string verdict)
-        {
-            Story = story;
-            DateCommit = dateCommit;
-            DateInstitution = dateInstitution;
-            DateRegistration = dateRegistration;
-            Accomplice = accomplice;
-            Clause = (point == "" ? "" : "п.'" + point + "' ") +
-                (part == "" ? "" : "ч." + part + " ") +
-                (clause == "" ? "" : "ст." + clause + " ") +
-                (description == "" ? "" : " (" + description + ")");
-            DateVerdict = dateVerdict;
-            Verdict = verdict;
-        }
-
         public Crime(
             int idOrgan,
             int idClause,

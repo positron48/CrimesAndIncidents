@@ -10,37 +10,7 @@ namespace CrimesAndIncidents
 {
     static class DataWorker
     {
-        static public ObservableCollection<Crime> getCrimes(DataTable table)
-        {
-            ObservableCollection<Crime> crimes = new ObservableCollection<Crime>();
 
-            if (table.Rows.Count > 0 && table.Columns.Count == 12)
-            {
-                try
-                {
-                    for (int i = 0; i < table.Rows.Count; i++)
-                    {
-                        Crime c = new Crime(table.Rows[i][0].ToString(),
-                            table.Rows[i][1].ToString(),
-                            table.Rows[i][2].ToString(),
-                            table.Rows[i][3].ToString(),
-                            table.Rows[i][4].ToString() + " " + table.Rows[i][5].ToString(),
-                            table.Rows[i][6].ToString(),
-                            table.Rows[i][7].ToString(),
-                            table.Rows[i][8].ToString(),
-                            table.Rows[i][9].ToString(),
-                            table.Rows[i][10].ToString(),
-                            table.Rows[i][11].ToString());
-                        crimes.Add(c);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Некорректные данны в БД:\n" + ex.Message);
-                }
-            }
-            return crimes;
-        }
 
         static public ObservableCollection<KeyValue> getList(DataTable table)
         {
@@ -213,6 +183,59 @@ namespace CrimesAndIncidents
                 }
             }
             return list;
+        }
+
+        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker)
+        {
+            ObservableCollection<Crime> list = new ObservableCollection<Crime>();
+
+            DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.* FROM Crime C " +
+                "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause;");
+
+            if (tableCrimes.Rows.Count > 0 )
+            {
+                try
+                {
+                    for (int i = 0; i < tableCrimes.Rows.Count; i++)
+                    {
+                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt FROM Accomplice A "+
+                            "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice "+
+                            "INNER JOIN Rank R ON A.idRank = R.idRank "+
+                            "WHERE P.idCrime = " + Int32.Parse(tableCrimes.Rows[i][4].ToString()) + ";");
+                        string accomplices = "";
+                        for (int j = 0; j < tableAccomplice.Rows.Count; j++)
+                        {
+                            accomplices += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][0] + (tableAccomplice.Rows[j][2].ToString() == "1" ? " к/с " : " ") + tableAccomplice.Rows[j][1];
+                        }
+
+                        Crime c = new Crime(
+                            tableCrimes.Rows[i][5].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][5].ToString()),
+                            tableCrimes.Rows[i][6].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][6].ToString()),
+                            tableCrimes.Rows[i][7].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][7].ToString()),
+                            tableCrimes.Rows[i][8].ToString(),
+                            tableCrimes.Rows[i][9].ToString(),
+                            tableCrimes.Rows[i][10].ToString(),
+                            tableCrimes.Rows[i][11].ToString(),
+                            tableCrimes.Rows[i][12].ToString(),
+                            tableCrimes.Rows[i][13].ToString(),
+                            tableCrimes.Rows[i][14].ToString(),
+                            tableCrimes.Rows[i][15].ToString(),
+                            accomplices,
+                                (tableCrimes.Rows[i][0].ToString() == "" ? "" : "п.'" + tableCrimes.Rows[i][0].ToString() + "' ") +
+                                (tableCrimes.Rows[i][1].ToString() == "" ? "" : "ч." + tableCrimes.Rows[i][1].ToString() + " ") +
+                                (tableCrimes.Rows[i][2].ToString() == "" ? "" : "ст." + tableCrimes.Rows[i][2].ToString() + " ") +
+                                (tableCrimes.Rows[i][3].ToString() == "" ? "" : " (" + tableCrimes.Rows[i][3].ToString() + ")"));
+                        c.Id = tableCrimes.Rows[i][4].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][4].ToString());
+                        list.Add(c);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Некорректные данные в БД:\n" + ex.Message);
+                }
+            }
+            return list;
+
         }
     }
 }

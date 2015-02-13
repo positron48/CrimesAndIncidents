@@ -394,5 +394,12 @@ namespace CrimesAndIncidents
                 return false;
             }
         }
+
+        internal bool updateCrime(Crime c, AccompliceList accompliceList, DBList categoryList)
+        {
+            if (deleteCrime(c.Id) && addCrime(c, accompliceList, categoryList))
+                return true;
+            return false;
+        }
     }
 }

@@ -45,7 +45,7 @@
             <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
         </ToolBar>
 
-        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Row="2" >
+        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" SelectionChanged="crimesDataGrid_SelectionChanged" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150">
                     <DataGridTemplateColumn.CellEditingTemplate>

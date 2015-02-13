@@ -29,12 +29,14 @@ namespace CrimesAndIncidents
 
         Crime c = null;
 
+        bool isEditing = false;
+
         public AddCrime()
         {
             InitializeComponent();
         }
 
-        public AddCrime(SqliteWorker _sqlWorker)
+        public AddCrime(SqliteWorker _sqlWorker, Crime _c = null)
         {
             InitializeComponent();
 
@@ -49,11 +51,58 @@ namespace CrimesAndIncidents
             cbMilitaryUnit.ItemsSource = militaryList.values;
             cbClause.ItemsSource = clauseList.values;
             lbCategoty.ItemsSource = categoryList.values;
+
+            if (_c != null)
+            {
+                isEditing = true;
+
+                c = _c;
+                txDamage.Text = c.Damage;
+                txDateCommit.Text = c.DateCommit;
+                txDateInstitution.Text = c.DateInstitution;
+                txDateRegistration.Text = c.DateRegistration;
+                txDateVerdict.Text = c.DateVerdict;
+                txnumberCase.Text = c.NumberCase;
+                txStory.Text = c.Story;
+                txVerdict.Text = c.Verdict;
+
+                for (int i = 0; i < cbOrgan.Items.Count; i++)
+                    if ((cbOrgan.Items[i] as KeyValue).Key == c.IdOrgan)
+                        cbOrgan.SelectedIndex = i;
+
+                for (int i = 0; i < cbClause.Items.Count; i++)
+                    if ((cbClause.Items[i] as Clause).Id == c.IdClause)
+                        cbClause.SelectedIndex = i;
+
+                for (int i = 0; i < cbMilitaryUnit.Items.Count; i++)
+                    if ((cbMilitaryUnit.Items[i] as MilitaryUnit).Id == c.IdMilitaryUnit)
+                        cbMilitaryUnit.SelectedIndex = i;
+
+                accompliceList = new AccompliceList(
+                DataWorker.getAccompliceList(
+                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.* " +
+                        "FROM Accomplice A " +
+                        "INNER JOIN SubUnit S ON S.idSubUnit = A.idSubUnit " +
+                        "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
+                        "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
+                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit " + 
+                        "WHERE P.idCrime = " + c.Id)));
+
+                lbAccomplice.ItemsSource = accompliceList.values;
+
+                //categoryList
+                DBList categoryUsed = new DBList("", DataWorker.getList(sqlWorker.selectData("SELECT * FROM InCategory WHERE idCrime = " + c.Id + ";")));
+                for (int i = 0; i < categoryUsed.values.Count; i++)
+                    for (int j = 0; j < categoryList.values.Count; j++)
+                        if (categoryUsed.values[i].Key == categoryList.values[j].Key)
+                            categoryList.values[j].IsCheked = true;
+            }
         }
 
-        internal static Crime gtNewCrime(SqliteWorker sqlWorker)
+        internal static Crime gtNewCrime(SqliteWorker sqlWorker, Crime _c = null)
         {
-            AddCrime wndCrime = new AddCrime(sqlWorker);
+            AddCrime wndCrime = new AddCrime(sqlWorker, _c);
             wndCrime.ShowDialog();
             return wndCrime.c;
         }
@@ -103,6 +152,9 @@ namespace CrimesAndIncidents
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            int newId = sqlWorker.getNewId("Crime");
+            
+
             if (rbCrime.IsChecked == true &&
                 cbClause.SelectedItem != null &&
                 cbMilitaryUnit.SelectedItem != null &&
@@ -114,6 +166,8 @@ namespace CrimesAndIncidents
                 if (accompliceList != null)
                     for (int i = 0; i < accompliceList.values.Count; i++)
                         accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+
+                if (isEditing) newId = c.Id;
 
                 c = new Crime(
                     cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
@@ -139,6 +193,8 @@ namespace CrimesAndIncidents
                 string accomplices = "";
                 for (int i = 0; i < accompliceList.values.Count; i++)
                     accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+                
+                if (isEditing) newId = c.Id;
 
                 c = new Crime(
                     cbOrgan.SelectedItem == null ? 0 : (cbOrgan.SelectedItem as KeyValue).Key,
@@ -162,10 +218,11 @@ namespace CrimesAndIncidents
             }
             //похоже единственный случай когда изменения в бд нужно производить не из главного окна
             //т.к. нужно вносить изменения в 2 дополнительные таблицы - Portaking и InCategory
-            int newId = sqlWorker.getNewId("Crime");
             c.Id = newId;
 
-            if (sqlWorker.addCrime(c, accompliceList, categoryList))
+            if (!isEditing && sqlWorker.addCrime(c, accompliceList, categoryList))
+                this.Close();
+            else if (isEditing && sqlWorker.updateCrime(c, accompliceList, categoryList))
                 this.Close();
             else
                 MessageBox.Show("Ошибка при добавлении преступления в базу данных");
