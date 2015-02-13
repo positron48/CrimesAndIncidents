@@ -24,21 +24,16 @@ namespace CrimesAndIncidents
     public partial class MainWindow : Window
     {
         SqliteWorker sqlWorker;
-        ObservableCollection<Crime> crimes = new ObservableCollection<Crime>();
+        ObservableCollection<Crime> crimes;
 
         public MainWindow()
         {
             InitializeComponent();
-
+            crimes = new ObservableCollection<Crime>();
             try
             {
                 sqlWorker = new SqliteWorker("CrimesAndIncidents");
-                crimes = DataWorker.getCrimes(sqlWorker.selectData("SELECT "+
-                    "C.story, C.dateCommit, C.dateInstitution, C.dateRegistration, R.shortName, A.shortName, Cl.point, Cl.part, Cl.number,Cl.description,  C.dateVerdict, C.verdict" +
-                    " FROM Crime C INNER JOIN Portaking P ON C.idCrime = P.idCrime" +
-                    " INNER JOIN Accomplice A ON P.idAccomplice = A.idAccomplice" +
-                    " INNER JOIN Rank R ON A.idRank = R.idRank" +
-                    " INNER JOIN Clause Cl ON C.idClause = Cl.idClause"));
+                crimes = DataWorker.getCrimes(sqlWorker);
                 crimesDataGrid.ItemsSource = crimes;
                 crimesDataGrid.CanUserAddRows = false;
                 crimesDataGrid.IsReadOnly = true;
@@ -130,7 +125,8 @@ namespace CrimesAndIncidents
         {
             AccompliceList al = new AccompliceList(
                 DataWorker.getAccompliceList(
-                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.* FROM Accomplice A " +
+                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.* " +
+                        "FROM Accomplice A " +
                         "INNER JOIN SubUnit S ON S.idSubUnit = A.idSubUnit " +
                         "LEFT JOIN Rank R ON R.idRank = A.idRank " +
                         "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
@@ -142,12 +138,24 @@ namespace CrimesAndIncidents
 
         private void btnDeleteCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
         {
-            if (crimesDataGrid.SelectedItem != null && MessageBox.Show("Вы действительно хотите удалить выбранное преступление?","Подтвердите удаление",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (crimesDataGrid.SelectedItem != null && MessageBox.Show("Вы действительно хотите удалить выбранное преступление?",
+                "Подтвердите удаление",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 if (sqlWorker.deleteCrime((crimesDataGrid.SelectedItem as Crime).Id))
                     for (int i = 0; i < crimes.Count; i++)
                         if (crimes[i].Id == (crimesDataGrid.SelectedItem as Crime).Id)
                             crimes.RemoveAt(i);
+            }
+        }
+
+        private void crimesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (crimesDataGrid.SelectedItem != null)
+            {
+                Crime newC = AddCrime.gtNewCrime(sqlWorker, crimesDataGrid.SelectedItem as Crime);
+                for (int i = 0; i < crimes.Count; i++)
+                    if (newC.Id == crimes[i].Id)
+                        crimes[i] = newC;
             }
         }
 
