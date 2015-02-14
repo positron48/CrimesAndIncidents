@@ -210,6 +210,7 @@ namespace CrimesAndIncidents
             battalionList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id)));
             cbBattalion.ItemsSource = battalionList.values;
             cbBattalion.IsEnabled = true;
+            btnEditStructure.IsEnabled = true;
         }
 
         private void cbBattalion_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -221,6 +222,7 @@ namespace CrimesAndIncidents
                 if (subUnitList != null && subUnitList.values.Count != 0)
                 {
                     cbSubUnit.IsEnabled = true;
+                    btnEditStructure.IsEnabled = true;
                     if (rowSubUnit.Height.Value == 0)
                     {
                         rowSubUnit.Height = new GridLength(30);
@@ -230,6 +232,7 @@ namespace CrimesAndIncidents
                 else
                 {
                     cbSubUnit.IsEnabled = false;
+                    btnEditStructure.IsEnabled = false;
                     if (rowSubUnit.Height.Value > 0)
                     {
                         rowSubUnit.Height = new GridLength(0);
@@ -256,6 +259,106 @@ namespace CrimesAndIncidents
             AddAccomplice wndA = new AddAccomplice(accomplice, _sqlWorker);
             wndA.ShowDialog();
             return wndA.a;
+        }
+
+        private void btnAddRank_Click(object sender, RoutedEventArgs e)
+        {
+            Rank newItem = AddRank.getRank();
+            if (newItem != null)
+            {
+                //добавить в БД
+                int id = sqlWorker.getNewId("Rank");
+                if (sqlWorker.addRank(id, newItem))
+                {
+                    newItem.Id = id;
+                    //если успешное добавление в БД
+                    rankList.values.Add(newItem);
+                }
+                else
+                    MessageBox.Show("Ошибка при добавлении данных");
+            }
+        }
+
+        private void btnAddPost_Click(object sender, RoutedEventArgs e)
+        {
+            string newItem = InputBox.input("Введите должность");
+            if (newItem != "")
+            {
+                //добавить в БД
+                int id = sqlWorker.getNewId("Post");
+                if (sqlWorker.addInDBList("Post", id, newItem))
+                {
+                    //если успешное добавление в БД
+                    postList.values.Add(new KeyValue(id, newItem));
+                }
+                else
+                    MessageBox.Show("Ошибка при добавлении данных");
+            }
+        }
+
+        private void btnAddEducation_Click(object sender, RoutedEventArgs e)
+        {
+            string newItem = InputBox.input("Введите образование");
+            if (newItem != "")
+            {
+                //добавить в БД
+                int id = sqlWorker.getNewId("Education");
+                if (sqlWorker.addInDBList("Education", id, newItem))
+                {
+                    //если успешное добавление в БД
+                    educationList.values.Add(new KeyValue(id, newItem));
+                }
+                else
+                    MessageBox.Show("Ошибка при добавлении данных");
+            }
+        }
+
+        private void btnAddFamilyStatus_Click(object sender, RoutedEventArgs e)
+        {
+            string newItem = InputBox.input("Введите семейное положение");
+            if (newItem != "")
+            {
+                //добавить в БД
+                int id = sqlWorker.getNewId("FamilyStatus");
+                if (sqlWorker.addInDBList("FamilyStatus", id, newItem))
+                {
+                    //если успешное добавление в БД
+                    familyStatusList.values.Add(new KeyValue(id, newItem));
+                }
+                else
+                    MessageBox.Show("Ошибка при добавлении данных");
+            }
+        }
+
+        private void btnAddDraft_Click(object sender, RoutedEventArgs e)
+        {
+            string newItem = InputBox.input("Введите кем призван");
+            if (newItem != "")
+            {
+                //добавить в БД
+                int id = sqlWorker.getNewId("Draft");
+                if (sqlWorker.addInDBList("Draft", id, newItem))
+                {
+                    //если успешное добавление в БД
+                    draftList.values.Add(new KeyValue(id, newItem));
+                }
+                else
+                    MessageBox.Show("Ошибка при добавлении данных");
+            }
+        }
+
+        private void btnEditStructure_Click(object sender, RoutedEventArgs e)
+        {
+            MilitaryUnitList mList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
+            EditStructure wE = new EditStructure(sqlWorker, mList);
+            wE.ShowDialog();
+
+            militaryList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
+            cbMilitaryUnit.Items.Refresh();
+            cbSubUnit.Items.Refresh();
+
+            battalionList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id)));
+            cbBattalion.ItemsSource = battalionList.values;
         }
     }
 }

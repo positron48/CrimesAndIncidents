@@ -49,12 +49,7 @@ namespace CrimesAndIncidents
             //запрос на сохранение изменений (если вносились)
             this.Close();
         }
-
-        private void crimesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
+        
         private void btnAddCrimeOrIncidents_Click_1(object sender, RoutedEventArgs e)
         {
             Crime c = AddCrime.gtNewCrime(sqlWorker);
