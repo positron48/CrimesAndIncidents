@@ -82,8 +82,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             
-                <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"/>
-                <DataGridTextColumn Header="Решение суда" Binding="{Binding Path=Verdict}"/>
+                <!--
+                    <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"/>
+                    <DataGridTextColumn Header="Решение суда" Binding="{Binding Path=Verdict}"/>
+                -->
             </DataGrid.Columns>
         </DataGrid>
        

@@ -42,12 +42,12 @@ namespace CrimesAndIncidents
             
             sqlWorker = _sqlWorker;
 
-            postList = new DBList("Post", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Post")));
-            draftList = new DBList("Draft", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Draft")));
-            educationList = new DBList("Education", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Education")));
-            familyStatusList = new DBList("FamilyStatus", DataWorker.getList(sqlWorker.selectData("SELECT * FROM FamilyStatus")));
+            postList = new DBList("Post", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Post ORDER BY description")));
+            draftList = new DBList("Draft", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Draft ORDER BY description")));
+            educationList = new DBList("Education", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Education ORDER BY description")));
+            familyStatusList = new DBList("FamilyStatus", DataWorker.getList(sqlWorker.selectData("SELECT * FROM FamilyStatus ORDER BY description")));
 
-            rankList = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank")));
+            rankList = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank ORDER BY priority")));
             militaryList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
 
             cbPost.ItemsSource = postList.values;
@@ -207,7 +207,11 @@ namespace CrimesAndIncidents
             }
             if (subUnitList != null) subUnitList.values.Clear();
 
-            battalionList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id)));
+            battalionList = new SubUnitList(
+                DataWorker.getSubUnitList(
+                    sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " +
+                    (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id +
+                    " ORDER BY name")));
             cbBattalion.ItemsSource = battalionList.values;
             cbBattalion.IsEnabled = true;
             btnEditStructure.IsEnabled = true;
@@ -217,12 +221,15 @@ namespace CrimesAndIncidents
         {
             if (cbBattalion.SelectedItem != null)
             {
-                subUnitList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idFKSubUnit = " + (cbBattalion.SelectedItem as SubUnit).Id)));
+                subUnitList = new SubUnitList(
+                    DataWorker.getSubUnitList(
+                        sqlWorker.selectData("SELECT * FROM SubUnit WHERE idFKSubUnit = " + 
+                            (cbBattalion.SelectedItem as SubUnit).Id + 
+                            " ORDER BY name")));
                 cbSubUnit.ItemsSource = subUnitList.values;
                 if (subUnitList != null && subUnitList.values.Count != 0)
                 {
                     cbSubUnit.IsEnabled = true;
-                    btnEditStructure.IsEnabled = true;
                     if (rowSubUnit.Height.Value == 0)
                     {
                         rowSubUnit.Height = new GridLength(30);
@@ -232,7 +239,6 @@ namespace CrimesAndIncidents
                 else
                 {
                     cbSubUnit.IsEnabled = false;
-                    btnEditStructure.IsEnabled = false;
                     if (rowSubUnit.Height.Value > 0)
                     {
                         rowSubUnit.Height = new GridLength(0);
@@ -273,6 +279,7 @@ namespace CrimesAndIncidents
                     newItem.Id = id;
                     //если успешное добавление в БД
                     rankList.values.Add(newItem);
+                    cbRank.SelectedIndex = cbRank.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
@@ -290,6 +297,7 @@ namespace CrimesAndIncidents
                 {
                     //если успешное добавление в БД
                     postList.values.Add(new KeyValue(id, newItem));
+                    cbPost.SelectedIndex = cbPost.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
@@ -307,6 +315,7 @@ namespace CrimesAndIncidents
                 {
                     //если успешное добавление в БД
                     educationList.values.Add(new KeyValue(id, newItem));
+                    cbEducation.SelectedIndex = cbEducation.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
@@ -324,6 +333,7 @@ namespace CrimesAndIncidents
                 {
                     //если успешное добавление в БД
                     familyStatusList.values.Add(new KeyValue(id, newItem));
+                    cbFamilyStatus.SelectedIndex = cbFamilyStatus.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
@@ -341,6 +351,7 @@ namespace CrimesAndIncidents
                 {
                     //если успешное добавление в БД
                     draftList.values.Add(new KeyValue(id, newItem));
+                    cbDraft.SelectedIndex = cbDraft.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");

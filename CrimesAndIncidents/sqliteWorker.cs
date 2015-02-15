@@ -134,10 +134,10 @@ namespace CrimesAndIncidents
             try
             {
                 executeQuery("INSERT INTO Clause VALUES(" + 
-                    id + ",'" + 
-                    (newItem.Point == "" || newItem.Point == "0"? "NULL" : "'"+ newItem.Point + "',") +
-                    (newItem.Part == "" || newItem.Part == "0" ? "NULL" : "'" + newItem.Part + "',") +
-                    (newItem.Number == "" || newItem.Number == "0" ? "NULL" : "'" + newItem.Number + "','") + 
+                    id + "," +
+                    (newItem.Point == "" || newItem.Point == "0" || newItem.Point == null ? "NULL," : "'" + newItem.Point + "',") +
+                    (newItem.Part == "" || newItem.Part == "0" || newItem.Part == null ? "NULL," : "'" + newItem.Part + "',") +
+                    (newItem.Number == "" || newItem.Number == "0" || newItem.Number == null ? "NULL," : "'" + newItem.Number + "','") + 
                     newItem.Description + "');");
 
                 return true;
@@ -361,10 +361,11 @@ namespace CrimesAndIncidents
                     (newItem.NumberCase == "" ? "NULL" : "'" + newItem.NumberCase + "'") + 
                     ");");
 
-                for (int i = 0; i < accompliceList.values.Count; i++)
-                    executeQuery("INSERT INTO Portaking VALUES(" +
-                        accompliceList.values[i].Id + "," +
-                        newItem.Id + ");");
+                if(accompliceList!=null)
+                    for (int i = 0; i < accompliceList.values.Count; i++)
+                        executeQuery("INSERT INTO Portaking VALUES(" +
+                            accompliceList.values[i].Id + "," +
+                            newItem.Id + ");");
 
                 for (int i = 0; i < categoryList.values.Count; i++)
                     if(categoryList.values[i].IsCheked)

@@ -41,7 +41,8 @@ namespace CrimesAndIncidents
                         "INNER JOIN SubUnit S ON S.idSubUnit = A.idSubUnit " +
                         "LEFT JOIN Rank R ON R.idRank = A.idRank " +
                         "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
-                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit ")));
+                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit "+
+                        "")));//сортировка хз по чему 
             if (accompliceList == null)
             {
                 aChoosedList = new AccompliceList();
@@ -104,11 +105,34 @@ namespace CrimesAndIncidents
                 {
                     newItem.Id = id;
                     //если успешное добавление в БД
-                    aList.values.Add(newItem);
+                    aChoosedList.values.Add(newItem);
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
             }
         }
+
+        private void lbNotChoosed_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbNotChoosed.SelectedItem != null)
+            {
+                Accomplice t = lbNotChoosed.SelectedItem as Accomplice;
+                aList.values.Remove(t);
+                aChoosedList.values.Add(t);
+            }
+        }
+
+        private void lbChoosed_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbChoosed.SelectedItem != null)
+            {
+                Accomplice t = lbChoosed.SelectedItem as Accomplice;
+                aChoosedList.values.Remove(t);
+                aList.values.Add(t);
+            }
+        }
+
+
+
     }
 }
