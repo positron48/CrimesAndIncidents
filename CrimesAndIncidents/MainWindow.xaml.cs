@@ -103,7 +103,7 @@ namespace CrimesAndIncidents
 
         private void editRank_Click(object sender, RoutedEventArgs e)
         {
-            RankList rl = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank")));
+            RankList rl = new RankList(DataWorker.getRankList(sqlWorker.selectData("SELECT * FROM Rank ORDER BY priority")));
 
             EditRank wndR = new EditRank(rl, sqlWorker);
             wndR.ShowDialog();
@@ -153,6 +153,5 @@ namespace CrimesAndIncidents
                         crimes[i] = newC;
             }
         }
-
     }
 }

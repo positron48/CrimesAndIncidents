@@ -1,12 +1,12 @@
 ﻿<Window x:Class="CrimesAndIncidents.AddCrime"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Добавить преступление (происшествие)" Height="600" Width="550">
+        Title="Добавить преступление (происшествие)" Height="630" Width="550">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="90" Name="rowClause"/>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="230"/>
             <RowDefinition Height="30" Name="rowDateInstitution"/>
             <RowDefinition Height="54"/>
             <RowDefinition Height="60" Name="rowVerdict"/>
@@ -39,10 +39,10 @@
         <ListBox Name="lbAccomplice" Height="60" Margin="10,33,10,0" Grid.Row="2" VerticalAlignment="Top" Grid.Column="1"/>
 
         <Label Content="Фабула дела" HorizontalAlignment="Left" Margin="10,100,0,0" Grid.Row="2" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBox Name="txStory" Grid.Column="1" Margin="10,103,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="60"/>
+        <TextBox Name="txStory" Grid.Column="1" Margin="10,103,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="90"/>
         
-        <Label Content="Дата учета" HorizontalAlignment="Left" Margin="10,170,0,0" Grid.Row="2" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBox Name="txDateRegistration" Grid.Column="1" Margin="10,173,10,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <Label Content="Дата учета" HorizontalAlignment="Left" Margin="10,200,0,0" Grid.Row="2" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBox Name="txDateRegistration" Grid.Column="1" Margin="10,203,10,0" Grid.Row="2" VerticalAlignment="Top"/>
         
         <Label Content="Дата возбуждения УД" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Top"/>
         <TextBox x:Name="txDateInstitution" Grid.Column="1" Margin="10,3,10,0" Grid.Row="3" VerticalAlignment="Top"/>

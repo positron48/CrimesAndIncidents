@@ -42,10 +42,10 @@ namespace CrimesAndIncidents
 
             sqlWorker = _sqlWorker;
 
-            organList = new DBList("Organ", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Organ")));
-            categoryList = new DBList("Category", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Category")));
+            organList = new DBList("Organ", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Organ ORDER BY description")));
+            categoryList = new DBList("Category", DataWorker.getList(sqlWorker.selectData("SELECT * FROM Category ORDER BY description")));
             militaryList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
-            clauseList = new ClauseList(DataWorker.getClauseList(sqlWorker.selectData("SELECT * FROM Clause")));
+            clauseList = new ClauseList(DataWorker.getClauseList(sqlWorker.selectData("SELECT * FROM Clause ORDER BY number, part, point")));
 
             cbOrgan.ItemsSource = organList.values;
             cbMilitaryUnit.ItemsSource = militaryList.values;
@@ -120,6 +120,7 @@ namespace CrimesAndIncidents
                     //если успешное добавление в БД
                     clauseList.values.Add(newItem);
                     cbClause.Items.Refresh();
+                    cbClause.SelectedIndex = cbClause.Items.Count - 1;
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
