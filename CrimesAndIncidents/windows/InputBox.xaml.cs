@@ -46,5 +46,14 @@ namespace CrimesAndIncidents
             this.Close();
         }
 
+        private void Window_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                value = txtBox.Text;
+                this.Close();
+            }
+        }
+
     }
 }
