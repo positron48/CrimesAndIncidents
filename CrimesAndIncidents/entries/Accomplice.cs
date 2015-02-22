@@ -59,6 +59,8 @@ namespace CrimesAndIncidents
         public string SubUnit { get; set; }
         public string MilitaryUnit { get; set; }
 
+        public int RankPriority { get; set; }
+
         public override string ToString()
         {
             return Rank + " " + ShortName + " (" + SubUnit + " " + MilitaryUnit + ")";
@@ -119,7 +121,8 @@ namespace CrimesAndIncidents
             int idFamilyStatus,
             string rank,
             string subUnit,
-            string militaryUnit)
+            string militaryUnit,
+            string rankPriority)
         {
             Id = id;
             IdPost = idPost;
@@ -141,6 +144,8 @@ namespace CrimesAndIncidents
             Rank = rank;
             SubUnit = subUnit;
             MilitaryUnit = militaryUnit;
+
+            RankPriority = Int32.Parse(rankPriority);
         }
     }
 }

@@ -80,7 +80,7 @@ namespace CrimesAndIncidents
 
                 accompliceList = new AccompliceList(
                 DataWorker.getAccompliceList(
-                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.* " +
+                    sqlWorker.selectData("SELECT R.shortName as rank, S.shortName as subUnit, SF.shortName as battalion, M.shortName as militaryUnit, A.*, R.priority " +
                         "FROM Accomplice A " +
                         "INNER JOIN SubUnit S ON S.idSubUnit = A.idSubUnit " +
                         "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
