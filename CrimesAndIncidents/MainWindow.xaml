@@ -45,36 +45,28 @@
             <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
         </ToolBar>
 
-        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" >
+        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150">
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-                                <TextBox Text="{Binding Story}" TextWrapping="Wrap" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                    
+                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150" SortMemberPath="Story">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Story}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}" />
-                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}"/>
-                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"/>
-                <DataGridTemplateColumn Header="Участники" >
+                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}" SortMemberPath="dateCommit" />
+                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}" SortMemberPath="dateInstitution" />
+                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}" SortMemberPath="dateRegistration" />
+                <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Accomplice}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-            
 
-                <DataGridTemplateColumn Header="УК" Width="75">
+
+                <DataGridTemplateColumn Header="УК" Width="75" SortMemberPath="NumberClause">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Clause}" TextWrapping="Wrap" TextAlignment="Center"/>

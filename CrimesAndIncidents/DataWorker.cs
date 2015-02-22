@@ -224,7 +224,10 @@ namespace CrimesAndIncidents
                                 (tableCrimes.Rows[i][0].ToString() == "" ? "" : "п.'" + tableCrimes.Rows[i][0].ToString() + "' ") +
                                 (tableCrimes.Rows[i][1].ToString() == "" ? "" : "ч." + tableCrimes.Rows[i][1].ToString() + " ") +
                                 (tableCrimes.Rows[i][2].ToString() == "" ? "" : "ст." + tableCrimes.Rows[i][2].ToString() + " ") +
-                                (tableCrimes.Rows[i][3].ToString() == "" ? "" : " (" + tableCrimes.Rows[i][3].ToString() + ")"));
+                                (tableCrimes.Rows[i][3].ToString() == "" ? "" : " (" + tableCrimes.Rows[i][3].ToString() + ")"),
+                            (tableCrimes.Rows[i][2].ToString() == "" ? "" : tableCrimes.Rows[i][2].ToString()) +       //статья УК РФ
+                            (tableCrimes.Rows[i][1].ToString() == "" ? "" : "," + tableCrimes.Rows[i][1].ToString())); //часть статьи
+
                         c.Id = tableCrimes.Rows[i][4].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][4].ToString());
                         list.Add(c);
                     }
