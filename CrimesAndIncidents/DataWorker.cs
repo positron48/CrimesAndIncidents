@@ -148,7 +148,7 @@ namespace CrimesAndIncidents
         {
             ObservableCollection<Accomplice> list = new ObservableCollection<Accomplice>();
 
-            if (table.Rows.Count > 0 && table.Columns.Count == 20)
+            if (table.Rows.Count > 0 && table.Columns.Count == 21)
             {
                 try
                 {
@@ -173,7 +173,8 @@ namespace CrimesAndIncidents
                             table.Rows[i][19].ToString() == "" ? 0 : Int32.Parse(table.Rows[i][19].ToString()),
                             table.Rows[i][0].ToString(),
                             table.Rows[i][1].ToString() + " " + table.Rows[i][2].ToString(),
-                            table.Rows[i][3].ToString());
+                            table.Rows[i][3].ToString(),
+                            table.Rows[i][20].ToString());
                         list.Add(a);
                     }
                 }

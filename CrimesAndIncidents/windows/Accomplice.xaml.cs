@@ -180,7 +180,8 @@ namespace CrimesAndIncidents
                     (cbFamilyStatus.SelectedItem != null) ? (cbFamilyStatus.SelectedItem as KeyValue).Key : 0,
                     (cbRank.SelectedItem as Rank).ShortName,
                     cbSubUnit.SelectedItem != null ? (cbSubUnit.SelectedItem as SubUnit).ShortName + " " + (cbBattalion.SelectedItem as SubUnit).ShortName : (cbBattalion.SelectedItem as SubUnit).ShortName,
-                    (cbMilitaryUnit.SelectedItem as MilitaryUnit).ShortName);
+                    (cbMilitaryUnit.SelectedItem as MilitaryUnit).ShortName,
+                    (cbRank.SelectedItem as Rank).Priority);
 
                 this.Close();
             }
