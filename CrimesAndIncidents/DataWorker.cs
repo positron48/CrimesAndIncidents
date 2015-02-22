@@ -193,7 +193,7 @@ namespace CrimesAndIncidents
             DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.* FROM Crime C " +
                 "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause " +
                 "WHERE C.dateRegistration BETWEEN '" + leftDateRange + "' AND '" + rightDateRange + "' "+
-                "ORDER BY C.dateRegistration;");
+                "ORDER BY C.dateRegistration, C.dateInstitution, C.dateCommit, C.story;");
 
             if (tableCrimes.Rows.Count > 0 )
             {
@@ -229,7 +229,8 @@ namespace CrimesAndIncidents
                                 (tableCrimes.Rows[i][2].ToString() == "" ? "" : "ст." + tableCrimes.Rows[i][2].ToString() + " ") +
                                 (tableCrimes.Rows[i][3].ToString() == "" ? "" : " (" + tableCrimes.Rows[i][3].ToString() + ")"),
                             (tableCrimes.Rows[i][2].ToString() == "" ? "" : tableCrimes.Rows[i][2].ToString()) +       //статья УК РФ
-                            (tableCrimes.Rows[i][1].ToString() == "" ? "" : "," + tableCrimes.Rows[i][1].ToString())); //часть статьи
+                            (tableCrimes.Rows[i][1].ToString() == "" ? "" : "," + tableCrimes.Rows[i][1].ToString()),
+                            Int32.Parse(tableCrimes.Rows[i][16].ToString())); //часть статьи
 
                         c.Id = tableCrimes.Rows[i][4].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][4].ToString());
                         list.Add(c);

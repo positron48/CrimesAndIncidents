@@ -23,12 +23,15 @@ namespace CrimesAndIncidents
             string numberCase,
             string accomplice,
             string clause,
-            string numberClause)
+            string numberClause,
+            int isRegistred)
         {
             IdOrgan = idOrgan;
             IdClause = idClause;
             IdMilitaryUnit = idMilitaryUnit;
-            DateRegistration = dateRegistration;
+            DateRegistration = dateRegistration.IndexOf('.') > 2 ? 
+                dateRegistration : 
+                DateTime.ParseExact(dateRegistration, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd");
             DateInstitution = dateInstitution;
             DateCommit = dateCommit;
             Story = story;
@@ -43,6 +46,8 @@ namespace CrimesAndIncidents
             if (t.IndexOf(',') != t.LastIndexOf(','))
                 t = t.Remove(t.LastIndexOf(','), 1);
             NumberClause = Double.Parse(t);
+
+            IsRegistred = isRegistred == 1 ? true : false;
         }
 
         //в бд
@@ -54,6 +59,7 @@ namespace CrimesAndIncidents
         public string Damage { get; set; }
         public string Verdict { get; set; }
         public string NumberCase { get; set; }
+        public bool IsRegistred { get; set; }
 
         public string DateRegistration { get; set; }
         public string DateInstitution { get; set; }

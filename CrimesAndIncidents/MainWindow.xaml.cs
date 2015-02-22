@@ -35,7 +35,7 @@ namespace CrimesAndIncidents
                 sqlWorker = new SqliteWorker("CrimesAndIncidents");
                 crimes = DataWorker.getCrimes(sqlWorker);
 
-                ///изменение формата дат, оставлю, вдруг понадобится
+                //изменение формата дат, оставлю, вдруг понадобится
                 //for (int i = 0; i < crimes.Count; i++)
                 //{
                 //    sqlWorker.executeQuery("UPDATE Crime SET " +
@@ -147,9 +147,10 @@ namespace CrimesAndIncidents
             if (crimesDataGrid.SelectedItem != null && MessageBox.Show("Вы действительно хотите удалить выбранное преступление?",
                 "Подтвердите удаление",MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
+                int id = (crimesDataGrid.SelectedItem as Crime).Id;
                 if (sqlWorker.deleteCrime((crimesDataGrid.SelectedItem as Crime).Id))
                     for (int i = 0; i < crimes.Count; i++)
-                        if (crimes[i].Id == (crimesDataGrid.SelectedItem as Crime).Id)
+                        if (crimes[i].Id == id)
                             crimes.RemoveAt(i);
             }
         }
@@ -162,6 +163,8 @@ namespace CrimesAndIncidents
                 for (int i = 0; i < crimes.Count; i++)
                     if (newC.Id == crimes[i].Id)
                         crimes[i] = newC;
+                crimes = DataWorker.getCrimes(sqlWorker);
+                crimesDataGrid.ItemsSource = crimes;
             }
         }
 
