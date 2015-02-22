@@ -43,6 +43,11 @@
         <ToolBar Margin="0,0,0,0" Grid.Row="1"  >
             <Button Name="btnAddCrimeOrIncidents" Margin="5,0,5,0" Content="Добавить" Height="25" ToolTip="Добавить" Click="btnAddCrimeOrIncidents_Click_1"/>
             <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
+            
+            <Label  Height="25" Margin="5,-4,0,0" Content="Выбрать с" />
+            <DatePicker Margin="0,-2,0,0" Height="25" DisplayDate="2014-01-01" Text="01.01.2014" />
+            <Label  Height="25" Margin="0,-4,0,0" Content="по" />
+            <DatePicker Margin="0,-2,5,0" Height="25" Text="31.12.2014" />
         </ToolBar>
 
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
@@ -54,9 +59,9 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}" SortMemberPath="dateCommit" />
-                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}" SortMemberPath="dateInstitution" />
-                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}" SortMemberPath="dateRegistration" />
+                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}"  />
+                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}" />
+                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"  />
                 <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

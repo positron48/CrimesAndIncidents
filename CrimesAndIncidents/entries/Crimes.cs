@@ -55,29 +55,11 @@ namespace CrimesAndIncidents
         public string Verdict { get; set; }
         public string NumberCase { get; set; }
 
-        public string DateRegistration {
-            get { return dateRegistration.Year == 9999 ? "" : dateRegistration.ToString("dd.MM.yyyy"); }
-            set { dateRegistration = value != "" ? DateTime.ParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture) : new DateTime(9999, 1, 1); }
-        }
-        public string DateInstitution {
-            get { return dateInstitution.Year == 9999 ? "" : dateInstitution.ToString("dd.MM.yyyy"); }
-            set { dateInstitution = value != "" ? DateTime.ParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture) : new DateTime(9999, 1, 1); }
-        }
-        public string DateCommit {
-            get { return dateCommit.Year == 9999 ? "" : dateCommit.ToString("dd.MM.yyyy"); }
-            set { dateCommit = value != "" ? DateTime.ParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture) : new DateTime(9999, 1, 1); }
-        }
-        public string DateVerdict {
-            get { return dateVerdict.Year == 9999 ? "" : dateVerdict.ToString("dd.MM.yyyy"); }
-            set { dateVerdict = value != "" ? DateTime.ParseExact(value, "dd.MM.yyyy", CultureInfo.InvariantCulture) : new DateTime(9999,1,1); }
-        }
+        public string DateRegistration { get; set; }
+        public string DateInstitution { get; set; }
+        public string DateCommit { get; set; }
+        public string DateVerdict { get; set; }
 
-        //ужасный костыль для работы сортировки
-        public DateTime dateRegistration { get; set; }
-        public DateTime dateInstitution { get; set; }
-        public DateTime dateCommit { get; set; }
-        public DateTime dateVerdict { get; set; }
-        
         //для отображения в списке
         public string Accomplice { get; set; }
         public string Clause { get; set; }
