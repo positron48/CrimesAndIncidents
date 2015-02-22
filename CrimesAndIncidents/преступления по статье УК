@@ -1,0 +1,5 @@
+SELECT story, A.shortName,  C.number, C.part FROM Crime Cr 
+    INNER JOIN Clause C ON Cr.idClause = C.idClause
+    INNER JOIN Portaking P ON P.idCrime = Cr.idCrime
+    INNER JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+WHERE C.number = 292

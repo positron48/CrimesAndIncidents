@@ -153,5 +153,10 @@ namespace CrimesAndIncidents
                         crimes[i] = newC;
             }
         }
+
+        private void crimesDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = e.Row.GetIndex() + 1;
+        }
     }
 }

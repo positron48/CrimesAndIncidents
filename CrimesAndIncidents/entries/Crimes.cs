@@ -22,7 +22,8 @@ namespace CrimesAndIncidents
             string verdict,
             string numberCase,
             string accomplice,
-            string clause)
+            string clause,
+            string numberClause)
         {
             IdOrgan = idOrgan;
             IdClause = idClause;
@@ -38,6 +39,10 @@ namespace CrimesAndIncidents
             
             Accomplice = accomplice;
             Clause = clause;
+            string t = numberClause.Replace('.', ',');
+            if (t.IndexOf(',') != t.LastIndexOf(','))
+                t = t.Remove(t.LastIndexOf(','), 1);
+            NumberClause = Double.Parse(t);
         }
 
         //в бд
@@ -76,5 +81,6 @@ namespace CrimesAndIncidents
         //для отображения в списке
         public string Accomplice { get; set; }
         public string Clause { get; set; }
+        public double NumberClause { get; set; }
     }
 }

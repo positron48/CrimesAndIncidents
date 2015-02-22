@@ -183,7 +183,8 @@ namespace CrimesAndIncidents
                     txVerdict.Text,
                     txnumberCase.Text,
                     accomplices,
-                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString());
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number);
             }
             else if (rbCrime.IsChecked == false &&
                 cbMilitaryUnit.SelectedItem != null &&
@@ -210,7 +211,8 @@ namespace CrimesAndIncidents
                     txVerdict.Text,
                     txnumberCase.Text,
                     accomplices,
-                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString());
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number);
             }
             else
             {
