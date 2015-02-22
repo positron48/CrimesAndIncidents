@@ -187,5 +187,32 @@ namespace CrimesAndIncidents
                 dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
             crimesDataGrid.ItemsSource = crimes;
         }
+
+        private void dpLeft_LostFocus(object sender, RoutedEventArgs e)
+        {
+            crimes = DataWorker.getCrimes(
+                sqlWorker,
+                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
+            crimesDataGrid.ItemsSource = crimes;
+        }
+
+        private void dpRight_LostFocus(object sender, RoutedEventArgs e)
+        {
+            crimes = DataWorker.getCrimes(
+                sqlWorker,
+                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
+            crimesDataGrid.ItemsSource = crimes;
+        }
+
+        private void btnOk_Click_1(object sender, RoutedEventArgs e)
+        {
+            crimes = DataWorker.getCrimes(
+               sqlWorker,
+               dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+               dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
+            crimesDataGrid.ItemsSource = crimes;
+        }
     }
 }
