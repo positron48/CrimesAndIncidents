@@ -66,6 +66,8 @@ namespace CrimesAndIncidents
                 txStory.Text = c.Story;
                 txVerdict.Text = c.Verdict;
 
+                chkIsRegistred.IsChecked = c.IsRegistred;
+
                 for (int i = 0; i < cbOrgan.Items.Count; i++)
                     if ((cbOrgan.Items[i] as KeyValue).Key == c.IdOrgan)
                         cbOrgan.SelectedIndex = i;
@@ -154,7 +156,7 @@ namespace CrimesAndIncidents
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             int newId = sqlWorker.getNewId("Crime");
-            
+            int oldId=0;
 
             if (rbCrime.IsChecked == true &&
                 cbClause.SelectedItem != null &&
@@ -167,9 +169,7 @@ namespace CrimesAndIncidents
                 if (accompliceList != null)
                     for (int i = 0; i < accompliceList.values.Count; i++)
                         accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
-
-                if (isEditing) newId = c.Id;
-
+                oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
                     cbClause.SelectedItem==null?0:(cbClause.SelectedItem as Clause).Id,
@@ -184,7 +184,8 @@ namespace CrimesAndIncidents
                     txnumberCase.Text,
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
-                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number);
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,
+                    chkIsRegistred.IsChecked == true ? 1:0);
             }
             else if (rbCrime.IsChecked == false &&
                 cbMilitaryUnit.SelectedItem != null &&
@@ -195,9 +196,7 @@ namespace CrimesAndIncidents
                 string accomplices = "";
                 for (int i = 0; i < accompliceList.values.Count; i++)
                     accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
-                
-                if (isEditing) newId = c.Id;
-
+                oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem == null ? 0 : (cbOrgan.SelectedItem as KeyValue).Key,
                     cbClause.SelectedItem == null ? 0 : (cbClause.SelectedItem as Clause).Id,
@@ -212,7 +211,8 @@ namespace CrimesAndIncidents
                     txnumberCase.Text,
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
-                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number);
+                    cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,
+                    chkIsRegistred.IsChecked == true ? 1 : 0);
             }
             else
             {
@@ -221,11 +221,12 @@ namespace CrimesAndIncidents
             }
             //похоже единственный случай когда изменения в бд нужно производить не из главного окна
             //т.к. нужно вносить изменения в 2 дополнительные таблицы - Portaking и InCategory
+            
             c.Id = newId;
 
             if (!isEditing && sqlWorker.addCrime(c, accompliceList, categoryList))
                 this.Close();
-            else if (isEditing && sqlWorker.updateCrime(c, accompliceList, categoryList))
+            else if (isEditing && sqlWorker.updateCrime(c, accompliceList, categoryList, oldId))
                 this.Close();
             else
                 MessageBox.Show("Ошибка при добавлении преступления в базу данных");

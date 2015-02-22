@@ -54,6 +54,7 @@
 
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
             <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="Учет" Binding="{Binding IsRegistred}"/>
                 <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150" SortMemberPath="Story">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

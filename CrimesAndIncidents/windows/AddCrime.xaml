@@ -71,5 +71,6 @@
         </ListBox>
 
         <Button Name="btnOk" Content="Ok" HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="7" VerticalAlignment="Bottom" Width="100" Click="btnOk_Click" Grid.ColumnSpan="2"/>
+        <CheckBox Content="Учитывается" Name="chkIsRegistred" Grid.Column="1" HorizontalAlignment="Left" Margin="156,10,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

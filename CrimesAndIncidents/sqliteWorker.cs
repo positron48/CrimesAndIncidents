@@ -358,7 +358,8 @@ namespace CrimesAndIncidents
                     (newItem.Damage == "" ? "NULL" : "'" + newItem.Damage + "'") + "," +
                     (newItem.DateVerdict == "" ? "NULL" : "'" + newItem.DateVerdict + "'") + "," +
                     (newItem.Verdict == "" ? "NULL" : "'" + newItem.Verdict + "'") + "," +
-                    (newItem.NumberCase == "" ? "NULL" : "'" + newItem.NumberCase + "'") + 
+                    (newItem.NumberCase == "" ? "NULL" : "'" + newItem.NumberCase + "'") + "," +
+                    (newItem.IsRegistred == true ? "1" : "0") + 
                     ");");
 
                 if(accompliceList!=null)
@@ -396,9 +397,9 @@ namespace CrimesAndIncidents
             }
         }
 
-        internal bool updateCrime(Crime c, AccompliceList accompliceList, DBList categoryList)
+        internal bool updateCrime(Crime c, AccompliceList accompliceList, DBList categoryList, int oldId)
         {
-            if (deleteCrime(c.Id) && addCrime(c, accompliceList, categoryList))
+            if (addCrime(c, accompliceList, categoryList) && deleteCrime(oldId))
                 return true;
             return false;
         }
