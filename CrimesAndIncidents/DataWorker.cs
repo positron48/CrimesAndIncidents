@@ -186,12 +186,14 @@ namespace CrimesAndIncidents
             return list;
         }
 
-        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker)
+        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker, string leftDateRange="", string rightDateRange="9999.99.99")
         {
             ObservableCollection<Crime> list = new ObservableCollection<Crime>();
 
             DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.* FROM Crime C " +
-                "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause;");
+                "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause " +
+                "WHERE C.dateRegistration BETWEEN '" + leftDateRange + "' AND '" + rightDateRange + "' "+
+                "ORDER BY C.dateRegistration;");
 
             if (tableCrimes.Rows.Count > 0 )
             {
