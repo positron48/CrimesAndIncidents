@@ -34,6 +34,17 @@ namespace CrimesAndIncidents
             {
                 sqlWorker = new SqliteWorker("CrimesAndIncidents");
                 crimes = DataWorker.getCrimes(sqlWorker);
+
+                ///изменение формата дат, оставлю, вдруг понадобится
+                //for (int i = 0; i < crimes.Count; i++)
+                //{
+                //    sqlWorker.executeQuery("UPDATE Crime SET " +
+                //        "dateRegistration = " + (crimes[i].DateRegistration == "" ? "NULL, " : "'" +crimes[i].DateRegistration + "', ") +
+                //        "dateInstitution = " + (crimes[i].DateInstitution == "" ? "NULL, " : "'" + crimes[i].DateInstitution + "', ") +
+                //        "dateCommit = " + (crimes[i].DateCommit == "" ? "NULL, " : "'" + crimes[i].DateCommit + "' ") +
+                //        "WHERE idCrime = " + crimes[i].Id);
+                //}
+
                 crimesDataGrid.ItemsSource = crimes;
                 crimesDataGrid.CanUserAddRows = false;
                 crimesDataGrid.IsReadOnly = true;
