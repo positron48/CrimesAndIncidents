@@ -169,5 +169,23 @@ namespace CrimesAndIncidents
         {
             e.Row.Header = e.Row.GetIndex() + 1;
         }
+
+        private void dpRight_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            crimes = DataWorker.getCrimes(
+                sqlWorker,
+                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+                dpRight.Text=="" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
+            crimesDataGrid.ItemsSource = crimes;
+        }
+
+        private void dpLeft_CalendarClosed(object sender, RoutedEventArgs e)
+        {
+            crimes = DataWorker.getCrimes(
+                sqlWorker,
+                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
+            crimesDataGrid.ItemsSource = crimes;
+        }
     }
 }

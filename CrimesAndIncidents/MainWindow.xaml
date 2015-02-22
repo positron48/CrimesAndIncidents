@@ -45,9 +45,9 @@
             <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
             
             <Label  Height="25" Margin="5,-4,0,0" Content="Выбрать с" />
-            <DatePicker Margin="0,-2,0,0" Height="25" DisplayDate="2014-01-01" Text="01.01.2014" />
+            <DatePicker Name="dpLeft" Margin="0,-2,0,0" Height="25" CalendarClosed="dpLeft_CalendarClosed"  />
             <Label  Height="25" Margin="0,-4,0,0" Content="по" />
-            <DatePicker Margin="0,-2,5,0" Height="25" Text="31.12.2014" />
+            <DatePicker Name="dpRight" Margin="0,-2,5,0" Height="25" CalendarClosed="dpRight_CalendarClosed" />
         </ToolBar>
 
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
