@@ -47,7 +47,7 @@ namespace CrimesAndIncidents
 
                 crimesDataGrid.ItemsSource = crimes;
                 crimesDataGrid.CanUserAddRows = false;
-                crimesDataGrid.IsReadOnly = true;
+                //crimesDataGrid.IsReadOnly = true;
             }
             catch (Exception ex)
             {
@@ -216,6 +216,44 @@ namespace CrimesAndIncidents
                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
             crimesDataGrid.ItemsSource = crimes;
+        }
+
+        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (crimesDataGrid.SelectedItem != null)
+                {
+                    Crime c;
+                    c = crimesDataGrid.SelectedItem as Crime;
+                    sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 1 WHERE idCrime = " + c.Id);
+                    c.IsRegistred = true;
+                }
+
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void CheckBox_Unchecked_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (crimesDataGrid.SelectedItem != null)
+                {
+                    Crime c;
+                    c = crimesDataGrid.SelectedItem as Crime;
+                    sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 0 WHERE idCrime = " + c.Id);
+                    c.IsRegistred = false;
+                }
+
+            }
+            catch
+            {
+
+            }
         }
     }
 }

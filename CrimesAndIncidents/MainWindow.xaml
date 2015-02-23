@@ -54,18 +54,24 @@
 
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Учет" Binding="{Binding IsRegistred}"/>
-                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150" SortMemberPath="Story">
+                <DataGridTemplateColumn Header="Учет" IsReadOnly="True" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsRegistred}" Checked="CheckBox_Checked_1" Unchecked="CheckBox_Unchecked_1"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150" SortMemberPath="Story" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Story}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}"  />
-                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}" />
-                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"  />
-                <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice">
+                <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}"   IsReadOnly="True"/>
+                <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}"  IsReadOnly="True"/>
+                <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"   IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Accomplice}" TextWrapping="Wrap" TextAlignment="Center"/>
@@ -74,7 +80,7 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="УК" Width="75" SortMemberPath="NumberClause">
+                <DataGridTemplateColumn Header="УК" Width="75" SortMemberPath="NumberClause" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Clause}" TextWrapping="Wrap" TextAlignment="Center"/>
