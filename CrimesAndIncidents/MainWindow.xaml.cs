@@ -25,6 +25,7 @@ namespace CrimesAndIncidents
     {
         SqliteWorker sqlWorker;
         ObservableCollection<Crime> crimes;
+        CollectionViewSource coll;
 
         public MainWindow()
         {
@@ -44,10 +45,16 @@ namespace CrimesAndIncidents
                 //        "dateCommit = " + (crimes[i].DateCommit == "" ? "NULL, " : "'" + crimes[i].DateCommit + "' ") +
                 //        "WHERE idCrime = " + crimes[i].Id);
                 //}
-
-                crimesDataGrid.ItemsSource = crimes;
+                coll = new CollectionViewSource();
+                coll.Source = crimes;
+                coll.Filter += coll_Filter;
+                
+                crimesDataGrid.ItemsSource = coll.View;
                 crimesDataGrid.CanUserAddRows = false;
                 //crimesDataGrid.IsReadOnly = true;
+
+                rowFilter.Height = new GridLength(0);
+                
             }
             catch (Exception ex)
             {
@@ -173,49 +180,18 @@ namespace CrimesAndIncidents
             e.Row.Header = e.Row.GetIndex() + 1;
         }
 
-        private void dpRight_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            crimes = DataWorker.getCrimes(
-                sqlWorker,
-                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
-                dpRight.Text=="" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
-            crimesDataGrid.ItemsSource = crimes;
-        }
-
-        private void dpLeft_CalendarClosed(object sender, RoutedEventArgs e)
-        {
-            crimes = DataWorker.getCrimes(
-                sqlWorker,
-                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
-                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
-            crimesDataGrid.ItemsSource = crimes;
-        }
-
-        private void dpLeft_LostFocus(object sender, RoutedEventArgs e)
-        {
-            crimes = DataWorker.getCrimes(
-                sqlWorker,
-                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
-                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
-            crimesDataGrid.ItemsSource = crimes;
-        }
-
-        private void dpRight_LostFocus(object sender, RoutedEventArgs e)
-        {
-            crimes = DataWorker.getCrimes(
-                sqlWorker,
-                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
-                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
-            crimesDataGrid.ItemsSource = crimes;
-        }
-
         private void btnOk_Click_1(object sender, RoutedEventArgs e)
         {
             crimes = DataWorker.getCrimes(
                sqlWorker,
                dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
-            crimesDataGrid.ItemsSource = crimes;
+            coll.Source = crimes;
+            coll.Filter += coll_Filter;
+
+            crimesDataGrid.ItemsSource = coll.View;
+            crimesDataGrid.CanUserAddRows = false;
+            coll.View.Refresh();
         }
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
@@ -255,5 +231,40 @@ namespace CrimesAndIncidents
 
             }
         }
+
+        private void btnFilter_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (rowFilter.Height.Value == 25)
+            {
+                rowFilter.Height = new GridLength(0);
+                btnFilter.Content = "Фильтр ▼";
+            }
+            else
+            {
+                rowFilter.Height = new GridLength(25);
+                btnFilter.Content = "Фильтр ▲";
+            }
+        }
+
+        private void btnClearFilter_Click_1(object sender, RoutedEventArgs e)
+        {
+            txFilterAccomplice.Text = "";
+            txFilterClause.Text = "";
+            txFilterFabula.Text = "";
+            coll.View.Refresh();
+        }
+
+        private void txFilterFabula_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            coll.View.Refresh();
+        }
+        
+        void coll_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = (((e.Item as Crime).Story.ToLower().IndexOf(txFilterFabula.Text.ToLower()) >= 0|| txFilterFabula.Text=="")  &&
+                ((e.Item as Crime).Accomplice.ToLower().IndexOf(txFilterAccomplice.Text.ToLower()) >= 0 || txFilterAccomplice.Text == "" )&&
+                ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ));
+        }
+
     }
 }

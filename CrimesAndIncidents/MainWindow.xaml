@@ -13,7 +13,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="14*"/>
+            <RowDefinition Height="25" Name="rowFilter"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -41,18 +42,27 @@
         </Menu>
 
         <ToolBar Margin="0,0,0,0" Grid.Row="1"  >
-            <Button Name="btnAddCrimeOrIncidents" Margin="5,0,5,0" Content="Добавить" Height="25" ToolTip="Добавить" Click="btnAddCrimeOrIncidents_Click_1"/>
-            <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25" ToolTip="Добавить" Click="btnDeleteCrimeOrIncidents_Click_1"/>
+            <Button Name="btnAddCrimeOrIncidents" Margin="5,0,5,0" Content="Добавить" Height="25"  Click="btnAddCrimeOrIncidents_Click_1"/>
+            <Button Name="btnDeleteCrimeOrIncidents" Margin="5,0,5,0" Content="Удалить" Height="25"  Click="btnDeleteCrimeOrIncidents_Click_1"/>
             
             <Label  Height="25" Margin="5,-4,0,0" Content="Выбрать с" />
-            <DatePicker Name="dpLeft" Margin="0,-2,0,0" Height="25" CalendarClosed="dpLeft_CalendarClosed" LostFocus="dpLeft_LostFocus" />
+            <DatePicker Name="dpLeft" Margin="0,-2,0,0" Height="25" />
             <Label  Height="25" Margin="0,-4,0,0" Content="по" />
-            <DatePicker Name="dpRight" Margin="0,-2,5,0" Height="25" CalendarClosed="dpRight_CalendarClosed" LostFocus="dpRight_LostFocus"  />
+            <DatePicker Name="dpRight" Margin="0,-2,5,0" Height="25" />
             <Button Content="Ok" Name="btnOk" Click="btnOk_Click_1" />
-            
+
+            <Button Name="btnFilter" Margin="15,0,5,0" Content="Фильтр ▼" Height="25" Click="btnFilter_Click_1"/>
         </ToolBar>
 
-        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="2" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" >
+        <Label Content="Фильтр:  фабула" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox Name="txFilterFabula" HorizontalAlignment="Left"  Margin="115,1,0,1" Grid.Row="2"  Width="140" TextChanged="txFilterFabula_TextChanged"/>
+        <Label Content="участники" HorizontalAlignment="Left" Margin="260,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox Name="txFilterAccomplice" HorizontalAlignment="Left" Margin="331,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
+        <Label Content="статья УК РФ" HorizontalAlignment="Left" Margin="456,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox Name="txFilterClause" HorizontalAlignment="Left" Margin="540,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
+        <Button Name="btnClearFilter" Content="Очистить" HorizontalAlignment="Left" Margin="667,1,0,1" Grid.Row="2"  Width="75" Click="btnClearFilter_Click_1"/>
+        
+        <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="3" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow"  >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Учет" IsReadOnly="True" >
                     <DataGridTemplateColumn.CellTemplate>
@@ -95,9 +105,9 @@
             </DataGrid.Columns>
         </DataGrid>
        
-
-        <StatusBar Grid.Row="3" Grid.ColumnSpan="2">
+        <StatusBar Grid.Row="4">
             <TextBlock Name="statusBar" />
         </StatusBar>
+        
     </Grid>
 </Window>
