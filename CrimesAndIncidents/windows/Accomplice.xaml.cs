@@ -372,5 +372,18 @@ namespace CrimesAndIncidents
             battalionList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + (cbMilitaryUnit.SelectedItem as MilitaryUnit).Id)));
             cbBattalion.ItemsSource = battalionList.values;
         }
+
+        private void cbRank_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbRank.SelectedItem != null && Int32.Parse((cbRank.SelectedItem as Rank).Priority) > 57)
+            {
+                chkbContrakt.IsChecked = true;
+                chkbContrakt.IsEnabled = false;
+            }
+            else
+            {
+                chkbContrakt.IsEnabled = true;
+            }
+        }
     }
 }
