@@ -24,6 +24,8 @@ namespace CrimesAndIncidents
         AccompliceList aChoosedList;
         AccompliceList aList;
 
+        CollectionViewSource aChoosedView;
+
         public SelectAccomplice()
         {
             InitializeComponent();
@@ -61,8 +63,17 @@ namespace CrimesAndIncidents
                     aList.deleteById(accompliceList.values[i].Id);
                 }
             }
+            aChoosedView = new CollectionViewSource();
+            aChoosedView.Source = aList.values;
+            aChoosedView.Filter += collectView_Filter;
+
             lbChoosed.ItemsSource = aChoosedList.values;
-            lbNotChoosed.ItemsSource = aList.values;
+            lbNotChoosed.ItemsSource = aChoosedView.View;
+        }
+
+        private void collectView_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = (e.Item as Accomplice).ShortName.ToLower().IndexOf(txFilter.Text.ToLower()) >= 0;
         }
 
         internal static AccompliceList getList(SqliteWorker sqlWorker, AccompliceList accompliceList)
@@ -136,6 +147,11 @@ namespace CrimesAndIncidents
                 aChoosedList.values.Remove(t);
                 aList.values.Add(t);
             }
+        }
+
+        private void txFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            aChoosedView.View.Refresh();
         }
 
 
