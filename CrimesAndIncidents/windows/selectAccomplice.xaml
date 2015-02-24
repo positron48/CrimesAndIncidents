@@ -12,7 +12,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-
+        
+        <Button Content="Добавить" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="75" Click="btnAddAccomplice_Click_1"/>
+        <Label Content="Фильтр: " HorizontalAlignment="Left" Margin="90,6,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txFilter" Margin="151,8,20,0" Grid.RowSpan="2" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="txFilter_TextChanged" />
+        
         <DataGrid Name="lbNotChoosed" Margin="10,5,20,5" Grid.Row="1" ItemsSource="{Binding}" MouseDoubleClick="lbNotChoosed_MouseDoubleClick" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Звание" Binding="{Binding Path=Rank}" SortMemberPath="RankPriority"/>
@@ -32,6 +36,6 @@
         <Button Content="→" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Width="30" Margin="0,0,0,30" Grid.ColumnSpan="2" Click="btnRight_Click_1"/>
         <Button Content="←" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Width="30" Margin="0,30,0,0" Grid.ColumnSpan="2" Click="btnLeft_Click_2"/>
         <Button Content="Ok" HorizontalAlignment="Center" Margin="158,0" Grid.Row="2" VerticalAlignment="Top" Width="76" Grid.ColumnSpan="2" Click="btnOk_Click_3"/>
-        <Button Content="Добавить" HorizontalAlignment="Left" Margin="10,8,0,0" VerticalAlignment="Top" Width="75" Click="btnAddAccomplice_Click_1"/>
+        
     </Grid>
 </Window>
