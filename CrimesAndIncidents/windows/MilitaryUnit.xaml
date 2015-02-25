@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.addMilitaryUnit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Воинская часть" Height="280" Width="350">
+        Title="Воинская часть" Height="280" Width="350" Icon="../icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
