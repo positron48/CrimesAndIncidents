@@ -48,7 +48,9 @@ namespace CrimesAndIncidents
                 coll = new CollectionViewSource();
                 coll.Source = crimes;
                 coll.Filter += coll_Filter;
-                
+
+                statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count;
+
                 crimesDataGrid.ItemsSource = coll.View;
                 crimesDataGrid.CanUserAddRows = false;
                 //crimesDataGrid.IsReadOnly = true;
@@ -192,9 +194,11 @@ namespace CrimesAndIncidents
             crimesDataGrid.ItemsSource = coll.View;
             crimesDataGrid.CanUserAddRows = false;
             coll.View.Refresh();
+
+            statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count;
         }
 
-        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
+        private void CheckBox_Click_1(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -202,27 +206,17 @@ namespace CrimesAndIncidents
                 {
                     Crime c;
                     c = crimesDataGrid.SelectedItem as Crime;
-                    sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 1 WHERE idCrime = " + c.Id);
-                    c.IsRegistred = true;
-                }
-
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void CheckBox_Unchecked_1(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (crimesDataGrid.SelectedItem != null)
-                {
-                    Crime c;
-                    c = crimesDataGrid.SelectedItem as Crime;
-                    sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 0 WHERE idCrime = " + c.Id);
-                    c.IsRegistred = false;
+                    if ((sender as CheckBox).IsChecked.Value)
+                    {
+                        sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 1 WHERE idCrime = " + c.Id);
+                        c.IsRegistred = true;
+                    }
+                    else
+                    {
+                        sqlWorker.executeQuery("UPDATE Crime SET isRegistred = 0 WHERE idCrime = " + c.Id);
+                        c.IsRegistred = false;
+                    }
+                    coll.View.Refresh();
                 }
 
             }
@@ -263,7 +257,16 @@ namespace CrimesAndIncidents
         {
             e.Accepted = (((e.Item as Crime).Story.ToLower().IndexOf(txFilterFabula.Text.ToLower()) >= 0|| txFilterFabula.Text=="")  &&
                 ((e.Item as Crime).Accomplice.ToLower().IndexOf(txFilterAccomplice.Text.ToLower()) >= 0 || txFilterAccomplice.Text == "" )&&
-                ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ));
+                ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ) &&
+                ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) || 
+                    (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) || 
+                    cbRegistred.SelectedIndex == 0));
+        }
+
+        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (coll != null)
+                coll.View.Refresh();
         }
 
     }

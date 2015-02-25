@@ -54,20 +54,26 @@
             <Button Name="btnFilter" Margin="15,0,5,0" Content="Фильтр ▼" Height="25" Click="btnFilter_Click_1"/>
         </ToolBar>
 
-        <Label Content="Фильтр:  фабула" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox Name="txFilterFabula" HorizontalAlignment="Left"  Margin="115,1,0,1" Grid.Row="2"  Width="140" TextChanged="txFilterFabula_TextChanged"/>
-        <Label Content="участники" HorizontalAlignment="Left" Margin="260,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox Name="txFilterAccomplice" HorizontalAlignment="Left" Margin="331,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
-        <Label Content="статья УК РФ" HorizontalAlignment="Left" Margin="456,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox Name="txFilterClause" HorizontalAlignment="Left" Margin="540,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
-        <Button Name="btnClearFilter" Content="Очистить" HorizontalAlignment="Left" Margin="667,1,0,1" Grid.Row="2"  Width="75" Click="btnClearFilter_Click_1"/>
+        <Label Content="учет:" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <ComboBox Name="cbRegistred" HorizontalAlignment="Left" Margin="40,1,0,1" Grid.Row="2"  Width="120" SelectionChanged="ComboBox_SelectionChanged_1">
+            <ComboBoxItem Content="выбрать" IsSelected="True"/>
+            <ComboBoxItem Content="учтено"/>
+            <ComboBoxItem Content="не учтено"/>
+        </ComboBox>
+        <Label Content="фабула:" HorizontalAlignment="Left" Margin="168,1,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox Name="txFilterFabula" HorizontalAlignment="Left"  Margin="220,1,0,1" Grid.Row="2"  Width="140" TextChanged="txFilterFabula_TextChanged"/>
+        <Label Content="участники:" HorizontalAlignment="Left" Margin="367,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox Name="txFilterAccomplice" HorizontalAlignment="Left" Margin="436,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
+        <Label Content="статья УК РФ:" HorizontalAlignment="Left" Margin="564,0,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox Name="txFilterClause" HorizontalAlignment="Left" Margin="645,1,0,1" Grid.Row="2"  Width="120" TextChanged="txFilterFabula_TextChanged"/>
+        <Button Name="btnClearFilter" Content="Очистить" HorizontalAlignment="Left" Margin="772,1,0,1" Grid.Row="2"  Width="75" Click="btnClearFilter_Click_1"/>
         
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="3" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow"  >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Учет" IsReadOnly="True" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsRegistred}" Checked="CheckBox_Checked_1" Unchecked="CheckBox_Unchecked_1"/>
+                            <CheckBox IsChecked="{Binding IsRegistred}"  Click="CheckBox_Click_1"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -108,6 +114,6 @@
         <StatusBar Grid.Row="4">
             <TextBlock Name="statusBar" />
         </StatusBar>
-        
+       
     </Grid>
 </Window>
