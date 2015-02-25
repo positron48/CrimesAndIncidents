@@ -69,6 +69,8 @@ namespace CrimesAndIncidents
 
             lbChoosed.ItemsSource = aChoosedList.values;
             lbNotChoosed.ItemsSource = aChoosedView.View;
+
+            txFilter.Focus();
         }
 
         private void collectView_Filter(object sender, FilterEventArgs e)

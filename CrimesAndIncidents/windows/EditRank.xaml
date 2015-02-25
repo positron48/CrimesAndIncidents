@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.EditRank"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Редактировать список званий" Height="450" Width="400">
+        Title="Редактировать список званий" Height="450" Width="400" Icon="../icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

@@ -45,10 +45,10 @@ namespace CrimesAndIncidents
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
                         Clause c = new Clause(
-                            Int32.Parse(table.Rows[i][0].ToString()), 
-                            table.Rows[i][1].ToString(), 
-                            table.Rows[i][2].ToString(), 
-                            table.Rows[i][3].ToString(), 
+                            Int32.Parse(table.Rows[i][0].ToString()),
+                            table.Rows[i][1].ToString(),
+                            table.Rows[i][2].ToString(),
+                            table.Rows[i][3].ToString(),
                             table.Rows[i][4].ToString());
                         list.Add(c);
                     }
@@ -186,24 +186,25 @@ namespace CrimesAndIncidents
             return list;
         }
 
-        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker, string leftDateRange="", string rightDateRange="9999.99.99")
+        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker, string leftDateRange = "", string rightDateRange = "9999.99.99")
         {
             ObservableCollection<Crime> list = new ObservableCollection<Crime>();
 
-            DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.* FROM Crime C " +
+            DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.*, M.shortName FROM Crime C " +
                 "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause " +
-                "WHERE C.dateRegistration BETWEEN '" + leftDateRange + "' AND '" + rightDateRange + "' "+
+                "INNER JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                "WHERE C.dateRegistration BETWEEN '" + leftDateRange + "' AND '" + rightDateRange + "' " +
                 "ORDER BY C.dateRegistration, C.dateInstitution, C.dateCommit, C.story;");
 
-            if (tableCrimes.Rows.Count > 0 )
+            if (tableCrimes.Rows.Count > 0)
             {
                 try
                 {
                     for (int i = 0; i < tableCrimes.Rows.Count; i++)
                     {
-                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt FROM Accomplice A "+
-                            "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice "+
-                            "INNER JOIN Rank R ON A.idRank = R.idRank "+
+                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt FROM Accomplice A " +
+                            "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
+                            "INNER JOIN Rank R ON A.idRank = R.idRank " +
                             "WHERE P.idCrime = " + Int32.Parse(tableCrimes.Rows[i][4].ToString()) + ";");
                         string accomplices = "";
                         for (int j = 0; j < tableAccomplice.Rows.Count; j++)
@@ -230,7 +231,8 @@ namespace CrimesAndIncidents
                                 (tableCrimes.Rows[i][3].ToString() == "" ? "" : " (" + tableCrimes.Rows[i][3].ToString() + ")"),
                             (tableCrimes.Rows[i][2].ToString() == "" ? "" : tableCrimes.Rows[i][2].ToString()) +       //статья УК РФ
                             (tableCrimes.Rows[i][1].ToString() == "" ? "" : "," + tableCrimes.Rows[i][1].ToString()),
-                            Int32.Parse(tableCrimes.Rows[i][16].ToString())); //часть статьи
+                            Int32.Parse(tableCrimes.Rows[i][16].ToString()),
+                            tableCrimes.Rows[i][17].ToString()); //часть статьи
 
                         c.Id = tableCrimes.Rows[i][4].ToString() == "" ? 0 : Int32.Parse(tableCrimes.Rows[i][4].ToString());
                         list.Add(c);

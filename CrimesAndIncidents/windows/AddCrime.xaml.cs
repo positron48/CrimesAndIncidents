@@ -169,7 +169,7 @@ namespace CrimesAndIncidents
                 if (accompliceList != null)
                     for (int i = 0; i < accompliceList.values.Count; i++)
                         accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
-                oldId = c.Id;
+                if(c!=null) oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
                     cbClause.SelectedItem==null?0:(cbClause.SelectedItem as Clause).Id,
@@ -185,7 +185,8 @@ namespace CrimesAndIncidents
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,
-                    chkIsRegistred.IsChecked == true ? 1:0);
+                    chkIsRegistred.IsChecked == true ? 1:0,
+                    cbMilitaryUnit.SelectedItem == null ? "" : (cbMilitaryUnit.SelectedItem as MilitaryUnit).ShortName);
             }
             else if (rbCrime.IsChecked == false &&
                 cbMilitaryUnit.SelectedItem != null &&
@@ -196,7 +197,7 @@ namespace CrimesAndIncidents
                 string accomplices = "";
                 for (int i = 0; i < accompliceList.values.Count; i++)
                     accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
-                oldId = c.Id;
+                if (c != null) oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem == null ? 0 : (cbOrgan.SelectedItem as KeyValue).Key,
                     cbClause.SelectedItem == null ? 0 : (cbClause.SelectedItem as Clause).Id,
@@ -212,7 +213,8 @@ namespace CrimesAndIncidents
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,
-                    chkIsRegistred.IsChecked == true ? 1 : 0);
+                    chkIsRegistred.IsChecked == true ? 1 : 0,
+                    cbMilitaryUnit.SelectedItem == null ? "" : (cbMilitaryUnit.SelectedItem as MilitaryUnit).ShortName);
             }
             else
             {

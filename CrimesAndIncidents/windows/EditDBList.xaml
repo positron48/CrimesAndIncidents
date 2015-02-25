@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.EditDBList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Редактировать список" Height="333" Width="312">
+        Title="Редактировать список" Height="333" Width="312" Icon="../icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

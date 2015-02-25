@@ -24,7 +24,8 @@ namespace CrimesAndIncidents
             string accomplice,
             string clause,
             string numberClause,
-            int isRegistred)
+            int isRegistred,
+            string militaryUnit)
         {
             IdOrgan = idOrgan;
             IdClause = idClause;
@@ -48,6 +49,8 @@ namespace CrimesAndIncidents
             NumberClause = Double.Parse(t);
 
             IsRegistred = isRegistred == 1 ? true : false;
+
+            MilitaryUnit = militaryUnit;
         }
 
         //в бд
@@ -70,5 +73,6 @@ namespace CrimesAndIncidents
         public string Accomplice { get; set; }
         public string Clause { get; set; }
         public double NumberClause { get; set; }
+        public string MilitaryUnit { get; set; }
     }
 }

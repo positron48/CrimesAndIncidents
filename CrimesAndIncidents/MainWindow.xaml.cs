@@ -56,6 +56,8 @@ namespace CrimesAndIncidents
                 //crimesDataGrid.IsReadOnly = true;
 
                 rowFilter.Height = new GridLength(0);
+
+                cbRegistred.SelectedIndex = 1;
                 
             }
             catch (Exception ex)
@@ -173,7 +175,10 @@ namespace CrimesAndIncidents
                     if (newC.Id == crimes[i].Id)
                         crimes[i] = newC;
                 crimes = DataWorker.getCrimes(sqlWorker);
-                crimesDataGrid.ItemsSource = crimes;
+                coll.Source = crimes;
+                coll.Filter += coll_Filter;
+                crimesDataGrid.ItemsSource = coll.View;
+                coll.View.Refresh();
             }
         }
 
@@ -261,6 +266,7 @@ namespace CrimesAndIncidents
                 ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) || 
                     (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) || 
                     cbRegistred.SelectedIndex == 0));
+            statusBar.Text = statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count +  "; отфильстровано: " + coll.View.ToString();
         }
 
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
