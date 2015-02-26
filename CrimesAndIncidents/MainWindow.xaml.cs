@@ -27,6 +27,8 @@ namespace CrimesAndIncidents
         ObservableCollection<Crime> crimes;
         CollectionViewSource coll;
 
+        MilitaryUnitList mList;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -48,8 +50,7 @@ namespace CrimesAndIncidents
                 coll = new CollectionViewSource();
                 coll.Source = crimes;
                 coll.Filter += coll_Filter;
-
-                statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count;
+                coll.View.CollectionChanged += View_CollectionChanged;
 
                 crimesDataGrid.ItemsSource = coll.View;
                 crimesDataGrid.CanUserAddRows = false;
@@ -58,12 +59,25 @@ namespace CrimesAndIncidents
                 rowFilter.Height = new GridLength(0);
 
                 cbRegistred.SelectedIndex = 1;
+
+                mList = new MilitaryUnitList(DataWorker.getMilitaryUnitList(sqlWorker.selectData("SELECT * FROM MilitaryUnit")));
+                mList.values.Add(new MilitaryUnit(-1,"","все","все","",0,1));
+                
+                cbFilterMilitaryUnit.ItemsSource = mList.values;
+                cbFilterMilitaryUnit.SelectedIndex = mList.values.Count-1;
                 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Во время загрузки приложения возникли неполадки:\n" + ex.Message);
             }
+        }
+
+        void View_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            tbCountAll.Text = crimes.Count.ToString();
+            tbCountFilter.Text = crimesDataGrid.Items.Count.ToString();
+            tbCountSelected.Text = crimesDataGrid.SelectedItems.Count.ToString();
         }
 
         private void MenuExit_Click_1(object sender, RoutedEventArgs e)
@@ -200,7 +214,6 @@ namespace CrimesAndIncidents
             crimesDataGrid.CanUserAddRows = false;
             coll.View.Refresh();
 
-            statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count;
         }
 
         private void CheckBox_Click_1(object sender, RoutedEventArgs e)
@@ -260,13 +273,15 @@ namespace CrimesAndIncidents
         
         void coll_Filter(object sender, FilterEventArgs e)
         {
-            e.Accepted = (((e.Item as Crime).Story.ToLower().IndexOf(txFilterFabula.Text.ToLower()) >= 0|| txFilterFabula.Text=="")  &&
-                ((e.Item as Crime).Accomplice.ToLower().IndexOf(txFilterAccomplice.Text.ToLower()) >= 0 || txFilterAccomplice.Text == "" )&&
-                ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ) &&
-                ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) || 
-                    (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) || 
-                    cbRegistred.SelectedIndex == 0));
-            statusBar.Text = statusBar.Text = "Количество выбранных преступлений и происшествий: " + crimes.Count +  "; отфильстровано: " + coll.View.ToString();
+            if(cbFilterMilitaryUnit.SelectedItem != null)
+                e.Accepted = (((e.Item as Crime).Story.ToLower().IndexOf(txFilterFabula.Text.ToLower()) >= 0|| txFilterFabula.Text=="")  &&
+                    ((e.Item as Crime).Accomplice.ToLower().IndexOf(txFilterAccomplice.Text.ToLower()) >= 0 || txFilterAccomplice.Text == "" )&&
+                    ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ) &&
+                    ((e.Item as Crime).IdMilitaryUnit == (cbFilterMilitaryUnit.SelectedItem as MilitaryUnit).Id ||
+                        ((cbFilterMilitaryUnit.SelectedItem as MilitaryUnit).Id == -1)) &&
+                    ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) || 
+                        (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) || 
+                        cbRegistred.SelectedIndex == 0));
         }
 
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -275,5 +290,15 @@ namespace CrimesAndIncidents
                 coll.View.Refresh();
         }
 
+        private void crimesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tbCountSelected.Text = crimesDataGrid.SelectedItems.Count.ToString();
+        }
+
+        private void cbFilterMilitaryUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            coll.View.Refresh();
+                    }
+        
     }
 }
