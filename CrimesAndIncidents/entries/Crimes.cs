@@ -30,14 +30,20 @@ namespace CrimesAndIncidents
             IdOrgan = idOrgan;
             IdClause = idClause;
             IdMilitaryUnit = idMilitaryUnit;
-            DateRegistration = dateRegistration.IndexOf('.') > 2 ? 
+            DateRegistration = dateRegistration == "" ? "" : (dateRegistration.IndexOf('.') > 2 ? 
                 dateRegistration : 
-                DateTime.ParseExact(dateRegistration, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd");
-            DateInstitution = dateInstitution;
-            DateCommit = dateCommit;
+                DateTime.ParseExact(dateRegistration, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd"));
+            DateInstitution = dateInstitution == "" ? "" : (dateInstitution.IndexOf('.') > 2 ?
+                dateInstitution :
+                DateTime.ParseExact(dateInstitution, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd"));
+            DateCommit = dateCommit == "" ? "" : (dateCommit.IndexOf('.') > 2 ?
+                dateCommit :
+                DateTime.ParseExact(dateCommit, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd")); ;
             Story = story;
             Damage = damage;
-            DateVerdict = dateVerdict;
+            DateVerdict = dateVerdict == "" ? "" : (dateVerdict.IndexOf('.') > 2 ?
+                dateVerdict :
+                DateTime.ParseExact(dateVerdict, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd")); ;
             Verdict = verdict;
             NumberCase = numberCase;
             

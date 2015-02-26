@@ -42,19 +42,19 @@
         <TextBox Name="txStory" Grid.Column="1" Margin="10,103,10,0" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Top" Height="90"/>
         
         <Label Content="Дата учета" HorizontalAlignment="Left" Margin="10,200,0,0" Grid.Row="2" VerticalAlignment="Top" FontWeight="Bold"/>
-        <TextBox Name="txDateRegistration" Grid.Column="1" Margin="10,203,10,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <DatePicker Name="txDateRegistration" Grid.Column="1" Margin="10,203,10,0" Grid.Row="2" VerticalAlignment="Top"/>
         
         <Label Content="Дата возбуждения УД" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-        <TextBox x:Name="txDateInstitution" Grid.Column="1" Margin="10,3,10,0" Grid.Row="3" VerticalAlignment="Top"/>
+        <DatePicker x:Name="txDateInstitution" Grid.Column="1" Margin="10,3,10,0" Grid.Row="3" VerticalAlignment="Top"/>
         
         <Label Content="Дата совершения" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="4" VerticalAlignment="Top"/>
-        <TextBox x:Name="txDateCommit" Grid.Column="1" Margin="10,3,10,0" Grid.Row="4" VerticalAlignment="Top"/>
+        <DatePicker x:Name="txDateCommit" Grid.Column="1" Margin="10,3,10,0" Grid.Row="4" VerticalAlignment="Top"/>
        
         <Label Content="Материальный ущерб" HorizontalAlignment="Left" Margin="10,27,0,0" Grid.Row="4" VerticalAlignment="Top"/>
         <TextBox x:Name="txDamage" Grid.Column="1" Margin="10,30,10,0" Grid.Row="4" VerticalAlignment="Top"/>
         
         <Label Content="Дата суда" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="5" VerticalAlignment="Top"/>
-        <TextBox x:Name="txDateVerdict" Grid.Column="1" Margin="10,3,10,0" Grid.Row="5" VerticalAlignment="Top"/>
+        <DatePicker x:Name="txDateVerdict" Grid.Column="1" Margin="10,3,10,0" Grid.Row="5" VerticalAlignment="Top"/>
        
         <Label Content="Решение суда" HorizontalAlignment="Left" Margin="10,27,0,0" Grid.Row="5" VerticalAlignment="Top"/>
         <TextBox x:Name="txVerdict" Grid.Column="1" Margin="10,30,10,0" Grid.Row="5" VerticalAlignment="Top"/>
