@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Collections.ObjectModel;
+using Microsoft.Office.Interop;
 
 namespace CrimesAndIncidents
 {
@@ -209,6 +210,7 @@ namespace CrimesAndIncidents
                dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
             coll.Source = crimes;
             coll.Filter += coll_Filter;
+            coll.View.CollectionChanged += View_CollectionChanged;
 
             crimesDataGrid.ItemsSource = coll.View;
             crimesDataGrid.CanUserAddRows = false;
@@ -298,7 +300,102 @@ namespace CrimesAndIncidents
         private void cbFilterMilitaryUnit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             coll.View.Refresh();
+        }
+
+        private void MenuAnalyze_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
+        private void btnToWord_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Microsoft.Office.Interop.Word.Application winword =
+                    new Microsoft.Office.Interop.Word.Application();
+
+                winword.Visible = false;
+
+                //Заголовок документа
+                winword.Documents.Application.Caption = "CrimesAndIncidents";
+
+                object missing = System.Reflection.Missing.Value;
+
+                //Создание нового документа
+                Microsoft.Office.Interop.Word.Document document = winword.Documents.Add(ref missing, ref missing, ref missing, ref missing);
+
+                //Добавление текста в документ
+                document.PageSetup.Orientation = Microsoft.Office.Interop.Word.WdOrientation.wdOrientLandscape;
+                document.Content.SetRange(0, 0);
+
+                //Добавление текста со стилем Заголовок 1
+                Microsoft.Office.Interop.Word.Paragraph para1 = document.Content.Paragraphs.Add(ref missing);
+                //para1.Range.set_Style(styleHeading1);
+                para1.Range.Font.Size = 14;
+                para1.Range.Text = "Преступления и происшествия за " +
+                    ((dpLeft.Text == "" && dpRight.Text == "") ? "все время" :
+                        ("период " +
+                        (dpLeft.Text == "" ? "" : "c " + dpLeft.Text) +
+                        (dpRight.Text == "" ? "" : " по " + dpRight.Text)));
+                para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                para1.Range.InsertParagraphAfter(); 
+                para1.Range.InsertParagraphAfter();
+
+                //Создание таблицы 5х5
+                Microsoft.Office.Interop.Word.Table firstTable = document.Tables.Add(
+                    para1.Range,
+                    crimesDataGrid.Items.Count + 1, //число строк
+                    crimesDataGrid.Columns.Count,  //число столбцов нужно динамически, после того как будет выбор столбцов
+                    ref missing,
+                    ref missing);
+
+                firstTable.Range.Font.Size = 12;
+                firstTable.Range.Font.Name = "Times New Roman";
+                firstTable.Borders.Enable = 1;
+
+                for (int i = 0; i < firstTable.Rows.Count; i++)
+                {
+                    for (int j = 0; j < firstTable.Columns.Count; j++)
+                    {
+                        //Заголовок таблицы
+                        if (i == 0)
+                        {
+                            firstTable.Rows[i + 1].Cells[j + 1].Range.Text = j == 0 ? "№\nп/п" : crimesDataGrid.Columns[j - 1].Header.ToString();
+
+                            //Выравнивание текста в заголовках столбцов по центру
+                            firstTable.Rows[i + 1].Cells[j + 1].VerticalAlignment =
+                                Microsoft.Office.Interop.Word.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                            firstTable.Rows[i + 1].Cells[j + 1].Range.ParagraphFormat.Alignment =
+                                Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+                        }
+                        //Значения ячеек
+                        else if (j == 0)
+                        {
+                            firstTable.Rows[i + 1].Cells[j + 1].Range.Text = i.ToString();
+                        }
                     }
+
+                    if (i != 0)
+                    {
+                        firstTable.Rows[i + 1].Cells[2].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Story;
+                        firstTable.Rows[i + 1].Cells[3].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateCommit;
+                        firstTable.Rows[i + 1].Cells[4].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateInstitution;
+                        firstTable.Rows[i + 1].Cells[5].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateRegistration;
+                        firstTable.Rows[i + 1].Cells[6].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Accomplice;
+                        firstTable.Rows[i + 1].Cells[7].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Clause;
+                        firstTable.Rows[i + 1].Cells[8].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).MilitaryUnit;
+                    }
+                }
+                firstTable.AutoFitBehavior(Microsoft.Office.Interop.Word.WdAutoFitBehavior.wdAutoFitContent);
+                
+                document.PrintPreview();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         
     }
 }
