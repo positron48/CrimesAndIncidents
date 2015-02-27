@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -245,6 +246,13 @@ namespace CrimesAndIncidents
             }
             return list;
 
+        }
+
+        internal static string getDateInTrueFormat(string date)
+        {
+            //преобразование даты из 12.12.2012 в 2012.12.12
+            return (date.IndexOf('.') > 2 || date=="" ? date :
+                DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd"));
         }
     }
 }
