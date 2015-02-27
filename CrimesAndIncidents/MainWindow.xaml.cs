@@ -304,7 +304,8 @@ namespace CrimesAndIncidents
 
         private void MenuAnalyze_Click(object sender, RoutedEventArgs e)
         {
-
+            AnalyzeSettings wndAnalyze = new AnalyzeSettings(sqlWorker);
+            wndAnalyze.ShowDialog();
         }
         
         private void btnToWord_Click_1(object sender, RoutedEventArgs e)
@@ -388,8 +389,8 @@ namespace CrimesAndIncidents
                     }
                 }
                 firstTable.AutoFitBehavior(Microsoft.Office.Interop.Word.WdAutoFitBehavior.wdAutoFitContent);
-                
-                document.PrintPreview();
+
+                winword.Visible = true;
             }
             catch (Exception ex)
             {
