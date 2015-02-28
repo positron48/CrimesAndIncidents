@@ -361,7 +361,7 @@ namespace CrimesAndIncidents
                         //Заголовок таблицы
                         if (i == 0)
                         {
-                            firstTable.Rows[i + 1].Cells[j + 1].Range.Text = j == 0 ? "№\nп/п" : crimesDataGrid.Columns[j - 1].Header.ToString();
+                            firstTable.Rows[1].Cells[j + 1].Range.Text = j == 0 ? "№\nп/п" : crimesDataGrid.Columns[j].Header.ToString();
 
                             //Выравнивание текста в заголовках столбцов по центру
                             firstTable.Rows[i + 1].Cells[j + 1].VerticalAlignment =

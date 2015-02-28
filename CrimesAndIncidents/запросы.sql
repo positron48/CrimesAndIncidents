@@ -6,7 +6,7 @@ SELECT COUNT(C.idMilitaryUnit) FROM
 --общее количество происшетвий за период
 SELECT COUNT(C.idMilitaryUnit) FROM
     MilitaryUnit M LEFT JOIN
-    Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause = null;
+    Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause IS NULL;
 
 --количество преступлений за период по частям
 SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) FROM
@@ -18,7 +18,7 @@ ORDER BY M.idMilitaryUnit;
 --количество происшествий за период по частям
 SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) FROM
     MilitaryUnit M LEFT JOIN
-    Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause = null
+    Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause IS NULL
 GROUP BY M.number, M.shortName
 ORDER BY M.idMilitaryUnit;
 
@@ -52,10 +52,10 @@ SELECT Name, COUNT(idCrime) FROM
         LEFT JOIN SubUnit S ON S.idSubUnit = A.idSubUnit 
         LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit
     WHERE C.isRegistred = 1 AND C.dateRegistration 
-        BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause = NULL
+        BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause IS NULL
     GROUP BY C.idCrime
     ORDER BY M.idMilitaryUnit)
-WHERE number = '19612'
+WHERE number = '31985'
 GROUP BY Name
 ORDER BY Name;
 
@@ -177,4 +177,18 @@ WHERE A.isContrakt = 1
     BETWEEN "2014.01.01" AND "2014.12.31" 
     AND C.idClause > -1
 GROUP BY M.idMilitaryUnit
-ORDER BY M.idMilitaryUnit) T4  ON T4.number = M1.number 
+ORDER BY M.idMilitaryUnit) T4  ON T4.number = M1.number;
+
+--количество преступлений за период по видам
+SELECT Cl.description, COUNT(C.idCrime) FROM
+    Crime C LEFT JOIN Clause Cl ON Cl.idClause = C.idClause
+WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
+GROUP BY Cl.description;
+
+--количество преступлений за период по видам по частям
+SELECT M.number, M.shortName, Cl.description, COUNT(C.idCrime) FROM
+    Crime C LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Clause Cl ON Cl.idClause = C.idClause
+WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
+GROUP BY Cl.description, M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit;

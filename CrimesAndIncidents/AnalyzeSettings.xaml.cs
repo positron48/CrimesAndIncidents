@@ -47,7 +47,7 @@ namespace CrimesAndIncidents
                 int countIncidents = Int32.Parse(sqlWorker.selectData("SELECT COUNT(C.idMilitaryUnit) FROM " +
                     "MilitaryUnit M LEFT JOIN " +
                     "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
-                    "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause = NULL").Rows[0][0].ToString());
+                    "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause IS NULL").Rows[0][0].ToString());
 
                 Microsoft.Office.Interop.Word.Application winword =
                     new Microsoft.Office.Interop.Word.Application();
@@ -85,8 +85,7 @@ namespace CrimesAndIncidents
                 para1.Range.InsertParagraphAfter();
                 para1.Range.InsertParagraphAfter();
 
-
-                //анализ по частям
+                #region анализ по воинским частям
                 if (chkOnMilitaryUnit.IsChecked.Value)
                 {
                     para1.Range.Text = "По воинским частям:";
@@ -101,7 +100,7 @@ namespace CrimesAndIncidents
                     DataTable tableIncidents = sqlWorker.selectData("SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) FROM " +
                             "MilitaryUnit M LEFT JOIN " +
                             "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
-                            "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause = NULL " +
+                            "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause IS NULL " +
                         "GROUP BY M.number, M.shortName " +
                         "ORDER BY M.idMilitaryUnit;");
 
@@ -140,7 +139,9 @@ namespace CrimesAndIncidents
                     }
                     para1.Range.InsertParagraphAfter();
                 }
+                #endregion
 
+                #region по участникам
                 if (chkOnAccomplice.IsChecked.Value)
                 {
                     DataTable tableAccompliceCrime = sqlWorker.selectData("SELECT * FROM " + 
@@ -184,13 +185,16 @@ namespace CrimesAndIncidents
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "'  " + 
                             "AND C.idClause > -1);");
                     para1.Range.InsertParagraphAfter();
-                    para1.Range.Text = "По участникам: " + Environment.NewLine +
-                        "-солдаты и сержанты по призыву: " + tableAccompliceCrime.Rows[0][0] + Environment.NewLine +
+                    para1.Range.Text = "По участникам: ";
+                    para1.Range.InsertParagraphAfter();
+                    
+                    para1.Range.Font.Bold = 0;
+                    para1.Range.Font.Size = 14;
+                    para1.Range.Text = "-солдаты и сержанты по призыву: " + tableAccompliceCrime.Rows[0][0] + Environment.NewLine +
                         "-солдаты и сержанты по контракту: " + tableAccompliceCrime.Rows[0][1] + Environment.NewLine +
                         "-прапорщики: " + tableAccompliceCrime.Rows[0][2] + Environment.NewLine +
                         "-офицеры: " + tableAccompliceCrime.Rows[0][3];
-                    para1.Range.Font.Size = 14;
-                    para1.Range.InsertParagraphAfter();
+                    para1.Range.InsertParagraphAfter(); 
                     para1.Range.InsertParagraphAfter();
 
                     if (chkOnMilitaryUnit.IsChecked.Value)
@@ -285,6 +289,76 @@ namespace CrimesAndIncidents
                     }
 
                 }
+                #endregion
+
+                #region по видам преступлений
+                if (chkOnClause.IsChecked.Value)
+                {
+                    para1.Range.InsertParagraphAfter();
+                    para1.Range.Text = "По видам преступлений:";
+                    para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    para1.Range.Font.Size = 14;
+                    para1.Range.Font.Bold = 14;
+                    para1.Range.InsertParagraphAfter();
+
+                    DataTable tableOnClause = sqlWorker.selectData("SELECT Cl.description, COUNT(C.idCrime) FROM "+
+                            "Crime C LEFT JOIN Clause Cl ON Cl.idClause = C.idClause "+
+                        "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + 
+                            "' AND C.idClause > -1 " +
+                        "GROUP BY Cl.description "+
+                        "ORDER BY Cl.description;");
+                    for (int i = 0; i < tableOnClause.Rows.Count; i++)
+                    {
+                        para1.Range.Font.Size = 14;
+                        para1.Range.Font.Bold = 0; 
+                        para1.Range.Text = "-" + tableOnClause.Rows[i][0] + ": " + tableOnClause.Rows[i][1];
+                        para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                        para1.Range.InsertParagraphAfter();
+                    }
+                    para1.Range.InsertParagraphAfter();
+
+                    if (chkOnMilitaryUnit.IsChecked.Value)
+                    {
+                        tableOnClause = sqlWorker.selectData("SELECT M.number, M.shortName, Cl.description, COUNT(C.idCrime) FROM " +
+                                "Crime C LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Clause Cl ON Cl.idClause = C.idClause " +
+                            "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) +
+                                "' AND C.idClause > -1 " +
+                            "GROUP BY Cl.description, M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit;");
+
+                        if (tableOnClause.Rows.Count != 0)
+                        {
+                            string oldUnit = tableOnClause.Rows[0][0].ToString();
+                            para1.Range.Text = "-войсковая часть " + tableOnClause.Rows[0][0] + " (" + tableOnClause.Rows[0][1] + "):";
+                            para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                            para1.Range.Font.Size = 14;
+                            para1.Range.Font.Bold = 14;
+                            para1.Range.InsertParagraphAfter();
+
+                            for (int i = 0; i < tableOnClause.Rows.Count; i++)
+                            {
+                                string newUnit = tableOnClause.Rows[i][0].ToString();
+                                if (newUnit != oldUnit)
+                                {
+                                    para1.Range.Text = "-войсковая часть " + tableOnClause.Rows[i][0] + " (" + tableOnClause.Rows[i][1] + "):";
+                                    para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                    para1.Range.Font.Size = 14;
+                                    para1.Range.Font.Bold = 14;
+                                    para1.Range.InsertParagraphAfter();
+                                    oldUnit = newUnit;
+                                }
+
+                                para1.Range.Font.Size = 14;
+                                para1.Range.Font.Bold = 0;
+                                para1.Range.Text = "\t" + tableOnClause.Rows[i][2] + ": " + tableOnClause.Rows[i][3];
+                                para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                para1.Range.InsertParagraphAfter();
+                            }
+                        }
+                    }
+                }
+                #endregion
 
                 winword.Visible = true;
             }
