@@ -52,7 +52,7 @@ namespace CrimesAndIncidents
             string t = numberClause.Replace('.', ',');
             if (t.IndexOf(',') != t.LastIndexOf(','))
                 t = t.Remove(t.LastIndexOf(','), 1);
-            NumberClause = Double.Parse(t);
+            NumberClause = t==""?0:Double.Parse(t);
 
             IsRegistred = isRegistred == 1 ? true : false;
 
