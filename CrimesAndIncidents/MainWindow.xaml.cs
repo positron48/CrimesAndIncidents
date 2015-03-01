@@ -281,9 +281,12 @@ namespace CrimesAndIncidents
                     ((e.Item as Crime).Clause.ToLower().IndexOf(txFilterClause.Text.ToLower()) >= 0  || txFilterClause.Text == "" ) &&
                     ((e.Item as Crime).IdMilitaryUnit == (cbFilterMilitaryUnit.SelectedItem as MilitaryUnit).Id ||
                         ((cbFilterMilitaryUnit.SelectedItem as MilitaryUnit).Id == -1)) &&
-                    ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) || 
-                        (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) || 
-                        cbRegistred.SelectedIndex == 0));
+                    ((cbRegistred.SelectedIndex == 1 && (e.Item as Crime).IsRegistred) ||
+                        (cbRegistred.SelectedIndex == 2 && !(e.Item as Crime).IsRegistred) ||
+                        cbRegistred.SelectedIndex == 0) &&
+                    ((cbType.SelectedIndex == 1 && (e.Item as Crime).IdClause != 0) ||
+                        (cbType.SelectedIndex == 2 && (e.Item as Crime).IdClause == 0) || 
+                        cbType.SelectedIndex == 0));
         }
 
         private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
@@ -396,6 +399,12 @@ namespace CrimesAndIncidents
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void cbType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (coll != null)
+                coll.View.Refresh();
         }
         
     }

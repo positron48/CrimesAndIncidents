@@ -1,0 +1,58 @@
+--количество призывников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 0
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit;
+
+--количество контрактников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority < 60
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit;
+
+--количество прапорщиков преступников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority BETWEEN 60 AND 75
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit;
+
+--количество офицеров преступников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority > 75
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit;
