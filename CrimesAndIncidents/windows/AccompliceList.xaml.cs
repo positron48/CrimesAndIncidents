@@ -21,6 +21,7 @@ namespace CrimesAndIncidents
     {
         private AccompliceList al;
         private SqliteWorker sqlWorker;
+        CollectionViewSource coll;
 
         public Accomplices(AccompliceList al, SqliteWorker sqlWorker)
         {
@@ -28,12 +29,21 @@ namespace CrimesAndIncidents
 
             this.al = al;
             this.sqlWorker = sqlWorker;
-            
+
+            coll = new CollectionViewSource();
+            coll.Source = al.values;
+            coll.Filter += coll_Filter;
+
             dataGrid.CanUserAddRows = false;
             dataGrid.AutoGenerateColumns = false;
             dataGrid.IsReadOnly = true;
-            dataGrid.ItemsSource = al.values;
+            dataGrid.ItemsSource = coll.View;
 
+        }
+
+        void coll_Filter(object sender, FilterEventArgs e)
+        {
+            e.Accepted = (((e.Item as Accomplice).ShortName.ToLower().IndexOf(txFilter.Text.ToLower()) >= 0));
         }
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
@@ -48,6 +58,7 @@ namespace CrimesAndIncidents
                     newItem.Id = id;
                     //если успешное добавление в БД
                     al.values.Add(newItem);
+                    coll.View.Refresh();
                 }
                 else
                     MessageBox.Show("Ошибка при добавлении данных");
@@ -87,6 +98,11 @@ namespace CrimesAndIncidents
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void txFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            coll.View.Refresh();
         }
 
     }
