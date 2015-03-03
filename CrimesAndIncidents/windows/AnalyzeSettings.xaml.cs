@@ -77,9 +77,11 @@ namespace CrimesAndIncidents
                 para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
                 para1.Range.InsertParagraphAfter();
                 para1.Range.InsertParagraphAfter();
-                
-                para1.Range.Text = "Всего преступлений и происшествий: " + (countCrimes + countIncidents) + "(" + countCrimes + "преступлений, " + countIncidents +
-                    " происшествий).";
+
+                para1.Range.Text = "Всего преступлений и происшествий: " + (countCrimes + countIncidents) + "(" + countCrimes + "преступлен" + 
+                    DataWorker.numberInPlugue(countCrimes) + ", " + countIncidents +
+                    " происшеств" +
+                    DataWorker.numberInPlugue(countIncidents) + ").";
                 para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
                 para1.Range.Font.Size = 14;
                 para1.Range.InsertParagraphAfter();
@@ -107,7 +109,9 @@ namespace CrimesAndIncidents
                     for (int i = 0; i < tableCrimes.Rows.Count; i++)
                     {
                         para1.Range.Text = "- войсковая часть " + tableCrimes.Rows[i][0] + " (" + tableCrimes.Rows[i][1] + "): " +
-                            tableCrimes.Rows[i][2] + " преступлений, " + tableIncidents.Rows[i][2] + " происшествий";
+                            tableCrimes.Rows[i][2] + " преступлен" +
+                    DataWorker.numberInPlugue(Int32.Parse(tableCrimes.Rows[i][2].ToString())) + ", " + tableIncidents.Rows[i][2] + " происшеств" +
+                    DataWorker.numberInPlugue(Int32.Parse(tableIncidents.Rows[i][2].ToString())) + "";
                         para1.Range.Font.Size = 14;
                         if (chkOnSubUnit.IsChecked.Value) para1.Range.Font.Bold = 14;
                         para1.Range.InsertParagraphAfter();
@@ -131,7 +135,8 @@ namespace CrimesAndIncidents
                                 para1.Range.Font.Bold = 0;
                                 para1.Range.Font.Size = 14;
                                 para1.Range.Text = "\t" + (tableSubUnitCrime.Rows[j][0].ToString() == "" ? "не установлено" : tableSubUnitCrime.Rows[j][0].ToString()) + ": " +
-                                    tableSubUnitCrime.Rows[j][1] + " преступлений";
+                                    tableSubUnitCrime.Rows[j][1] + " преступлен" +
+                    DataWorker.numberInPlugue(Int32.Parse(tableSubUnitCrime.Rows[j][1].ToString())) + "";
                                 para1.Range.Font.Size = 14;
                                 para1.Range.InsertParagraphAfter();
                             }
