@@ -254,5 +254,29 @@ namespace CrimesAndIncidents
             return (date.IndexOf('.') > 2 || date=="" ? date :
                 DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd"));
         }
+
+        internal static string numberInPlugue(int number)
+        {
+            string str;
+
+            if ((number / 10) % 10 == 1)   // Число десятков
+                str = "ий";
+            else
+                switch (number % 10)       // Число единиц
+                {
+                    case 1: str = "ие";
+                        break;
+                    case 2:
+                    case 3:
+                    case 4: str = "ия";
+                        break;
+                    default: str = "ий";
+                        break;
+                }
+
+            return str;
+
+            return str;
+        }
     }
 }

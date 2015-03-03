@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.AnalyzeSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Настройки анализа" Height="250" Width="399" Icon="icon.ico">
+        Title="Настройки анализа" Height="250" Width="399" Icon="../icon.ico">
     <Grid>
         <Label Content="Период:      с" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <DatePicker Name="dpLeft" HorizontalAlignment="Left" Margin="97,12,0,0" VerticalAlignment="Top" Width="120"/>
