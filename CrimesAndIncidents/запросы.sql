@@ -192,3 +192,8 @@ SELECT M.number, M.shortName, Cl.description, COUNT(C.idCrime) FROM
 WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
 GROUP BY Cl.description, M.idMilitaryUnit
 ORDER BY M.idMilitaryUnit;
+
+--количество преступлений за период по дате совершения
+SELECT SUBSTR(C.dateCommit,1,4), COUNT(C.idCrime) FROM Crime C 
+WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
+GROUP BY SUBSTR(C.dateCommit,1,4);

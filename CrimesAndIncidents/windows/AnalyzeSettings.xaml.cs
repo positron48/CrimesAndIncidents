@@ -365,6 +365,76 @@ namespace CrimesAndIncidents
                 }
                 #endregion
 
+                #region по видам преступлений
+                if (chkOnDateCommit.IsChecked.Value)
+                {
+                    para1.Range.InsertParagraphAfter();
+                    para1.Range.Text = "По дате совершения преступления:";
+                    para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    para1.Range.Font.Size = 14;
+                    para1.Range.Font.Bold = 14;
+                    para1.Range.InsertParagraphAfter();
+
+                    DataTable tableOnClause = sqlWorker.selectData("SELECT SUBSTR(C.dateCommit,1,4), COUNT(C.idCrime) FROM Crime C " +
+                        "WHERE C.isRegistred = 1 AND C.dateRegistration " +
+                        "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) +
+                                "' AND C.idClause > -1 " +
+                        "GROUP BY SUBSTR(C.dateCommit,1,4);");
+
+                    for (int i = 0; i < tableOnClause.Rows.Count; i++)
+                    {
+                        para1.Range.Font.Size = 14;
+                        para1.Range.Font.Bold = 0;
+                        para1.Range.Text = "- " + tableOnClause.Rows[i][0] + " год: " + tableOnClause.Rows[i][1] + " преступлени" +
+                            DataWorker.numberInPlugue(Int32.Parse(tableOnClause.Rows[i][1].ToString()));
+                        para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                        para1.Range.InsertParagraphAfter();
+                    }
+                    para1.Range.InsertParagraphAfter();
+
+                    //if (chkOnMilitaryUnit.IsChecked.Value)
+                    //{
+                    //    tableOnClause = sqlWorker.selectData("SELECT M.number, M.shortName, Cl.description, COUNT(C.idCrime) FROM " +
+                    //            "Crime C LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                    //            "LEFT JOIN Clause Cl ON Cl.idClause = C.idClause " +
+                    //        "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) +
+                    //            "' AND C.idClause > -1 " +
+                    //        "GROUP BY Cl.description, M.idMilitaryUnit " +
+                    //        "ORDER BY M.idMilitaryUnit;");
+
+                    //    if (tableOnClause.Rows.Count != 0)
+                    //    {
+                    //        string oldUnit = tableOnClause.Rows[0][0].ToString();
+                    //        para1.Range.Text = "-войсковая часть " + tableOnClause.Rows[0][0] + " (" + tableOnClause.Rows[0][1] + "):";
+                    //        para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    //        para1.Range.Font.Size = 14;
+                    //        para1.Range.Font.Bold = 14;
+                    //        para1.Range.InsertParagraphAfter();
+
+                    //        for (int i = 0; i < tableOnClause.Rows.Count; i++)
+                    //        {
+                    //            string newUnit = tableOnClause.Rows[i][0].ToString();
+                    //            if (newUnit != oldUnit)
+                    //            {
+                    //                para1.Range.Text = "-войсковая часть " + tableOnClause.Rows[i][0] + " (" + tableOnClause.Rows[i][1] + "):";
+                    //                para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    //                para1.Range.Font.Size = 14;
+                    //                para1.Range.Font.Bold = 14;
+                    //                para1.Range.InsertParagraphAfter();
+                    //                oldUnit = newUnit;
+                    //            }
+
+                    //            para1.Range.Font.Size = 14;
+                    //            para1.Range.Font.Bold = 0;
+                    //            para1.Range.Text = "\t" + tableOnClause.Rows[i][2] + ": " + tableOnClause.Rows[i][3];
+                    //            para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                    //            para1.Range.InsertParagraphAfter();
+                    //        }
+                    //    }
+                    //}
+                }
+                #endregion
+
                 winword.Visible = true;
             }
             catch (Exception ex)
