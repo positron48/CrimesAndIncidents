@@ -33,11 +33,15 @@ namespace CrimesAndIncidents
         public MainWindow()
         {
             InitializeComponent();
+
+            dpLeft.Text = "01.01." + DateTime.Now.ToString("yyyy");
+            dpRight.Text = DateTime.Now.ToString("dd.MM.yyyy");
+
             crimes = new ObservableCollection<Crime>();
             try
             {
                 sqlWorker = new SqliteWorker("CrimesAndIncidents");
-                crimes = DataWorker.getCrimes(sqlWorker);
+                
 
                 //изменение формата дат, оставлю, вдруг понадобится
                 //for (int i = 0; i < crimes.Count; i++)
@@ -49,13 +53,11 @@ namespace CrimesAndIncidents
                 //        "WHERE idCrime = " + crimes[i].Id);
                 //}
                 coll = new CollectionViewSource();
-                coll.Source = crimes;
-                coll.Filter += coll_Filter;
-                coll.View.CollectionChanged += View_CollectionChanged;
 
-                crimesDataGrid.ItemsSource = coll.View;
+
+                btnOk_Click_1(null, null);
+
                 crimesDataGrid.CanUserAddRows = false;
-                //crimesDataGrid.IsReadOnly = true;
 
                 rowFilter.Height = new GridLength(0);
 
