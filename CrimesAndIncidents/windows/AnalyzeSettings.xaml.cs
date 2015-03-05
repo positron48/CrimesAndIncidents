@@ -31,6 +31,9 @@ namespace CrimesAndIncidents
         {
             InitializeComponent();
 
+            dpLeft.Text = "01.01." + DateTime.Now.ToString("yyyy");
+            dpRight.Text = DateTime.Now.ToString("dd.MM.yyyy");
+
             this.sqlWorker = sqlWorker;
         }
 
@@ -365,7 +368,7 @@ namespace CrimesAndIncidents
                 }
                 #endregion
 
-                #region по видам преступлений
+                #region по дате совершения преступления
                 if (chkOnDateCommit.IsChecked.Value)
                 {
                     para1.Range.InsertParagraphAfter();
