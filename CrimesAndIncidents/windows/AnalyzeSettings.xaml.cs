@@ -538,12 +538,16 @@ namespace CrimesAndIncidents
                     para1.Range.Font.Bold = 14;
                     para1.Range.InsertParagraphAfter();
 
-                    DataTable tableOnClause = sqlWorker.selectData("SELECT Cl.description, COUNT(C.idCrime) FROM "+
+                    DataTable tableOnClausePrev= new DataTable(), 
+                        tableOnClause = sqlWorker.selectData("SELECT Cl.description, COUNT(C.idCrime) FROM " +
                             "Crime C LEFT JOIN Clause Cl ON Cl.idClause = C.idClause "+
                         "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + 
                             "' AND C.idClause > -1 " +
                         "GROUP BY Cl.description "+
                         "ORDER BY Cl.description;");
+
+                    
+
                     for (int i = 0; i < tableOnClause.Rows.Count; i++)
                     {
                         para1.Range.Font.Size = 14;
@@ -552,6 +556,30 @@ namespace CrimesAndIncidents
                         para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
                         para1.Range.InsertParagraphAfter();
                     }
+
+                    if (rbPrevPeriod.IsChecked.Value)
+                    {
+                        tableOnClausePrev = sqlWorker.selectData("SELECT Cl.description, COUNT(C.idCrime) FROM " +
+                            "Crime C LEFT JOIN Clause Cl ON Cl.idClause = C.idClause " +
+                        "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) +
+                            "' AND C.idClause > -1 " +
+                        "GROUP BY Cl.description " +
+                        "ORDER BY Cl.description;");
+
+                        para1.Range.Font.Bold = 14;
+                        para1.Range.Text = (dpRight.SelectedDate.Value.Year-1) +" г.:";
+                        para1.Range.InsertParagraphAfter();
+
+                        for (int i = 0; i < tableOnClausePrev.Rows.Count; i++)
+                        {
+                            para1.Range.Font.Size = 14;
+                            para1.Range.Font.Bold = 0;
+                            para1.Range.Text = "-" + tableOnClausePrev.Rows[i][0] + ": " + tableOnClausePrev.Rows[i][1];
+                            para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                            para1.Range.InsertParagraphAfter();
+                        }
+                    }
+
                     para1.Range.InsertParagraphAfter();
 
                     if (chkOnMilitaryUnit.IsChecked.Value)
@@ -591,6 +619,51 @@ namespace CrimesAndIncidents
                                 para1.Range.Text = "\t" + tableOnClause.Rows[i][2] + ": " + tableOnClause.Rows[i][3];
                                 para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
                                 para1.Range.InsertParagraphAfter();
+                            }
+                        }
+
+                        if (rbPrevPeriod.IsChecked.Value)
+                        {
+                            tableOnClausePrev = sqlWorker.selectData("SELECT M.number, M.shortName, Cl.description, COUNT(C.idCrime) FROM " +
+                                "Crime C LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Clause Cl ON Cl.idClause = C.idClause " +
+                            "WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) +
+                                "' AND C.idClause > -1 " +
+                            "GROUP BY Cl.description, M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit;");
+
+                            para1.Range.Font.Bold = 14;
+                            para1.Range.Text = (dpRight.SelectedDate.Value.Year - 1) + " г.:";
+                            para1.Range.InsertParagraphAfter();
+
+                            if (tableOnClausePrev.Rows.Count != 0)
+                            {
+                                string oldUnit = tableOnClausePrev.Rows[0][0].ToString();
+                                para1.Range.Text = "-войсковая часть " + tableOnClausePrev.Rows[0][0] + " (" + tableOnClausePrev.Rows[0][1] + "):";
+                                para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                para1.Range.Font.Size = 14;
+                                para1.Range.Font.Bold = 14;
+                                para1.Range.InsertParagraphAfter();
+
+                                for (int i = 0; i < tableOnClausePrev.Rows.Count; i++)
+                                {
+                                    string newUnit = tableOnClausePrev.Rows[i][0].ToString();
+                                    if (newUnit != oldUnit)
+                                    {
+                                        para1.Range.Text = "-войсковая часть " + tableOnClausePrev.Rows[i][0] + " (" + tableOnClausePrev.Rows[i][1] + "):";
+                                        para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                        para1.Range.Font.Size = 14;
+                                        para1.Range.Font.Bold = 14;
+                                        para1.Range.InsertParagraphAfter();
+                                        oldUnit = newUnit;
+                                    }
+
+                                    para1.Range.Font.Size = 14;
+                                    para1.Range.Font.Bold = 0;
+                                    para1.Range.Text = "\t" + tableOnClausePrev.Rows[i][2] + ": " + tableOnClausePrev.Rows[i][3];
+                                    para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                                    para1.Range.InsertParagraphAfter();
+                                }
                             }
                         }
                     }
