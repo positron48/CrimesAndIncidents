@@ -248,11 +248,19 @@ namespace CrimesAndIncidents
 
         }
 
-        internal static string getDateInTrueFormat(string date)
+        internal static string getDateInTrueFormat(string date, int n = 0)
         {
+            DateTime t = new DateTime();
+            if(date != "")
+            {
+                if(date.IndexOf('.') > 2)
+                    t = DateTime.ParseExact(date, "yyyy.MM.dd", CultureInfo.InvariantCulture);
+                else
+                    t = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                t = t.AddYears(n);
+            }
             //преобразование даты из 12.12.2012 в 2012.12.12
-            return (date.IndexOf('.') > 2 || date=="" ? date :
-                DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy.MM.dd"));
+            return ( date=="" ? "" : t.ToString("yyyy.MM.dd"));
         }
 
         internal static string numberInPlugue(int number)

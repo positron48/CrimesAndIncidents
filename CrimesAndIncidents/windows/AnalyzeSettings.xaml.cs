@@ -43,6 +43,10 @@ namespace CrimesAndIncidents
             {
                 string dateLeft = DataWorker.getDateInTrueFormat(dpLeft.Text);
                 string dateRight = DataWorker.getDateInTrueFormat(dpRight.Text);
+
+                string dateLeftPrev = DataWorker.getDateInTrueFormat(dpLeft.Text, -1);
+                string dateRightPrev = DataWorker.getDateInTrueFormat(dpRight.Text, -1);
+                
                 int countCrimes = Int32.Parse(sqlWorker.selectData("SELECT COUNT(C.idMilitaryUnit) FROM " +
                     "MilitaryUnit M LEFT JOIN " +
                     "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
@@ -51,7 +55,18 @@ namespace CrimesAndIncidents
                     "MilitaryUnit M LEFT JOIN " +
                     "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
                     "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause IS NULL").Rows[0][0].ToString());
-
+                int countCrimesPrev=0, countIncidentsPrev=0;
+                if (rbPrevPeriod.IsChecked.Value)
+                {
+                    countCrimesPrev = Int32.Parse(sqlWorker.selectData("SELECT COUNT(C.idMilitaryUnit) FROM " +
+                        "MilitaryUnit M LEFT JOIN " +
+                        "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
+                        "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "' AND C.idClause > -1").Rows[0][0].ToString());
+                    countIncidentsPrev = Int32.Parse(sqlWorker.selectData("SELECT COUNT(C.idMilitaryUnit) FROM " +
+                        "MilitaryUnit M LEFT JOIN " +
+                        "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
+                        "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "' AND C.idClause IS NULL").Rows[0][0].ToString());
+                }
                 Microsoft.Office.Interop.Word.Application winword =
                     new Microsoft.Office.Interop.Word.Application();
 
@@ -72,6 +87,7 @@ namespace CrimesAndIncidents
                 Microsoft.Office.Interop.Word.Paragraph para1 = document.Content.Paragraphs.Add(ref missing);
                 //para1.Range.set_Style(styleHeading1);
                 para1.Range.Font.Size = 14;
+                para1.Range.Font.Bold = 14;
                 para1.Range.Text = "Анализ преступлений и происшествий за " +
                     ((dateLeft == "" && dateRight == "") ? "все время" :
                         ("период " +
@@ -81,12 +97,19 @@ namespace CrimesAndIncidents
                 para1.Range.InsertParagraphAfter();
                 para1.Range.InsertParagraphAfter();
 
-                para1.Range.Text = "Всего преступлений и происшествий: " + (countCrimes + countIncidents) + "(" + countCrimes + "преступлен" + 
-                    DataWorker.numberInPlugue(countCrimes) + ", " + countIncidents +
-                    " происшеств" +
-                    DataWorker.numberInPlugue(countIncidents) + ").";
                 para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
                 para1.Range.Font.Size = 14;
+                para1.Range.Text = "Всего преступлений и происшествий: " + (countCrimes + countIncidents) + " (" + countCrimes + " преступлен" + 
+                    DataWorker.numberInPlugue(countCrimes) + ", " + countIncidents +
+                    " происшеств" +
+                    DataWorker.numberInPlugue(countIncidents) + ")" +
+
+                    (!rbPrevPeriod.IsChecked.Value ? "" :
+                        "\n\t" + (dpRight.SelectedDate.Value.Year-1) +" г. - "+(countCrimesPrev + countIncidentsPrev) + " (" + countCrimesPrev + " преступлен" +
+                        DataWorker.numberInPlugue(countCrimesPrev) + ", " + countIncidentsPrev +
+                        " происшеств" +
+                        DataWorker.numberInPlugue(countIncidentsPrev) + ")");
+                
                 para1.Range.InsertParagraphAfter();
                 para1.Range.InsertParagraphAfter();
 
@@ -108,16 +131,35 @@ namespace CrimesAndIncidents
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "' AND C.idClause IS NULL " +
                         "GROUP BY M.number, M.shortName " +
                         "ORDER BY M.idMilitaryUnit;");
+                    DataTable tableCrimesPrev = new DataTable(), tableIncidentsPrev = new DataTable();
+                    if (rbPrevPeriod.IsChecked.Value)
+                    {
+                        tableCrimesPrev = sqlWorker.selectData("SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) FROM " +
+                               "MilitaryUnit M LEFT JOIN " +
+                               "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
+                               "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "' AND C.idClause > -1 " +
+                            "GROUP BY M.number, M.shortName " +
+                            "ORDER BY M.idMilitaryUnit;");
+                        tableIncidentsPrev = sqlWorker.selectData("SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) FROM " +
+                                "MilitaryUnit M LEFT JOIN " +
+                                "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration " +
+                                "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "' AND C.idClause IS NULL " +
+                            "GROUP BY M.number, M.shortName " +
+                            "ORDER BY M.idMilitaryUnit;");
+                    }
 
                     for (int i = 0; i < tableCrimes.Rows.Count; i++)
                     {
                         para1.Range.Text = "- войсковая часть " + tableCrimes.Rows[i][0] + " (" + tableCrimes.Rows[i][1] + "): " +
-                            tableCrimes.Rows[i][2] + " преступлен" +
-                    DataWorker.numberInPlugue(Int32.Parse(tableCrimes.Rows[i][2].ToString())) + ", " + tableIncidents.Rows[i][2] + " происшеств" +
-                    DataWorker.numberInPlugue(Int32.Parse(tableIncidents.Rows[i][2].ToString())) + "";
+                            tableCrimes.Rows[i][2] + " пре, " + tableIncidents.Rows[i][2] + " про" +
+
+                            (!rbPrevPeriod.IsChecked.Value ? "" :
+                                " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " +
+                                tableCrimesPrev.Rows[i][2] + " и " + tableIncidentsPrev.Rows[i][2] + ")");
                         para1.Range.Font.Size = 14;
                         if (chkOnSubUnit.IsChecked.Value) para1.Range.Font.Bold = 14;
                         para1.Range.InsertParagraphAfter();
+
                         if (chkOnSubUnit.IsChecked.Value)
                         {
                             DataTable tableSubUnitCrime = sqlWorker.selectData("SELECT Name, COUNT(idCrime) FROM " +
@@ -133,15 +175,51 @@ namespace CrimesAndIncidents
                                 "WHERE number = '" + tableCrimes.Rows[i][0] + "' " +
                                 "GROUP BY Name " +
                                 "ORDER BY Name");
+
                             for (int j = 0; j < tableSubUnitCrime.Rows.Count; j++)
                             {
                                 para1.Range.Font.Bold = 0;
                                 para1.Range.Font.Size = 14;
                                 para1.Range.Text = "\t" + (tableSubUnitCrime.Rows[j][0].ToString() == "" ? "не установлено" : tableSubUnitCrime.Rows[j][0].ToString()) + ": " +
                                     tableSubUnitCrime.Rows[j][1] + " преступлен" +
-                    DataWorker.numberInPlugue(Int32.Parse(tableSubUnitCrime.Rows[j][1].ToString())) + "";
+                                    DataWorker.numberInPlugue(Int32.Parse(tableSubUnitCrime.Rows[j][1].ToString())) + "";
                                 para1.Range.Font.Size = 14;
                                 para1.Range.InsertParagraphAfter();
+                            }
+
+                            if (rbPrevPeriod.IsChecked.Value)
+                            {
+                                DataTable tableSubUnitCrimePrev = sqlWorker.selectData("SELECT Name, COUNT(idCrime) FROM " +
+                                    "(SELECT M.number, M.shortName, S.Name, C.idCrime FROM " +
+                                        "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                                        "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                                        "LEFT JOIN SubUnit S ON S.idSubUnit = A.idSubUnit  " +
+                                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                                    "WHERE C.isRegistred = 1 AND C.dateRegistration  " +
+                                        "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "' AND C.idClause > -1 " +
+                                    "GROUP BY C.idCrime " +
+                                    "ORDER BY M.idMilitaryUnit) " +
+                                "WHERE number = '" + tableCrimes.Rows[i][0] + "' " +
+                                "GROUP BY Name " +
+                                "ORDER BY Name");
+
+                                if (tableSubUnitCrimePrev.Rows.Count > 0)
+                                {
+                                    para1.Range.Font.Bold = 14;
+                                    para1.Range.Text = "\t" + (dpRight.SelectedDate.Value.Year - 1) + " г.:";
+                                    para1.Range.InsertParagraphAfter();
+                                }
+                                for (int j = 0; j < tableSubUnitCrimePrev.Rows.Count; j++)
+                                {
+                                    para1.Range.Font.Bold = 0;
+                                    para1.Range.Font.Size = 14;
+                                    para1.Range.Text = "\t" +
+                                        (tableSubUnitCrimePrev.Rows[j][0].ToString() == "" ? "не установлено" : tableSubUnitCrimePrev.Rows[j][0].ToString()) + ": " +
+                                        tableSubUnitCrimePrev.Rows[j][1] + " преступлен" +
+                                        DataWorker.numberInPlugue(Int32.Parse(tableSubUnitCrimePrev.Rows[j][1].ToString())) + "";
+                                    para1.Range.Font.Size = 14;
+                                    para1.Range.InsertParagraphAfter();
+                                }
                             }
                         }
                     }
