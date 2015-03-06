@@ -230,8 +230,9 @@ namespace CrimesAndIncidents
                 #region по участникам
                 if (chkOnAccomplice.IsChecked.Value)
                 {
-                    DataTable tableAccompliceCrime = sqlWorker.selectData("SELECT * FROM " + 
-                        "(SELECT COUNT(A.idAccomplice) as призывники FROM " + 
+                    DataTable tableAccompliceCrimePrev = new DataTable(),
+                        tableAccompliceCrime = sqlWorker.selectData("SELECT * FROM " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as призывники FROM " + 
                             "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " + 
                             "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " + 
                             "LEFT JOIN Rank R ON R.idRank = A.idRank " + 
@@ -239,8 +240,8 @@ namespace CrimesAndIncidents
                             "AND C.isRegistred = 1  " + 
                             "AND C.dateRegistration  " + 
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "'  " + 
-                            "AND C.idClause > -1), " + 
-                        "(SELECT COUNT(A.idAccomplice) as контрактники FROM " + 
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as контрактники FROM " + 
                             "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " + 
                             "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " + 
                             "LEFT JOIN Rank R ON R.idRank = A.idRank " + 
@@ -249,8 +250,8 @@ namespace CrimesAndIncidents
                             "AND C.isRegistred = 1  " + 
                             "AND C.dateRegistration  " + 
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "'  " + 
-                            "AND C.idClause > -1), " + 
-                        "(SELECT COUNT(A.idAccomplice) as прапорщики FROM " + 
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as прапорщики FROM " + 
                             "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " + 
                             "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " + 
                             "LEFT JOIN Rank R ON R.idRank = A.idRank " + 
@@ -259,8 +260,8 @@ namespace CrimesAndIncidents
                             "AND C.isRegistred = 1  " + 
                             "AND C.dateRegistration  " + 
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "'  " + 
-                            "AND C.idClause > -1), " + 
-                        "(SELECT COUNT(A.idAccomplice) as офицеры FROM " + 
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as офицеры FROM " + 
                             "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " + 
                             "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " + 
                             "LEFT JOIN Rank R ON R.idRank = A.idRank " + 
@@ -270,22 +271,74 @@ namespace CrimesAndIncidents
                             "AND C.dateRegistration  " +
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) + "'  " + 
                             "AND C.idClause > -1);");
+
+                    if(rbPrevPeriod.IsChecked.Value)
+                        tableAccompliceCrimePrev = sqlWorker.selectData("SELECT * FROM " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as призывники FROM " +
+                            "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                            "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                            "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "WHERE A.isContrakt = 0  " +
+                            "AND C.isRegistred = 1  " +
+                            "AND C.dateRegistration  " +
+                            "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as контрактники FROM " +
+                            "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                            "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                            "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "WHERE A.isContrakt = 1 " +
+                            "AND R.priority < 60  " +
+                            "AND C.isRegistred = 1  " +
+                            "AND C.dateRegistration  " +
+                            "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as прапорщики FROM " +
+                            "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                            "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                            "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "WHERE A.isContrakt = 1 " +
+                            "AND R.priority BETWEEN 60 AND 75 " +
+                            "AND C.isRegistred = 1  " +
+                            "AND C.dateRegistration  " +
+                            "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                            "AND C.idClause > -1), " +
+                        "(SELECT COUNT(DISTINCT A.idAccomplice) as офицеры FROM " +
+                            "Crime C LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                            "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                            "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                        "WHERE A.isContrakt = 1 " +
+                            "AND R.priority > 75 " +
+                            "AND C.isRegistred = 1  " +
+                            "AND C.dateRegistration  " +
+                            "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                            "AND C.idClause > -1);");
+
                     para1.Range.InsertParagraphAfter();
                     para1.Range.Text = "По участникам: ";
                     para1.Range.InsertParagraphAfter();
                     
                     para1.Range.Font.Bold = 0;
                     para1.Range.Font.Size = 14;
-                    para1.Range.Text = "-солдаты и сержанты по призыву: " + tableAccompliceCrime.Rows[0][0] + Environment.NewLine +
-                        "-солдаты и сержанты по контракту: " + tableAccompliceCrime.Rows[0][1] + Environment.NewLine +
-                        "-прапорщики: " + tableAccompliceCrime.Rows[0][2] + Environment.NewLine +
-                        "-офицеры: " + tableAccompliceCrime.Rows[0][3];
+                    para1.Range.Text = "-солдаты и сержанты по призыву: " + tableAccompliceCrime.Rows[0][0] +
+                        (!rbPrevPeriod.IsChecked.Value ? "" :
+                            " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " + tableAccompliceCrimePrev.Rows[0][0] + ")") + Environment.NewLine +
+                        "-солдаты и сержанты по контракту: " + tableAccompliceCrime.Rows[0][1] +
+                        (!rbPrevPeriod.IsChecked.Value ? "" :
+                            " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " + tableAccompliceCrimePrev.Rows[0][1] + ")") + Environment.NewLine +
+                        "-прапорщики: " + tableAccompliceCrime.Rows[0][2] +
+                        (!rbPrevPeriod.IsChecked.Value ? "" :
+                            " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " + tableAccompliceCrimePrev.Rows[0][2] + ")") + Environment.NewLine +
+                        "-офицеры: " + tableAccompliceCrime.Rows[0][3] +
+                        (!rbPrevPeriod.IsChecked.Value ? "" :
+                            " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " + tableAccompliceCrimePrev.Rows[0][3] + ")");
                     para1.Range.InsertParagraphAfter(); 
                     para1.Range.InsertParagraphAfter();
 
                     if (chkOnMilitaryUnit.IsChecked.Value)
                     {
-                        DataTable tableAccompliceMilitaryUnit = sqlWorker.selectData("SELECT M1.number, M1.name, T1.n1 as призывники, T2.n2 as контрактники, T3.n3 as прапорщики, T4.n4 as офицеры FROM  " + 
+                        DataTable tableAccompliceMilitaryUnitPrev = new DataTable(),
+                            tableAccompliceMilitaryUnit = sqlWorker.selectData("SELECT M1.number, M1.name, T1.n1 as призывники, T2.n2 as контрактники, T3.n3 as прапорщики, T4.n4 as офицеры FROM  " + 
                             "(SELECT M.number, M.name FROM MilitaryUnit M) M1 LEFT JOIN  " + 
                             "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n1 FROM " + 
                                 "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit " + 
@@ -342,12 +395,74 @@ namespace CrimesAndIncidents
                             "GROUP BY M.idMilitaryUnit " + 
                             "ORDER BY M.idMilitaryUnit) T4  ON T4.number = M1.number ");
 
+                        if(rbPrevPeriod.IsChecked.Value)
+                            tableAccompliceMilitaryUnitPrev = sqlWorker.selectData("SELECT M1.number, M1.name, T1.n1 as призывники, T2.n2 as контрактники, T3.n3 as прапорщики, T4.n4 as офицеры FROM  " +
+                            "(SELECT M.number, M.name FROM MilitaryUnit M) M1 LEFT JOIN  " +
+                            "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n1 FROM " +
+                                "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                                "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                                "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                            "WHERE A.isContrakt = 0 " +
+                                "AND C.isRegistred = 1  " +
+                                "AND C.dateRegistration  " +
+                                "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                                "AND C.idClause > -1 " +
+                            "GROUP BY M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit) T1 ON T1.number = M1.number  " +
+                            "LEFT JOIN " +
+                            "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n2 FROM " +
+                                "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                                "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                                "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                            "WHERE A.isContrakt = 1 " +
+                                "AND R.priority < 60 " +
+                                "AND C.isRegistred = 1  " +
+                                "AND C.dateRegistration  " +
+                                "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                                "AND C.idClause > -1 " +
+                            "GROUP BY M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit) T2 ON T2.number = M1.number  " +
+                            "LEFT JOIN " +
+                            "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n3 FROM " +
+                                "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                                "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                                "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                            "WHERE A.isContrakt = 1 " +
+                                "AND R.priority BETWEEN 60 AND 75 " +
+                                "AND C.isRegistred = 1  " +
+                                "AND C.dateRegistration  " +
+                                "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                                "AND C.idClause > -1 " +
+                            "GROUP BY M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit) T3  ON T3.number = M1.number  " +
+                            "LEFT JOIN " +
+                            "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n4 FROM " +
+                                "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit " +
+                                "LEFT JOIN Portaking P ON C.idCrime = P.idCrime " +
+                                "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice " +
+                                "LEFT JOIN Rank R ON R.idRank = A.idRank " +
+                            "WHERE A.isContrakt = 1 " +
+                                "AND R.priority > 75 " +
+                                "AND C.isRegistred = 1  " +
+                                "AND C.dateRegistration  " +
+                                "BETWEEN '" + dateLeftPrev + "' AND '" + (dateRightPrev == "" ? "9999.99.99" : dateRightPrev) + "'  " +
+                                "AND C.idClause > -1 " +
+                            "GROUP BY M.idMilitaryUnit " +
+                            "ORDER BY M.idMilitaryUnit) T4  ON T4.number = M1.number ");
+
                         for (int i = 0; i < tableAccompliceMilitaryUnit.Rows.Count; i++)
                         {
                             if (tableAccompliceMilitaryUnit.Rows[i][2].ToString() != "" ||
                                 tableAccompliceMilitaryUnit.Rows[i][3].ToString() != "" ||
                                 tableAccompliceMilitaryUnit.Rows[i][4].ToString() != "" ||
-                                tableAccompliceMilitaryUnit.Rows[i][5].ToString() != "")
+                                tableAccompliceMilitaryUnit.Rows[i][5].ToString() != "" ||
+                                (rbPrevPeriod.IsChecked.Value && (tableAccompliceMilitaryUnitPrev.Rows[i][2].ToString() != "" ||
+                                tableAccompliceMilitaryUnitPrev.Rows[i][3].ToString() != "" ||
+                                tableAccompliceMilitaryUnitPrev.Rows[i][4].ToString() != "" ||
+                                tableAccompliceMilitaryUnitPrev.Rows[i][5].ToString() != "")))
                             {
                                 para1.Range.Font.Size = 14;
                                 para1.Range.Font.Bold = 14;
@@ -356,19 +471,55 @@ namespace CrimesAndIncidents
 
                                 para1.Range.Font.Size = 14;
                                 para1.Range.Font.Bold = 0;
-                                para1.Range.Text = (tableAccompliceMilitaryUnit.Rows[i][2].ToString() == "" ?
-                                        "" :
-                                        "\tсолдаты и сержанты по призыву: " + tableAccompliceMilitaryUnit.Rows[i][2] + Environment.NewLine) +
-                                    (tableAccompliceMilitaryUnit.Rows[i][3].ToString() == "" ?
-                                        "" :
-                                        "\tсолдаты и сержанты по контракту: " + tableAccompliceMilitaryUnit.Rows[i][3] + Environment.NewLine) +
-                                    (tableAccompliceMilitaryUnit.Rows[i][4].ToString() == "" ?
-                                        "" :
-                                        "\tпрапорщики: " + tableAccompliceMilitaryUnit.Rows[i][4] + Environment.NewLine) +
-                                    (tableAccompliceMilitaryUnit.Rows[i][5].ToString() == "" ?
-                                        "" :
-                                        "\tофицеры: " + tableAccompliceMilitaryUnit.Rows[i][5]);
-
+                                if (!rbPrevPeriod.IsChecked.Value)
+                                {
+                                    para1.Range.Text = (tableAccompliceMilitaryUnit.Rows[i][2].ToString() == "" ?
+                                            "" :
+                                            "\tсолдаты и сержанты по призыву: " + tableAccompliceMilitaryUnit.Rows[i][2] + Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][3].ToString() == "" ?
+                                            "" :
+                                            "\tсолдаты и сержанты по контракту: " + tableAccompliceMilitaryUnit.Rows[i][3] + Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][4].ToString() == "" ?
+                                            "" :
+                                            "\tпрапорщики: " + tableAccompliceMilitaryUnit.Rows[i][4] + Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][5].ToString() == "" ?
+                                            "" :
+                                            "\tофицеры: " + tableAccompliceMilitaryUnit.Rows[i][5]);
+                                }
+                                else
+                                {
+                                    para1.Range.Text = (tableAccompliceMilitaryUnit.Rows[i][2].ToString() == "" &&
+                                        tableAccompliceMilitaryUnitPrev.Rows[i][2].ToString() == "" ?
+                                            "" :
+                                            "\tсолдаты и сержанты по призыву: " +
+                                            (tableAccompliceMilitaryUnit.Rows[i][2].ToString() == "" ? "0" : tableAccompliceMilitaryUnit.Rows[i][2]) +
+                                            (tableAccompliceMilitaryUnitPrev.Rows[i][2].ToString() == "" ? "" : " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " +
+                                            tableAccompliceMilitaryUnitPrev.Rows[i][2] + ")") +
+                                            Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][3].ToString() == "" &&
+                                        tableAccompliceMilitaryUnitPrev.Rows[i][3].ToString() == "" ?
+                                            "" :
+                                            "\tсолдаты и сержанты по контракту: " +
+                                            (tableAccompliceMilitaryUnit.Rows[i][3].ToString() == "" ? "0" : tableAccompliceMilitaryUnit.Rows[i][3]) +
+                                            (tableAccompliceMilitaryUnitPrev.Rows[i][3].ToString() == "" ? "" : " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " +
+                                            tableAccompliceMilitaryUnitPrev.Rows[i][3] + ")") +
+                                             Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][4].ToString() == "" &&
+                                        tableAccompliceMilitaryUnitPrev.Rows[i][4].ToString() == "" ?
+                                            "" :
+                                            "\tпрапорщики: " +
+                                            (tableAccompliceMilitaryUnit.Rows[i][4].ToString() == "" ? "0" : tableAccompliceMilitaryUnit.Rows[i][4]) +
+                                            (tableAccompliceMilitaryUnitPrev.Rows[i][4].ToString() == "" ? "" : " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " +
+                                            tableAccompliceMilitaryUnitPrev.Rows[i][4] + ")") +
+                                             Environment.NewLine) +
+                                        (tableAccompliceMilitaryUnit.Rows[i][5].ToString() == "" &&
+                                        tableAccompliceMilitaryUnitPrev.Rows[i][5].ToString() == "" ?
+                                            "" :
+                                            "\tофицеры: " +
+                                            (tableAccompliceMilitaryUnit.Rows[i][5].ToString() == "" ? "0" : tableAccompliceMilitaryUnit.Rows[i][5]) +
+                                            (tableAccompliceMilitaryUnitPrev.Rows[i][5].ToString() == "" ? "" : " (" + (dpRight.SelectedDate.Value.Year - 1) + " г. - " +
+                                            tableAccompliceMilitaryUnitPrev.Rows[i][5] + ")"));
+                                }
                                 para1.Range.InsertParagraphAfter();
                             }
                         }
