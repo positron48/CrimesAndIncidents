@@ -10,6 +10,7 @@
         
     </Window.Resources>
     <Grid Background="White">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="25"/>
@@ -50,9 +51,17 @@
             <DatePicker Name="dpLeft" Margin="0,-2,0,0" Height="25" />
             <Label  Height="25" Margin="0,-4,0,0" Content="по" />
             <DatePicker Name="dpRight" Margin="0,-2,5,0" Height="25" />
-            <Button Content="Ok" Name="btnOk" Click="btnOk_Click_1" />
+            <Button Content="Ok" Name="btnOk" Margin="0,-2,0,0" Click="btnOk_Click_1" />
 
-            <Button Name="btnFilter" Margin="15,0,5,0" Content="Фильтр ▼" Height="25" Click="btnFilter_Click_1"/>
+            <Label  Height="25" Margin="0,-4,0,0" Content="Группировка:" />
+            <CheckBox Name="chkGroupMU"  Margin="0,-2,0,0" Content="по в/ч" Checked="chkGroupMU_Checked" Unchecked="chkGroupMU_Unchecked_1"/>
+            <Label  Height="25" Margin="0,-4,0,0" Content="и" />
+            <ComboBox Name="cbGroupOn" Height="20" Margin="15,-2,5,0" Width="120" SelectionChanged="cbGroupOn_SelectionChanged">
+                <ComboBoxItem Content="" IsSelected="True"/>
+                <ComboBoxItem Content="Участник"/>
+                <ComboBoxItem Content="Статья УК"/>
+            </ComboBox>
+            <Button Name="btnFilter" Margin="5,0,5,0" Content="Фильтр ▼" Height="25" Click="btnFilter_Click_1"/>
         </ToolBar>
 
         <Label Content="учет:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Margin="126,0,0,0"/>
@@ -70,10 +79,49 @@
         <Button Name="btnClearFilter" Content="Очистить" HorizontalAlignment="Left" Margin="813,1,0,1" Grid.Row="2" Click="btnClearFilter_Click_1"/>
         <Label Content="в/ч:" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Margin="683,0,0,0"/>
         <ComboBox Name="cbFilterMilitaryUnit" HorizontalAlignment="Left" Margin="714,1,0,1" Grid.Row="2"  Width="94" SelectionChanged="cbFilterMilitaryUnit_SelectionChanged"/>
-        
+
         <DataGrid Name="crimesDataGrid" Margin="0,0,0,0" AutoGenerateColumns="False" Grid.Row="3" MouseDoubleClick="crimesDataGrid_MouseDoubleClick" LoadingRow="crimesDataGrid_LoadingRow" SelectionChanged="crimesDataGrid_SelectionChanged" >
+            <DataGrid.GroupStyle>
+                <!-- Style for groups at top level. -->
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True" Background="#FF82a3d4" Foreground="#FF000000">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="200"/>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+                <!-- Style for groups under the top level. -->
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel Background="LightBlue">
+                                <TextBlock Text="{Binding Path=Name}" Foreground="Blue" Margin="30,0,0,0" Width="200"/>
+                                <TextBlock Text="{Binding Path=ItemCount}" Foreground="Blue"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+                
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Учет" IsReadOnly="True" >
+                <DataGridTemplateColumn Header="Учет" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsRegistred}"  Click="CheckBox_Click_1"/>

@@ -8,13 +8,13 @@
         <Label Content="по" HorizontalAlignment="Left" Margin="226,10,0,0" VerticalAlignment="Top"/>
         <DatePicker Name="dpRight"  HorizontalAlignment="Left" Margin="255,12,0,0" VerticalAlignment="Top" Width="120"/>
         <RadioButton GroupName="1" Name="rbOnlyPeriod" IsChecked="True" Content="Анализ за выбранный период" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="1" Name="rbPrevPeriod" Content="В сравнении с предыдущим" HorizontalAlignment="Left" Margin="205,50,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="chkOnMilitaryUnit" Content="По воинским частям" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" />
-        <CheckBox Name="chkOnSubUnit" Content="По подразделениям" HorizontalAlignment="Left" Margin="196,86,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="chkOnAccomplice" Content="По участникам" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top"/>
-        <CheckBox Name="chkOnClause" Content="По видам преступлений" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top"/>
+        <RadioButton GroupName="1" Name="rbPrevPeriod" Content="В сравнении с предыдущим" HorizontalAlignment="Left" Margin="205,50,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox Name="chkOnMilitaryUnit" Content="По воинским частям" HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" IsChecked="True" />
+        <CheckBox Name="chkOnSubUnit" Content="По подразделениям" HorizontalAlignment="Left" Margin="196,86,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox Name="chkOnAccomplice" Content="По участникам" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" IsChecked="True"/>
+        <CheckBox Name="chkOnClause" Content="По видам преступлений" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" IsChecked="True"/>
         <CheckBox Name="chkOnCategories" Content="По категориям" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" IsEnabled="False"/>
-        <CheckBox Name="chkOnDateCommit" Content="По дате совершения" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" />
+        <CheckBox Name="chkOnDateCommit" Content="По дате совершения" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" IsChecked="True" />
         
         <Button Name="btnOk" Content="Ok" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="75" Click="btnOk_Click"/>
 
