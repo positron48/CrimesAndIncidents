@@ -191,10 +191,17 @@ namespace CrimesAndIncidents
                 for (int i = 0; i < crimes.Count; i++)
                     if (newC.Id == crimes[i].Id)
                         crimes[i] = newC;
-                crimes = DataWorker.getCrimes(sqlWorker);
+                crimes = DataWorker.getCrimes(
+                   sqlWorker,
+                   dpLeft.Text == "" ? "" : dpLeft.SelectedDate.Value.ToString("yyyy.MM.dd"),
+                   dpRight.Text == "" ? "9999.99.99" : dpRight.SelectedDate.Value.ToString("yyyy.MM.dd"));
                 coll.Source = crimes;
                 coll.Filter += coll_Filter;
                 crimesDataGrid.ItemsSource = coll.View;
+                coll.View.GroupDescriptions.Clear();
+                if (chkGroupMU.IsChecked.Value) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("MilitaryUnit"));
+                if (cbGroupOn.SelectedIndex == 1) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Accomplice"));
+                if (cbGroupOn.SelectedIndex == 2) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Clause"));
                 coll.View.Refresh();
             }
         }
@@ -213,7 +220,10 @@ namespace CrimesAndIncidents
             coll.Source = crimes;
             coll.Filter += coll_Filter;
             coll.View.CollectionChanged += View_CollectionChanged;
-
+            coll.View.GroupDescriptions.Clear();
+            if (chkGroupMU.IsChecked.Value) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("MilitaryUnit"));
+            if (cbGroupOn.SelectedIndex == 1) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Accomplice"));
+            if (cbGroupOn.SelectedIndex == 2) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Clause"));
             crimesDataGrid.ItemsSource = coll.View;
             crimesDataGrid.CanUserAddRows = false;
             coll.View.Refresh();
@@ -408,6 +418,38 @@ namespace CrimesAndIncidents
             if (coll != null)
                 coll.View.Refresh();
         }
+
+        private void chkGroupMU_Checked(object sender, RoutedEventArgs e)
+        {
+            coll.View.GroupDescriptions.Clear();
+            if (chkGroupMU.IsChecked.Value) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("MilitaryUnit"));
+            if (cbGroupOn.SelectedIndex == 1) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Accomplice"));
+            if (cbGroupOn.SelectedIndex == 2) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Clause"));
+            coll.View.Refresh();
+        }
+
+        private void chkGroupMU_Unchecked_1(object sender, RoutedEventArgs e)
+        {
+            coll.View.GroupDescriptions.Clear();
+            if (chkGroupMU.IsChecked.Value) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("MilitaryUnit"));
+            if (cbGroupOn.SelectedIndex == 1) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Accomplice"));
+            if (cbGroupOn.SelectedIndex == 2) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Clause"));
+            coll.View.Refresh();
+        }
+
+        private void cbGroupOn_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (coll != null)
+            {
+                coll.View.GroupDescriptions.Clear();
+                if (chkGroupMU.IsChecked.Value) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("MilitaryUnit"));
+                if (cbGroupOn.SelectedIndex == 1) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Accomplice"));
+                if (cbGroupOn.SelectedIndex == 2) coll.View.GroupDescriptions.Add(new PropertyGroupDescription("Clause"));
+                coll.View.Refresh();
+            }
+        }
+
+
         
     }
 }
