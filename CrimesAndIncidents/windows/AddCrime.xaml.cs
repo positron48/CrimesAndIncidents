@@ -65,6 +65,10 @@ namespace CrimesAndIncidents
                 txnumberCase.Text = c.NumberCase;
                 txStory.Text = c.Story;
                 txVerdict.Text = c.Verdict;
+                
+                //если происшествие
+                if (c.Clause == "")
+                    rbIncident.IsChecked = true;
 
                 chkIsRegistred.IsChecked = c.IsRegistred;
 
@@ -88,7 +92,7 @@ namespace CrimesAndIncidents
                         "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
                         "LEFT JOIN Rank R ON R.idRank = A.idRank " +
                         "LEFT JOIN SubUnit SF ON S.idFKSubUnit = SF.idSubUnit " +
-                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit " + 
+                        "LEFT JOIN MilitaryUnit M ON M.idMilitaryUnit = S.idMilitaryUnit OR M.idMilitaryUnit = SF.idMilitaryUnit " +
                         "WHERE P.idCrime = " + c.Id)));
 
                 lbAccomplice.ItemsSource = accompliceList.values;
@@ -100,6 +104,8 @@ namespace CrimesAndIncidents
                         if (categoryUsed.values[i].Key == categoryList.values[j].Key)
                             categoryList.values[j].IsCheked = true;
             }
+            else
+                chkIsRegistred.IsChecked = true;
         }
 
         internal static Crime gtNewCrime(SqliteWorker sqlWorker, Crime _c = null)

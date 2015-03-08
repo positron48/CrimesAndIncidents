@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.Accomplices"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Редактировать список участников" Height="400" Width="700" Icon="../icon.ico">
+        Title="Редактировать список участников" Height="400" Width="850" Icon="../icon.ico">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
