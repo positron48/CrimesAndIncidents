@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace CrimesAndIncidents
         private AccompliceList al;
         private SqliteWorker sqlWorker;
         CollectionViewSource coll;
+        ObservableCollection<Crime> crimes;
 
         public Accomplices(AccompliceList al, SqliteWorker sqlWorker)
         {
@@ -39,6 +42,8 @@ namespace CrimesAndIncidents
             dataGrid.IsReadOnly = true;
             dataGrid.ItemsSource = coll.View;
 
+            dgCrimes.CanUserAddRows = false;
+            dgCrimes.AutoGenerateColumns = false;
         }
 
         void coll_Filter(object sender, FilterEventArgs e)
@@ -103,6 +108,22 @@ namespace CrimesAndIncidents
         private void txFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
             coll.View.Refresh();
+        }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+            {
+                lbCrimes.Content = "Преступления и происшествия: " + 
+                    (dataGrid.SelectedItem as Accomplice).Rank + " " + 
+                    (dataGrid.SelectedItem as Accomplice).ShortName;
+                crimes = DataWorker.getCrimes(
+                   sqlWorker,
+                   "",
+                   "9999.99.99",
+                   (dataGrid.SelectedItem as Accomplice).Id);
+                dgCrimes.ItemsSource = crimes;
+            }
         }
 
     }

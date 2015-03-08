@@ -187,13 +187,14 @@ namespace CrimesAndIncidents
             return list;
         }
 
-        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker, string leftDateRange = "", string rightDateRange = "9999.99.99")
+        internal static ObservableCollection<Crime> getCrimes(SqliteWorker sqlWorker, string leftDateRange = "", string rightDateRange = "9999.99.99", int idAccomplice = -1)
         {
             ObservableCollection<Crime> list = new ObservableCollection<Crime>();
 
             DataTable tableCrimes = sqlWorker.selectData("SELECT  Cl.point, Cl.part, Cl.number, Cl.description, C.*, M.shortName FROM Crime C " +
                 "LEFT JOIN Clause Cl ON C.idClause = Cl.idClause " +
                 "INNER JOIN MilitaryUnit M ON M.idMilitaryUnit = C.idMilitaryUnit " +
+                (idAccomplice == -1?"":"INNER JOIN Portaking P ON P.idCrime = C.idCrime AND P.idAccomplice = " + idAccomplice + " ") +
                 "WHERE C.dateRegistration BETWEEN '" + leftDateRange + "' AND '" + rightDateRange + "' " +
                 "ORDER BY C.dateRegistration, C.dateInstitution, C.dateCommit, C.story;");
 
