@@ -704,8 +704,8 @@ namespace CrimesAndIncidents
                             "WHERE C.isRegistred = 1 AND C.dateRegistration "+
                             "BETWEEN '" + dateLeft + "' AND '" + (dateRight == "" ? "9999.99.99" : dateRight) +
                                 "' AND C.idClause > -1 " +
-                            "GROUP BY SUBSTR(C.dateCommit,1,4), M.idMilitaryUnit "+
-                            "ORDER BY SUBSTR(C.dateCommit,1,4);");
+                            "GROUP BY M.idMilitaryUnit, SUBSTR(C.dateCommit,1,4) "+
+                            "ORDER BY M.idMilitaryUnit, SUBSTR(C.dateCommit,1,4);");
 
                         if (tableOnClause.Rows.Count != 0)
                         {
