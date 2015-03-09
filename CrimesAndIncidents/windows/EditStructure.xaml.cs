@@ -45,7 +45,7 @@ namespace CrimesAndIncidents
             if (lbMilitaryUnit.SelectedItem != null)
             {
                 int idMilitaryUnit = (lbMilitaryUnit.SelectedItem as MilitaryUnit).Id;
-                bList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + idMilitaryUnit)));
+                bList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idMilitaryUnit = " + idMilitaryUnit + " ORDER BY name")));
                 lbBattalion.ItemsSource = bList.values;
             }
         }
@@ -55,7 +55,7 @@ namespace CrimesAndIncidents
             if (lbBattalion.SelectedItem != null)
             {
                 int idSubUnit = (lbBattalion.SelectedItem as SubUnit).Id;
-                sList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idFKSubUnit = " + idSubUnit)));
+                sList = new SubUnitList(DataWorker.getSubUnitList(sqlWorker.selectData("SELECT * FROM SubUnit WHERE idFKSubUnit = " + idSubUnit + " ORDER BY name")));
                 lbSubUnit.ItemsSource = sList.values;
             }
         }
