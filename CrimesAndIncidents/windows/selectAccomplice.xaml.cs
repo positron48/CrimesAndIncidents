@@ -156,6 +156,24 @@ namespace CrimesAndIncidents
             aChoosedView.View.Refresh();
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (lbChoosed.SelectedItem != null)
+            {
+                Accomplice s = AddAccomplice.getEditedAccomplice(lbChoosed.SelectedItem as Accomplice, sqlWorker);
+                if (s != null)
+                {
+                    if (sqlWorker.updateAccomplice(s))
+                    {
+                        aChoosedList.update(s);
+                        lbChoosed.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Ошибка при изменении элемента");
+                }
+            }
+        }
+
 
 
     }

@@ -56,8 +56,8 @@
             <Label  Height="25" Margin="0,-4,0,0" Content="Группировка:" />
             <CheckBox Name="chkGroupMU"  Margin="0,-2,0,0" Content="по в/ч" Checked="chkGroupMU_Checked" Unchecked="chkGroupMU_Unchecked_1"/>
             <Label  Height="25" Margin="0,-4,0,0" Content="и" />
-            <ComboBox Name="cbGroupOn" Height="20" Margin="15,-2,5,0" Width="120" SelectionChanged="cbGroupOn_SelectionChanged">
-                <ComboBoxItem Content="" IsSelected="True"/>
+            <ComboBox Name="cbGroupOn" Height="22" Margin="15,-2,5,0" Width="120" SelectionChanged="cbGroupOn_SelectionChanged">
+                <ComboBoxItem Content="-выбрать-" IsSelected="True"/>
                 <ComboBoxItem Content="Участник"/>
                 <ComboBoxItem Content="Статья УК"/>
             </ComboBox>
