@@ -128,6 +128,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="№ дела" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NumberCase}" TextWrapping="Wrap" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="150" SortMemberPath="Story" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -135,9 +144,13 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>                
                 </DataGridTemplateColumn>
+                
                 <DataGridTextColumn Header="Совершено" Binding="{Binding Path=DateCommit}"   IsReadOnly="True"/>
                 <DataGridTextColumn Header="Возбуждено" Binding="{Binding Path=DateInstitution}"  IsReadOnly="True"/>
                 <DataGridTextColumn Header="Учтено" Binding="{Binding Path=DateRegistration}"   IsReadOnly="True"/>
+
+                <DataGridTextColumn Header="Ущерб" Binding="{Binding Path=Damage}"   IsReadOnly="True"/>
+
                 <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -154,6 +167,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"   IsReadOnly="True"/>
+                <DataGridTextColumn Header="Решение суда" Binding="{Binding Path=Verdict}"   IsReadOnly="True"/>
+                
                 <DataGridTextColumn Header="в/ч" Binding="{Binding Path=MilitaryUnit}" SortMemberPath="IdMilitaryUnit" IsReadOnly="True"/>
                 <!--
                     <DataGridTextColumn Header="Дата суда" Binding="{Binding Path=DateVerdict}"/>

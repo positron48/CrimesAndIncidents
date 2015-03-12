@@ -64,21 +64,22 @@ namespace CrimesAndIncidents
         public int IdOrgan { get; set; }
         public int IdClause { get; set; }
         public int IdMilitaryUnit { get; set; }
-        public string Story { get; set; }
-        public string Damage { get; set; }
-        public string Verdict { get; set; }
-        public string NumberCase { get; set; }
-        public bool IsRegistred { get; set; }
+        public string Story { get; set; }           //фабула
+        public string Damage { get; set; }          //-------------материальный ущерб
+        public string Verdict { get; set; }         //-------------решение суда
+        public string NumberCase { get; set; }      //-------------номер уголовного дела
+        public bool IsRegistred { get; set; }       //учет
 
-        public string DateRegistration { get; set; }
-        public string DateInstitution { get; set; }
-        public string DateCommit { get; set; }
-        public string DateVerdict { get; set; }
+        public string DateRegistration { get; set; }//дата учета
+        public string DateInstitution { get; set; } //дата возбуждения
+        public string DateCommit { get; set; }      //дата совершения
+        public string DateVerdict { get; set; }     //-------------дата суда
 
         //для отображения в списке
-        public string Accomplice { get; set; }
-        public string Clause { get; set; }
-        public double NumberClause { get; set; }
-        public string MilitaryUnit { get; set; }
+        public string Accomplice { get; set; }      //участники
+        public string Clause { get; set; }          //статья   
+        public double NumberClause { get; set; }    //номер статьи для сортировки
+        public string MilitaryUnit { get; set; }    //вч
+        public string PostAccomplice { get; set; }  //-------------должности
     }
 }
