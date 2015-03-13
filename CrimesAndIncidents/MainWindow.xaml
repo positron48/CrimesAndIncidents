@@ -28,6 +28,17 @@
                 <MenuItem Name="btnToWord" Header="Экспорт в Word" Click="btnToWord_Click_1"/>
                 <MenuItem Header="Выход" Click="MenuExit_Click_1"/>
             </MenuItem>
+            <MenuItem Header="Вид">
+                <MenuItem Header="Столбцы">
+                    <CheckBox Content="Учет" Name="chkRegistred" IsChecked="True"/>
+                    <CheckBox Content="№ дела" Name="chkNumberCase" IsChecked="False" />
+                    <CheckBox Content="Фабула" Name="chkStory" IsChecked="False" />
+                    <CheckBox Content="Совершено" Name="chkDateComiit" IsChecked="False" />
+                    <CheckBox Content="Возбуждено" Name="chkDateInstitution" IsChecked="False" />
+                    <CheckBox Content="Учтено" Name="chkDateRegistration" IsChecked="False" />
+
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="Участики" Click="menuAccomplice_Click" />
             <MenuItem Header="Списки">
                 <MenuItem Header="Звание" Click="editRank_Click"/>
@@ -151,6 +162,14 @@
 
                 <DataGridTextColumn Header="Ущерб" Binding="{Binding Path=Damage}"   IsReadOnly="True"/>
 
+                <DataGridTemplateColumn Header="Должности" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PostAccomplice}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Header="Участники" SortMemberPath="Accomplice" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

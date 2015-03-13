@@ -171,10 +171,15 @@ namespace CrimesAndIncidents
                 txDateRegistration.Text != "")
             {
                 //заполнен минимум для преступления
-                string accomplices = "";
+                string accomplices = "", postAccomplice = "";
                 if (accompliceList != null)
                     for (int i = 0; i < accompliceList.values.Count; i++)
+                    {
                         accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+                        
+                        //в идеале надо хранить в экземпляре Accomplice, но "и так сойдет"
+                        postAccomplice += (i == 0 ? "" : "\n") + sqlWorker.selectData("SELECT description FROM Post WHERE idPost = " + accompliceList.values[i].IdPost).Rows[0][0].ToString();
+                    }
                 if(c!=null) oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem==null?0:(cbOrgan.SelectedItem as KeyValue).Key,
@@ -188,6 +193,7 @@ namespace CrimesAndIncidents
                     txDateVerdict.Text,
                     txVerdict.Text,
                     txnumberCase.Text,
+                    postAccomplice,
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,
@@ -200,9 +206,14 @@ namespace CrimesAndIncidents
                 txDateRegistration.Text != "")
             {
                 //введен минимум для происшествия
-                string accomplices = "";
+                string accomplices = "", postAccomplice = "";
                 for (int i = 0; i < accompliceList.values.Count; i++)
+                {
                     accomplices += (i == 0 ? "" : "\n") + accompliceList.values[i].Rank + " " + accompliceList.values[i].ShortName;
+
+                    //в идеале надо хранить в экземпляре Accomplice, но "и так сойдет"
+                    postAccomplice += (i == 0 ? "" : "\n") + sqlWorker.selectData("SELECT description FROM Post WHERE idPost = " + accompliceList.values[i].IdPost).Rows[0][0].ToString();
+                }
                 if (c != null) oldId = c.Id;
                 c = new Crime(
                     cbOrgan.SelectedItem == null ? 0 : (cbOrgan.SelectedItem as KeyValue).Key,
@@ -216,6 +227,7 @@ namespace CrimesAndIncidents
                     txDateVerdict.Text,
                     txVerdict.Text,
                     txnumberCase.Text,
+                    postAccomplice,
                     accomplices,
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).ToString(),
                     cbClause.SelectedItem == null ? "" : (cbClause.SelectedItem as Clause).Number,

@@ -204,14 +204,16 @@ namespace CrimesAndIncidents
                 {
                     for (int i = 0; i < tableCrimes.Rows.Count; i++)
                     {
-                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt FROM Accomplice A " +
+                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt, P.description FROM Accomplice A " +
                             "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
                             "INNER JOIN Rank R ON A.idRank = R.idRank " +
+                            "INNER JOIN Post P ON P.idPost = A.idPost " +
                             "WHERE P.idCrime = " + Int32.Parse(tableCrimes.Rows[i][4].ToString()) + ";");
-                        string accomplices = "";
+                        string accomplices = "", postAccomplice = "";
                         for (int j = 0; j < tableAccomplice.Rows.Count; j++)
                         {
                             accomplices += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][0] + (tableAccomplice.Rows[j][2].ToString() == "1" ? " к/с " : " ") + tableAccomplice.Rows[j][1];
+                            postAccomplice += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][3];
                         }
 
                         Crime c = new Crime(
@@ -226,6 +228,7 @@ namespace CrimesAndIncidents
                             tableCrimes.Rows[i][13].ToString(),
                             tableCrimes.Rows[i][14].ToString(),
                             tableCrimes.Rows[i][15].ToString(),
+                            postAccomplice,
                             accomplices,
                                 (tableCrimes.Rows[i][0].ToString() == "" ? "" : "п.'" + tableCrimes.Rows[i][0].ToString() + "' ") +
                                 (tableCrimes.Rows[i][1].ToString() == "" ? "" : "ч." + tableCrimes.Rows[i][1].ToString() + " ") +

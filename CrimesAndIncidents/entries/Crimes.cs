@@ -21,6 +21,7 @@ namespace CrimesAndIncidents
             string dateVerdict,
             string verdict,
             string numberCase,
+            string postAccomplice,
             string accomplice,
             string clause,
             string numberClause,
@@ -57,6 +58,8 @@ namespace CrimesAndIncidents
             IsRegistred = isRegistred == 1 ? true : false;
 
             MilitaryUnit = militaryUnit;
+
+            PostAccomplice = postAccomplice;
         }
 
         //в бд
