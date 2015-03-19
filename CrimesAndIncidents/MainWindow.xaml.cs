@@ -394,13 +394,18 @@ namespace CrimesAndIncidents
 
                     if (i != 0)
                     {
-                        firstTable.Rows[i + 1].Cells[2].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Story;
-                        firstTable.Rows[i + 1].Cells[3].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateCommit;
-                        firstTable.Rows[i + 1].Cells[4].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateInstitution;
-                        firstTable.Rows[i + 1].Cells[5].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateRegistration;
-                        firstTable.Rows[i + 1].Cells[6].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Accomplice;
-                        firstTable.Rows[i + 1].Cells[7].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Clause;
-                        firstTable.Rows[i + 1].Cells[8].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).MilitaryUnit;
+                        firstTable.Rows[i + 1].Cells[2].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).NumberCase;
+                        firstTable.Rows[i + 1].Cells[3].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Story;
+                        firstTable.Rows[i + 1].Cells[4].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateCommit;
+                        firstTable.Rows[i + 1].Cells[5].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateInstitution;
+                        firstTable.Rows[i + 1].Cells[6].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateRegistration;
+                        firstTable.Rows[i + 1].Cells[7].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Damage;
+                        firstTable.Rows[i + 1].Cells[8].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).PostAccomplice;
+                        firstTable.Rows[i + 1].Cells[9].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Accomplice;
+                        firstTable.Rows[i + 1].Cells[10].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Clause;
+                        firstTable.Rows[i + 1].Cells[11].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).DateVerdict;
+                        firstTable.Rows[i + 1].Cells[12].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).Verdict;
+                        firstTable.Rows[i + 1].Cells[13].Range.Text = (crimesDataGrid.Items[i - 1] as Crime).MilitaryUnit;
                     }
                 }
                 firstTable.AutoFitBehavior(Microsoft.Office.Interop.Word.WdAutoFitBehavior.wdAutoFitContent);
