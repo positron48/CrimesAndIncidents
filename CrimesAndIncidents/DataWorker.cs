@@ -204,7 +204,7 @@ namespace CrimesAndIncidents
                 {
                     for (int i = 0; i < tableCrimes.Rows.Count; i++)
                     {
-                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt, P.description FROM Accomplice A " +
+                        DataTable tableAccomplice = sqlWorker.selectData("SELECT R.shortName, A.shortName, A.isContrakt, P.description, R.priority FROM Accomplice A " +
                             "INNER JOIN Portaking P ON P.idAccomplice = A.idAccomplice " +
                             "INNER JOIN Rank R ON A.idRank = R.idRank " +
                             "INNER JOIN Post P ON P.idPost = A.idPost " +
@@ -212,7 +212,8 @@ namespace CrimesAndIncidents
                         string accomplices = "", postAccomplice = "";
                         for (int j = 0; j < tableAccomplice.Rows.Count; j++)
                         {
-                            accomplices += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][0] + (tableAccomplice.Rows[j][2].ToString() == "1" ? " к/с " : " ") + tableAccomplice.Rows[j][1];
+                            accomplices += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][0] + (tableAccomplice.Rows[j][2].ToString() == "1" &&
+                                Int32.Parse(tableAccomplice.Rows[j][4].ToString()) < 60 ? " к/с " : " ") + tableAccomplice.Rows[j][1];
                             postAccomplice += (j == 0 ? "" : "\n") + tableAccomplice.Rows[j][3];
                         }
 

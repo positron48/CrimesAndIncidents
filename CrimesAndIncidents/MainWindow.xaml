@@ -139,7 +139,7 @@
             </DataGrid.GroupStyle>
                 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Учет" Width="60" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkRegistred,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="Учет" MinWidth="35" MaxWidth="35" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkRegistred,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsRegistred}"  Click="CheckBox_Click_1"/>
@@ -147,7 +147,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="№ дела" Width="110" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkNumberCase,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="№ дела" MinWidth="100"  MaxWidth="100" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkNumberCase,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding NumberCase}" TextWrapping="Wrap" />
@@ -155,7 +155,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Фабула" Width="*" MinWidth="200" SortMemberPath="Story" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkStory,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="Фабула"  MinWidth="200" Width="*" SortMemberPath="Story" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkStory,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Story}" TextWrapping="Wrap" />
@@ -163,13 +163,13 @@
                     </DataGridTemplateColumn.CellTemplate>                
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Совершено"  Width="100" Binding="{Binding Path=DateCommit}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateComiit,Converter={StaticResource b2v}}"/>
-                <DataGridTextColumn Header="Возбуждено" Width="100" Binding="{Binding Path=DateInstitution}"  IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateInstitution,Converter={StaticResource b2v}}"/>
-                <DataGridTextColumn Header="Учтено" Width="100" Binding="{Binding Path=DateRegistration}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateRegistration,Converter={StaticResource b2v}}"/>
+                <DataGridTextColumn Header="Совершено"  MinWidth="65" MaxWidth="65"  Binding="{Binding Path=DateCommit}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateComiit,Converter={StaticResource b2v}}"/>
+                <DataGridTextColumn Header="Возбуждено" MinWidth="65"  MaxWidth="65" Binding="{Binding Path=DateInstitution}"  IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateInstitution,Converter={StaticResource b2v}}"/>
+                <DataGridTextColumn Header="Учтено" MinWidth="65"  MaxWidth="65" Binding="{Binding Path=DateRegistration}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateRegistration,Converter={StaticResource b2v}}"/>
 
-                <DataGridTextColumn Header="Ущерб" Width="80" Binding="{Binding Path=Damage}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDamage,Converter={StaticResource b2v}}"/>
+                <DataGridTextColumn Header="Ущерб" MinWidth="65" MaxWidth="65"  Binding="{Binding Path=Damage}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDamage,Converter={StaticResource b2v}}"/>
 
-                <DataGridTemplateColumn Header="Должности" Width="110" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkPostAccomplice,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="Должности" MinWidth="100" MaxWidth="100"  IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkPostAccomplice,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding PostAccomplice}" TextWrapping="Wrap" TextAlignment="Center"/>
@@ -177,7 +177,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Участники" Width="110" SortMemberPath="Accomplice" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkAccomplice,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="Участники" MinWidth="100"  MaxWidth="110" SortMemberPath="Accomplice" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkAccomplice,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Accomplice}" TextWrapping="Wrap" TextAlignment="Center" />
@@ -186,7 +186,7 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="УК" Width="110" SortMemberPath="NumberClause" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkClause,Converter={StaticResource b2v}}">
+                <DataGridTemplateColumn Header="УК" MinWidth="80"  MaxWidth="80" SortMemberPath="NumberClause" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkClause,Converter={StaticResource b2v}}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Clause}" TextWrapping="Wrap" TextAlignment="Center"/>
@@ -194,10 +194,15 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Дата суда" Width="100" Binding="{Binding Path=DateVerdict}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateVerdict,Converter={StaticResource b2v}}"/>
-                <DataGridTextColumn Header="Решение суда" Width="150" Binding="{Binding Path=Verdict}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkVerdict,Converter={StaticResource b2v}}"/>
-
-                <DataGridTextColumn Header="в/ч" Width="100" Binding="{Binding Path=MilitaryUnit}" SortMemberPath="IdMilitaryUnit" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkMilitaryUnit,Converter={StaticResource b2v}}"/>
+                <DataGridTextColumn Header="Дата суда" MinWidth="65" MaxWidth="65"  Binding="{Binding Path=DateVerdict}"   IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkDateVerdict,Converter={StaticResource b2v}}"/>
+                <DataGridTemplateColumn Header="Решение суда" MinWidth="100" MaxWidth="100"  IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkVerdict,Converter={StaticResource b2v}}" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Verdict}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="в/ч" MinWidth="70" MaxWidth="70"  Binding="{Binding Path=MilitaryUnit}" SortMemberPath="IdMilitaryUnit" IsReadOnly="True" Visibility="{Binding IsChecked,ElementName=chkMilitaryUnit,Converter={StaticResource b2v}}"/>
 
             </DataGrid.Columns>
         </DataGrid>
