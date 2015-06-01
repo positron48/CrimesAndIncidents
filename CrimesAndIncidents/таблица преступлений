@@ -1,0 +1,74 @@
+SELECT Tab1.number || " (" || Tab1.shortName || ")" as вч,Tab1.countCrimes преступления, Tab2.призывники as призывники, Tab2.контрактники as контрактники, Tab2.прапорщики as прапорщики, Tab2.офицеры as офицеры FROM
+
+(--количество преступлений за период по частям
+SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) as countCrimes FROM
+    MilitaryUnit M LEFT JOIN
+    Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
+GROUP BY M.number, M.shortName
+ORDER BY M.idMilitaryUnit) Tab1
+
+INNER JOIN
+
+(--количество преступлений по частям и участникам
+SELECT M1.number, M1.name, T1.n1 as призывники, T2.n2 as контрактники, T3.n3 as прапорщики, T4.n4 as офицеры FROM 
+(--воинские части
+SELECT M.number, M.name FROM MilitaryUnit M) M1 LEFT JOIN 
+(--количество призывников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n1 FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 0
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit) T1 ON T1.number = M1.number 
+LEFT JOIN
+(--количество контрактников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n2 FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority < 60
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit) T2 ON T2.number = M1.number 
+LEFT JOIN
+(--количество прапорщиков преступников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n3 FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority BETWEEN 60 AND 75
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit) T3  ON T3.number = M1.number 
+LEFT JOIN
+(--количество офицеров преступников
+SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n4 FROM
+    MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit
+    LEFT JOIN Portaking P ON C.idCrime = P.idCrime
+    LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice
+    LEFT JOIN Rank R ON R.idRank = A.idRank
+WHERE A.isContrakt = 1
+    AND R.priority > 75
+    AND C.isRegistred = 1 
+    AND C.dateRegistration 
+    BETWEEN "2014.01.01" AND "2014.12.31" 
+    AND C.idClause > -1
+GROUP BY M.idMilitaryUnit
+ORDER BY M.idMilitaryUnit) T4  ON T4.number = M1.number) Tab2
+ON Tab1.number = Tab2.number
