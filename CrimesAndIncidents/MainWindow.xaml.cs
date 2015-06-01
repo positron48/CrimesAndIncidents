@@ -32,6 +32,9 @@ namespace CrimesAndIncidents
 
         public MainWindow()
         {
+            PleaseWait wndP = new PleaseWait();
+            wndP.Show();
+
             InitializeComponent();
 
             dpLeft.Text = "01.01." + DateTime.Now.ToString("yyyy");
@@ -74,6 +77,8 @@ namespace CrimesAndIncidents
             {
                 MessageBox.Show("Во время загрузки приложения возникли неполадки:\n" + ex.Message);
             }
+
+            wndP.Close();
         }
 
         void View_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -319,7 +324,7 @@ namespace CrimesAndIncidents
 
         private void MenuAnalyze_Click(object sender, RoutedEventArgs e)
         {
-            AnalyzeSettings wndAnalyze = new AnalyzeSettings(sqlWorker);
+            Analyze wndAnalyze = new Analyze(sqlWorker);
             wndAnalyze.ShowDialog();
         }
         
