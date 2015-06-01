@@ -21,6 +21,7 @@ namespace CrimesAndIncidents
     public partial class AnalyzeSettings : Window
     {
         private SqliteWorker sqlWorker;
+        PleaseWait wndP = new PleaseWait();
 
         public AnalyzeSettings()
         {
@@ -39,6 +40,8 @@ namespace CrimesAndIncidents
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+            wndP.Show();
+
             try
             {
                 string dateLeft = DataWorker.getDateInTrueFormat(dpLeft.Text);
@@ -747,6 +750,7 @@ namespace CrimesAndIncidents
             {
                 MessageBox.Show(ex.Message);
             }
+            wndP.Close();
         }
     }
 }
