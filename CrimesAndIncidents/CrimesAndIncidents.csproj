@@ -56,6 +56,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Analyze.xaml.cs">
+      <DependentUpon>Analyze.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PleaseWait.xaml.cs">
+      <DependentUpon>PleaseWait.xaml</DependentUpon>
+    </Compile>
     <Compile Include="windows\AnalyzeSettings.xaml.cs">
       <DependentUpon>AnalyzeSettings.xaml</DependentUpon>
     </Compile>
@@ -107,6 +113,14 @@
     <Compile Include="entries\Rank.cs" />
     <Compile Include="sqliteWorker.cs" />
     <Compile Include="entries\SubUnit.cs" />
+    <Page Include="Analyze.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PleaseWait.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="windows\AnalyzeSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
