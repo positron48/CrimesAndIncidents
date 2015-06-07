@@ -197,3 +197,24 @@ ORDER BY M.idMilitaryUnit;
 SELECT SUBSTR(C.dateCommit,1,4), COUNT(C.idCrime) FROM Crime C 
 WHERE C.isRegistred = 1 AND C.dateRegistration BETWEEN "2014.01.01" AND "2014.12.31" AND C.idClause > -1
 GROUP BY SUBSTR(C.dateCommit,1,4);
+
+--количество преступлений по категориям по частям
+SELECT M.shortName, Cat.description as 'категория', COUNT(C.story) as 'количество преступлений' 
+FROM MilitaryUnit M 
+    INNER JOIN Crime C ON M.idMilitaryUnit = C.idMilitaryUnit 
+        AND C.isRegistred = 1 
+        AND C.idClause > -1
+        AND C.dateRegistration BETWEEN '2015.01.01' AND '2015.06.06'
+    INNER JOIN InCategory InC ON C.idCrime = InC.idCrime
+    INNER JOIN Category Cat ON InC.idCategory = Cat.idCategory
+GROUP BY M.shortName, Cat.description
+ORDER BY M.idMilitaryUnit;
+
+--количество преступлений за период по дате совершения по частям
+SELECT M.shortName, SUBSTR(C.dateCommit,1,4), COUNT(C.idCrime) FROM MilitaryUnit M 
+    LEFT JOIN Crime C ON C.idMilitaryUnit = M.idMilitaryUnit 
+        AND C.isRegistred = 1 
+        AND C.dateRegistration BETWEEN "2015.01.01" AND "2015.12.31" 
+        AND C.idClause > -1
+GROUP BY M.shortName, SUBSTR(C.dateCommit,1,4)
+ORDER BY M.idMilitaryUnit, SUBSTR(C.dateCommit,1,4);
