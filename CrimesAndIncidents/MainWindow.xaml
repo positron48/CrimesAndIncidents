@@ -69,6 +69,8 @@
             <DatePicker Name="dpLeft" Margin="0,-2,0,0" Height="25" />
             <Label  Height="25" Margin="0,-4,0,0" Content="по" />
             <DatePicker Name="dpRight" Margin="0,-2,5,0" Height="25" />
+            <Button Content="←" Name="btnPrevYear" Margin="2,-2,2,0" Click="btnPrevYear_Click" />
+            <Button Content="→" Name="btnNextYear" Margin="2,-2,2,0" Click="btnNextYear_Click" />
             <Button Content="Ok" Name="btnOk" Margin="0,-2,0,0" Click="btnOk_Click_1" VerticalAlignment="Stretch" />
 
             <Label  Height="25" Margin="0,-4,0,0" Content="Группировка:" />

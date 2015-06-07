@@ -459,6 +459,20 @@ namespace CrimesAndIncidents
             }
         }
 
+        private void btnPrevYear_Click(object sender, RoutedEventArgs e)
+        {
+            dpLeft.SelectedDate = new DateTime(dpLeft.SelectedDate.Value.Year - 1, dpLeft.SelectedDate.Value.Month, dpLeft.SelectedDate.Value.Day);
+            dpRight.SelectedDate = new DateTime(dpRight.SelectedDate.Value.Year - 1, dpRight.SelectedDate.Value.Month, dpRight.SelectedDate.Value.Day);
+            btnOk_Click_1(this, null);
+        }
+
+        private void btnNextYear_Click(object sender, RoutedEventArgs e)
+        {
+            dpLeft.SelectedDate = new DateTime(dpLeft.SelectedDate.Value.Year + 1, dpLeft.SelectedDate.Value.Month, dpLeft.SelectedDate.Value.Day);
+            dpRight.SelectedDate = new DateTime(dpRight.SelectedDate.Value.Year + 1, dpRight.SelectedDate.Value.Month, dpRight.SelectedDate.Value.Day);
+            btnOk_Click_1(this, null);
+        }
+
     }
     
 }
