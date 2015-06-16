@@ -1,7 +1,7 @@
 ﻿<Window x:Class="CrimesAndIncidents.Analyze"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Анализ состояния правопорядка и воинской дисциплины" Height="400" Width="650">
+        Title="Анализ состояния правопорядка и воинской дисциплины" Height="400" Width="700">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
@@ -11,16 +11,17 @@
         <DatePicker x:Name="dpLeft" Margin="85,5,0,5"  HorizontalAlignment="Left" Width="100"  Grid.Row="0"/>
         <Label Margin="185,5,0,5" Content="по"  HorizontalAlignment="Left" Width="25" Grid.Row="0" />
         <DatePicker x:Name="dpRight" Margin="209,5,0,5"  HorizontalAlignment="Left" Width="100" Grid.Row="0" />
-        <Button Name="btnOk" Content="Ok" Margin="507,5,0,5"  HorizontalAlignment="Left" Width="35" Grid.Row="0" Click="btnOk_Click" />
+        <Button Name="btnOk" Content="Ok" Margin="577,5,0,5"  HorizontalAlignment="Left" Width="35" Grid.Row="0" Click="btnOk_Click" />
         <DataGrid Margin="10,5,10,5" Grid.Row="1" Name="dgCrimes" />
         <ComboBox Name="cbType" HorizontalAlignment="Left" Margin="382,5,0,5" Width="120" SelectionChanged="ComboBox_SelectionChanged_1">
-            <ComboBoxItem Content="По участникам" IsSelected="True" />
+            <ComboBoxItem Content="По участникам" />
             <ComboBoxItem Content="По категориям" />
-            <ComboBoxItem Content="По дате совершения" />
+            <ComboBoxItem Content="По дате совершения"  IsSelected="True"/>
         </ComboBox>
         <Button Name="btnExport" Content="Экспорт" HorizontalAlignment="Right" Margin="0,5,5,5" Width="70" Click="btnExport_Click"/>
         <Button Name="btpNextYear" Content="→" HorizontalAlignment="Left"  Width="25" Margin="348,5,0,0" Height="25" VerticalAlignment="Top" Click="btpNextYear_Click" />
         <Button Name="btnPrevYear" Content="←" HorizontalAlignment="Left"  Width="25" Margin="318,5,0,5" Click="btnPrevYear_Click" />
+        <CheckBox Name="chbK" Content="коэф-ты" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="507,5,0,5" />
 
     </Grid>
 </Window>

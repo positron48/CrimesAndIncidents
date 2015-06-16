@@ -156,17 +156,31 @@ namespace CrimesAndIncidents
         private DataTable getTableAccomplice(string dateLeft, string dateRight)
         {
             DataTable tableCrimes = sqlWorker.selectData("SELECT Tab1.number || ' (' || Tab1.shortName || ')' as вч,Tab1.countCrimes преступления, Tab3.quantity as происшествия, Tab2.призывники as призывники, Tab2.контрактники as контрактники, Tab2.прапорщики as прапорщики, Tab2.офицеры as офицеры FROM " +
-                "(SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) as countCrimes FROM " +
-                        "MilitaryUnit M LEFT JOIN " +
-                        "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + dateRight + "' AND C.idClause > -1 " +
-                    "GROUP BY M.number, M.shortName " +
-                    "ORDER BY M.idMilitaryUnit) Tab1 " +
+                "(SELECT M1.number, M1.shortName, T2.n2 as countCrimes  FROM "+
+                    "(SELECT M.number, M.shortName FROM MilitaryUnit M) M1 LEFT JOIN  "+
+                    "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n2 FROM "+
+                        "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit "+
+                        "LEFT JOIN Portaking P ON C.idCrime = P.idCrime "+
+                        "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice "+
+                    "WHERE C.isRegistred = 1  "+
+                        "AND C.dateRegistration  "+
+                        "BETWEEN '" + dateLeft + "' AND '" + dateRight + "'   " +
+                        "AND C.idClause > -1 "+
+                    "GROUP BY M.idMilitaryUnit "+
+                    "ORDER BY M.idMilitaryUnit) T2 ON T2.number = M1.number ) Tab1 " +
                 "INNER JOIN " +
-                    "(SELECT M.number, M.shortName, COUNT(C.idMilitaryUnit) as quantity FROM " +
-                        "MilitaryUnit M LEFT JOIN " +
-                        "Crime C ON C.idMilitaryUnit = M.idMilitaryUnit AND C.isRegistred = 1 AND C.dateRegistration BETWEEN '" + dateLeft + "' AND '" + dateRight + "' AND C.idClause IS NULL " +
-                    "GROUP BY M.number, M.shortName " +
-                    "ORDER BY M.idMilitaryUnit) Tab3 " +
+                    "(SELECT M1.number, M1.shortName, T2.n2 as quantity FROM "+
+                        "(SELECT M.number, M.shortName FROM MilitaryUnit M) M1 LEFT JOIN  "+
+                        "(SELECT M.number, M.name, COUNT(DISTINCT A.idAccomplice) as n2 FROM "+
+                            "MilitaryUnit M LEFT JOIN  Crime C On M.idMilitaryUnit = C.idMilitaryUnit "+
+                            "LEFT JOIN Portaking P ON C.idCrime = P.idCrime "+
+                            "LEFT JOIN Accomplice A ON A.idAccomplice = P.idAccomplice "+
+                        "WHERE C.isRegistred = 1  "+
+                            "AND C.dateRegistration  "+
+                            "BETWEEN '" + dateLeft + "' AND '" + dateRight + "'  " +
+                            "AND C.idClause IS NULL "+
+                        "GROUP BY M.idMilitaryUnit "+
+                        "ORDER BY M.idMilitaryUnit) T2 ON T2.number = M1.number) Tab3 " +
                     "ON Tab1.number = Tab3.number " +
                 "INNER JOIN " +
                 "(SELECT M1.number, M1.name, T1.n1 as призывники, T2.n2 as контрактники, T3.n3 as прапорщики, T4.n4 as офицеры FROM  " +
@@ -228,7 +242,7 @@ namespace CrimesAndIncidents
                 "ON Tab1.number = Tab2.number");
 
             tableCrimes.Columns[0].ColumnName = "вч";
-            tableCrimes.Columns[1].ColumnName = "преступления";
+            tableCrimes.Columns[1].ColumnName = "участники";
             tableCrimes.Columns[2].ColumnName = "проиcшествия";
             tableCrimes.Columns[3].ColumnName = "призывники";
             tableCrimes.Columns[4].ColumnName = "контрактники";
