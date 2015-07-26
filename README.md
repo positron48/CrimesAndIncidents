@@ -14,6 +14,24 @@
 * удобный фильтр для поиска преступлений.
 
 ##База данных
-
+![Database schema](https://raw.githubusercontent.com/positron48/CrimesAndIncidents/master/screenshots/database.png "Схема базы данных")
 
 ##Некоторые скриншоты
+
+Главное окно
+
+![Main window](https://raw.githubusercontent.com/positron48/CrimesAndIncidents/master/screenshots/MainWindow.png "Главное окно")
+
+Редактор структуры подразделений
+
+![Structure editor](https://raw.githubusercontent.com/positron48/CrimesAndIncidents/master/screenshots/structure.png "Редактор структуры подразделений")
+
+Просмотр преступлений по участникам
+
+![Accomplicers](https://raw.githubusercontent.com/positron48/CrimesAndIncidents/master/screenshots/Accomplicers.png "Просмотр преступлений по участникам")
+
+Анализ преступлений и происшествий по категориям
+
+![Analyze](https://raw.githubusercontent.com/positron48/CrimesAndIncidents/master/screenshots/Analyze.png "Анализ преступлений и происшествий по категориям")
+
+* В подпапке CrimesAndIncidents находится исходный код системы, проект создавался с использованием Visual Studio 2012
